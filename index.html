@@ -4,60 +4,104 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lester Jay Ollero | Transport & Traffic Engineer | Researcher</title>
+
   <style>
+    /* --- Global Reset --- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* --- Base Styles --- */
     body {
       font-family: "Segoe UI", Roboto, sans-serif;
       color: #222;
       background: #fff;
       line-height: 1.6;
-      margin: 0;
-      padding: 0;
+      scroll-behavior: smooth;
     }
 
     a {
       color: #0077b6;
       text-decoration: none;
     }
-
     a:hover {
       text-decoration: underline;
     }
 
-    header {
-      text-align: center;
-      padding: 60px 20px 30px;
+    /* --- Navigation --- */
+    nav {
+      background: #f8f9fa;
+      width: 100%;
       border-bottom: 1px solid #ddd;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 10px 0;
+      margin: 0;
+    }
+    nav li {
+      margin: 0 12px;
+    }
+    nav a {
+      font-weight: 500;
+      color: #003049;
+      transition: color 0.2s ease;
+    }
+    nav a:hover {
+      color: #0077b6;
     }
 
+    /* --- Header --- */
+    header {
+      text-align: center;
+      padding: 60px 20px 40px;
+      background: #fff;
+    }
     header h1 {
       font-size: 2.4em;
       margin-bottom: 10px;
       color: #003049;
     }
-
     header p {
       font-size: 1.1em;
       color: #555;
       margin-bottom: 6px;
     }
-
     header em {
       color: #444;
     }
 
+    /* --- Contact Icons --- */
     .contact-links {
-      margin-top: 1em;
-      font-size: 1em;
-      color: #333;
+      margin-top: 1.2em;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
     }
 
-    .contact-links a {
-      margin: 0 10px;
-      font-weight: 500;
+    .contact-links a svg {
+      width: 32px;
+      height: 32px;
+      transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
     }
 
+    .contact-links a:hover svg {
+      transform: scale(1.15);
+      opacity: 0.85;
+    }
+
+    /* --- Section Styling --- */
     section {
-      max-width: 800px;
+      max-width: 850px;
       margin: 50px auto;
       padding: 0 20px;
     }
@@ -85,23 +129,53 @@
     }
 
     section em {
-      color: #555;
+      color: #444;
     }
 
+    section time {
+      font-size: 0.9em;
+      color: #777;
+    }
+
+    /* --- Footer --- */
     footer {
       text-align: center;
       padding: 30px 10px;
       background: #f8f9fa;
       color: #555;
       font-size: 0.9em;
-      border-top: 1px solid #ddd;
-      margin-top: 60px;
+      margin-top: 50px;
+    }
+
+    /* --- Responsive --- */
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 2em;
+      }
+      section {
+        margin: 30px auto;
+      }
     }
   </style>
 </head>
 
 <body>
 
+  <!-- Navigation -->
+  <nav>
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#publications">Publications</a></li>
+      <li><a href="#conferences">Conferences</a></li>
+      <li><a href="#awards">Awards</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Header -->
   <header id="home">
     <h1>Lester Jay Ollero</h1>
     <p>Transport & Traffic Engineer | Researcher</p>
@@ -109,12 +183,50 @@
     <p><em>Research Interests: Transport Planning, Travel Behavior, BRT, Paratransit Systems, Active Transport</em></p>
 
     <div class="contact-links">
-      <a href="mailto:ollerolesterjay@gmail.com">Email</a> |
-      <a href="https://scholar.google.com/citations?hl=en&user=lB6re-QAAAAJ" target="_blank">Google Scholar</a> |
-      <a href="https://www.linkedin.com/in/lesterjayventuraollero/" target="_blank">LinkedIn</a>
+      <!-- Gmail -->
+      <a href="mailto:ollerolesterjay@gmail.com" title="Email">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+          <path fill="#EA4335" d="M4 12v24c0 2.2 1.8 4 4 4h32c2.2 0 4-1.8 4-4V12c0-2.2-1.8-4-4-4H8c-2.2 0-4 1.8-4 4z"/>
+          <path fill="#FFF" d="M24 26L8 14v20h32V14z"/>
+        </svg>
+      </a>
+
+      <!-- Google Scholar -->
+      <a href="https://scholar.google.com/citations?hl=en&user=lB6re-QAAAAJ" target="_blank" title="Google Scholar">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+          <path fill="#4285F4" d="M24 4L6 18v3l18 14 18-14v-3L24 4z"/>
+          <path fill="#34A853" d="M14 27l10 7 10-7v10H14z"/>
+        </svg>
+      </a>
+
+      <!-- LinkedIn -->
+      <a href="https://www.linkedin.com/in/lesterjayventuraollero/" target="_blank" title="LinkedIn">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+          <path fill="#0A66C2" d="M42 4H6a2 2 0 00-2 2v36a2 2 0 002 2h36a2 2 0 002-2V6a2 2 0 00-2-2z"/>
+          <path fill="#FFF" d="M12 19h5v17h-5zM14.5 14c-1.6 0-2.5 1-2.5 2.3 0 1.3.9 2.3 2.4 2.3h.1c1.6 0 2.5-1 2.5-2.3-.1-1.3-1-2.3-2.5-2.3zM31.5 18.5c-2.7 0-4.4 1.5-5.1 2.8v-2.3H22v17h4.4V26c0-.5 0-.9.2-1.2.4-.9 1.3-1.8 2.8-1.8 2 0 2.8 1.3 2.8 3.3v10.8H37V25.5c0-4.1-2.2-7-5.5-7z"/>
+        </svg>
+      </a>
     </div>
   </header>
 
+  <!-- Education -->
+  <section id="education">
+    <h2>Education</h2>
+    <ul>
+      <li><strong>2024 | Master of Science in Civil Engineering (Transportation Engineering)</strong><br>
+        Institute of Civil Engineering | University of the Philippines, Diliman<br>
+        <em>Thesis: A Microsimulation Model of An Exclusive Bus Lane: The Case of EDSA Busway</em><br>
+        Advisers: Dr. Karl B.N. Vergel and Dr. Noriel Christopher Tiglao
+      </li><br>
+      <li><strong>2020 | Bachelor of Science in Civil Engineering</strong><br>
+        Institute of Civil Engineering | University of the Philippines, Diliman<br>
+        <em>Thesis: Road Safety Risk Assessment on Circumferential Road 5 (C-5) using iRAP Methodology</em><br>
+        Adviser: Dr. Ricardo Sigua
+      </li>
+    </ul>
+  </section>
+
+  <!-- Work Experience -->
   <section id="work">
     <h2>Work Experience</h2>
     <ul>
@@ -133,6 +245,76 @@
     </ul>
   </section>
 
+  <!-- Publications -->
+  <section id="publications">
+    <h2>Publications</h2>
+    <ul>
+      <li><b>Ollero, L.J.</b>, Vergel, K., & Tiglao, N.C. (2024).
+        <a href="https://ncts.upd.edu.ph/tssp/wp-content/uploads/2025/07/TSSP2024-Vol7-No2_01-Ollero-Vergel-and-Tiglao.pdf" target="_blank">
+          <i>A Microsimulation Model of An Exclusive Bus Lane: The Case of EDSA Busway</i>
+        </a>.
+        Philippine Transportation Journal, Vol. 7 No. 2, 2024.
+      </li><br>
+      <li>Sanciangco, E., Tiglao, N.C., Tolentino, N.J., Hidalgo, G.K., Leanda, M.J., and <b>Ollero, L.J.</b> (2024).
+        <a href="https://ncts.upd.edu.ph/tssp/wp-content/uploads/2025/07/TSSP2023-Vol7-No1_01-Sanciangco-and-Others.pdf" target="_blank">
+          <i>Evaluating the Fuel Efficiency and Eco-Driving Potential of the EDSA Carousel using On-Board Diagnostics (OBD) and Mobile Crowdsourcing</i>
+        </a>.
+        Philippine Transportation Journal, Vol. 7 No. 1, 2024.
+      </li>
+    </ul>
+  </section>
+
+  <!-- Conferences -->
+  <section id="conferences">
+    <h2>Conferences</h2>
+    <ul>
+      <li>16th International Conference of EASTS<br>
+        <em>Surakarta, Indonesia</em> | Sep 1–4, 2024
+      </li><br>
+      <li>30th Annual Conference of the TSSP<br>
+        <em>Iloilo City, Philippines</em> | Sep 12–13, 2024
+      </li><br>
+      <li>29th Annual Conference of the TSSP<br>
+        <em>Quezon City, Philippines</em> | Dec 7, 2023
+      </li>
+    </ul>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects">
+    <h2>Project Involvements</h2>
+    <ul>
+      <li><strong>Philippine Active Transport Strategic Master Plan (ATSMP)</strong><br>
+        <em>Identifying barriers to active transport adoption and analyzing cycling shift factors in NCR and pilot cities: Puerto Princesa, Iloilo, Zamboanga, Mati, and Surigao.</em>
+      </li><br>
+      <li><strong>Local Public Transport Route Plan (LPTRP)</strong><br>
+        <em>Conducted technical analysis for determining optimal jeepney fleet size per route.</em>
+      </li>
+    </ul>
+  </section>
+
+  <!-- Awards -->
+  <section id="awards">
+    <h2>Awards and Grants</h2>
+    <ul>
+      <li><strong>2024 | Best Paper Award</strong><br>
+        Proceedings of the 30th Annual Conference of the Transportation Science Society of the Philippines.
+      </li><br>
+      <li><strong>2021–2023 | ERDT Research Grant</strong><br>
+        Institute of Civil Engineering, University of the Philippines, Diliman.
+      </li>
+    </ul>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <h2>Contact</h2>
+    <p>Email: <a href="mailto:ollerolesterjay@gmail.com">ollerolesterjay@gmail.com</a></p>
+    <p>Work: <a href="mailto:lesterjayollero@safetravel.ph">lesterjayollero@safetravel.ph</a></p>
+    <p>LinkedIn: <a href="https://www.linkedin.com/in/lesterjayventuraollero/" target="_blank">linkedin.com/in/lesterjayollero</a></p>
+  </section>
+
+  <!-- Footer -->
   <footer>
     © 2025 Lester Jay Ollero
   </footer>
