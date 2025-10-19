@@ -221,62 +221,78 @@ body.menu-open::after {
     }
 /* --- Education & Work Section --- */
 #background {
-  background-color: #fff;
-  padding: 60px 20px;
+  background-color: #ffffff;
+  padding: 50px 25px;
   max-width: 900px;
-  margin: 0 auto;
+  margin: 40px auto;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
 #background h2 {
   color: #003049;
-  font-size: 1.8em;
+  font-size: 1.9em;
   text-align: center;
-  margin-bottom: 30px;
-  border-bottom: 2px solid #0077b6;
-  display: inline-block;
-  padding-bottom: 6px;
+  margin-bottom: 40px;
+  font-weight: 700;
+  border-bottom: none;
+  letter-spacing: 0.5px;
 }
 
 #background .subsection {
-  margin-bottom: 40px;
+  margin-bottom: 45px;
 }
 
 #background h3 {
   color: #0077b6;
-  font-size: 1.4em;
+  font-size: 1.3em;
   margin-bottom: 15px;
-  border-left: 4px solid #003049;
-  padding-left: 10px;
   font-weight: 600;
+  text-transform: uppercase;
+  border-left: 4px solid #0077b6;
+  padding-left: 12px;
+  letter-spacing: 0.5px;
 }
 
 #background ul {
-  list-style: none;
-  padding: 0;
+  list-style-type: none;
+  padding-left: 0;
 }
 
 #background li {
-  line-height: 1.7;
+  background: #f8f9fa;
+  border-left: 4px solid #003049;
+  padding: 12px 15px;
   margin-bottom: 15px;
-  color: #333;
+  border-radius: 6px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#background li:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 8px rgba(0, 48, 73, 0.1);
 }
 
 #background strong {
   color: #003049;
+  font-weight: 600;
 }
 
 #background em {
-  color: #555;
+  color: #444;
+  font-style: italic;
 }
 
 #background a {
   color: #0077b6;
   text-decoration: none;
+  font-weight: 500;
 }
 
 #background a:hover {
   text-decoration: underline;
 }
+
 
     /* --- Footer --- */
     footer {
