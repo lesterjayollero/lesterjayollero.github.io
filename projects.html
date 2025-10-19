@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,199 +6,186 @@
   <title>Lester Jay Ollero | Transport & Traffic Engineer | Researcher</title>
 
   <style>
-    /* --- Global Reset --- */
+    /* --- Reset --- */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
-    /* --- Base Styles --- */
     body {
       font-family: "Segoe UI", Roboto, sans-serif;
       color: #222;
-      background: #fff;
-      line-height: 1.6;
+      background: #fafafa;
+      line-height: 1.7;
       scroll-behavior: smooth;
     }
 
     a {
       color: #0077b6;
       text-decoration: none;
+      transition: color 0.2s ease;
     }
     a:hover {
+      color: #005f8f;
       text-decoration: underline;
     }
 
-   /* --- Responsive Navbar --- */
-.navbar {
-  background: #f8f9fa;
-  border-bottom: 1px solid #ddd;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  width: 100%;
-}
+    /* --- Navbar --- */
+    .navbar {
+      background: #fff;
+      border-bottom: 1px solid #ddd;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      width: 100%;
+    }
 
-.nav-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-}
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
 
-.nav-logo {
-  font-size: 1.4em;
-  font-weight: 600;
-  color: #003049;
-  text-decoration: none;
-}
+    .nav-logo {
+      font-size: 1.4em;
+      font-weight: 600;
+      color: #003049;
+    }
 
-.nav-menu {
-  display: flex;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
+    .nav-menu {
+      display: flex;
+      list-style: none;
+    }
 
-.nav-menu li {
-  margin: 0 12px;
-}
+    .nav-menu li {
+      margin: 0 12px;
+    }
 
-.nav-menu a {
-  color: #003049;
-  font-weight: 500;
-  transition: color 0.2s ease;
-  text-decoration: none;
-}
+    .nav-menu a {
+      color: #003049;
+      font-weight: 500;
+    }
 
-.nav-menu a:hover {
-  color: #0077b6;
-}
+    .nav-menu a:hover {
+      color: #0077b6;
+    }
 
-/* --- Mobile Menu (Hamburger) --- */
-.menu-toggle {
-  display: none;
-  flex-direction: column;
-  cursor: pointer;
-}
+    /* --- Mobile Nav --- */
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
 
-.menu-toggle .bar {
-  height: 3px;
-  width: 25px;
-  background-color: #003049;
-  margin: 4px 0;
-  border-radius: 3px;
-  transition: 0.3s;
-}
+    .menu-toggle .bar {
+      height: 3px;
+      width: 25px;
+      background-color: #003049;
+      margin: 4px 0;
+      border-radius: 3px;
+    }
 
-/* --- Responsive Rules --- */
-@media (max-width: 768px) {
-  .menu-toggle {
-    display: flex;
-  }
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: flex;
+      }
 
-  .nav-menu {
-    position: fixed;
-    right: -100%;       /* changed from left:-100% */
-    top: 0;
-    flex-direction: column;
-    background: #ffffff;
-    width: 220px;
-    height: 100%;
-    border-left: 1px solid #ddd;  /* changed from border-right */
-    padding-top: 60px;
-    transition: right 0.3s ease-in-out;
-    z-index: 200;
-  }
+      .nav-menu {
+        position: fixed;
+        right: -100%;
+        top: 0;
+        flex-direction: column;
+        background: #fff;
+        width: 230px;
+        height: 100%;
+        border-left: 1px solid #ddd;
+        padding-top: 70px;
+        transition: right 0.3s ease-in-out;
+        z-index: 200;
+      }
 
-  .nav-menu.active {
-    right: 0;           /* slide in from the right */
-  }
+      .nav-menu.active {
+        right: 0;
+      }
 
-  .nav-menu li {
-    margin: 20px 0;
-    text-align: center;
-  }
+      .nav-menu li {
+        margin: 18px 0;
+        text-align: center;
+      }
+    }
 
-  .nav-menu a {
-    font-size: 1.1em;
-  }
-}
-
-/* Optional: Dark overlay when sidebar is open */
-body.menu-open::after {
-  content: "";
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.4);
-  z-index: 99;
-}
+    body.menu-open::after {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 99;
+    }
 
     /* --- Header --- */
     header {
       text-align: center;
-      padding: 60px 20px 40px;
-      background: #fff;
+      padding: 60px 20px 30px;
+      background: linear-gradient(to bottom, #ffffff, #f3f7fb);
+      border-bottom: 2px solid #0077b6;
     }
+
     header h1 {
-      font-size: 2.4em;
-      margin-bottom: 10px;
+      font-size: 2.2em;
       color: #003049;
+      margin-bottom: 10px;
     }
+
     header p {
-      font-size: 1.1em;
       color: #555;
-      margin-bottom: 6px;
-    }
-    header em {
-      color: #444;
-    }
-
-    /* --- Contact Icons --- */
-    .contact-links {
-      margin-top: 1.2em;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .contact-links a svg {
-      width: 32px;
-      height: 32px;
-      transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
-    }
-
-    .contact-links a:hover svg {
-      transform: scale(1.15);
-      opacity: 0.85;
+      font-size: 1.05em;
     }
 
     /* --- Section Styling --- */
     section {
-      max-width: 850px;
-      margin: 15px auto;
-      padding: 0 15px;
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
     }
 
     section h2 {
-      font-size: 1.8em;
+      font-size: 1.9em;
       color: #003049;
-      margin-bottom: 10px;
-      border-bottom: 2px solid #0077b6;
+      border-bottom: 3px solid #0077b6;
       display: inline-block;
-      padding-bottom: 5px;
+      padding-bottom: 6px;
+      margin-bottom: 20px;
+    }
+
+    section h3 {
+      color: #003049;
+      margin-top: 30px;
+      margin-bottom: 10px;
+      font-size: 1.3em;
+      border-left: 4px solid #0077b6;
+      padding-left: 10px;
     }
 
     section ul {
       list-style: none;
       padding-left: 0;
+      margin-top: 10px;
     }
 
     section li {
-      margin-bottom: 10px;
+      background: #fff;
+      padding: 12px 15px;
+      margin-bottom: 12px;
+      border-radius: 10px;
+      border: 1px solid #e1e1e1;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
     }
 
     section li strong {
@@ -208,34 +194,36 @@ body.menu-open::after {
 
     section em {
       color: #444;
+      display: block;
+      margin-top: 5px;
     }
 
-    section time {
-      font-size: 0.9em;
-      color: #777;
+    section p {
+      margin-bottom: 10px;
+      color: #333;
     }
+
     ol {
-  margin-left: 25px;
-  line-height: 1.7;
+      margin-left: 25px;
     }
 
     /* --- Footer --- */
     footer {
       text-align: center;
-      padding: 30px 10px;
+      padding: 25px 10px;
       background: #f8f9fa;
       color: #555;
       font-size: 0.9em;
-      margin-top: 50px;
+      margin-top: 60px;
+      border-top: 1px solid #ddd;
     }
 
-    /* --- Responsive --- */
     @media (max-width: 600px) {
       header h1 {
-        font-size: 2em;
+        font-size: 1.9em;
       }
       section {
-        margin: 30px auto;
+        margin: 25px auto;
       }
     }
   </style>
@@ -243,104 +231,104 @@ body.menu-open::after {
 
 <body>
 
-  <!-- Navigation -->
-<nav class="navbar">
-  <div class="nav-container">
-    <a href="#home" class="nav-logo">Lester Jay Ollero</a>
-    <div class="menu-toggle" id="mobile-menu">
-      <span class="bar"></span>
-      <span class="bar"></span>
-      <span class="bar"></span>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html#home" class="nav-logo">Lester Jay Ollero</a>
+      <div class="menu-toggle" id="mobile-menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+      <ul class="nav-menu">
+        <li><a href="index.html#home">Home</a></li>
+        <li><a href="index.html#background">Education & Work</a></li>
+        <li><a href="index.html#publications">Publications</a></li>
+        <li><a href="index.html#conferences">Conferences</a></li>
+        <li><a href="awards.html">Awards</a></li>
+        <li><a href="projects.html" style="color:#0077b6;">Projects</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
     </div>
-    <ul class="nav-menu">
-    <li><a href="index.html#home">Home</a></li>
-    <li><a href="index.html#background">Education & Work</a></li>
-    <li><a href="index.html#publications">Publications</a></li>
-    <li><a href="index.html#conferences">Conferences</a></li>
-    <li><a href="awards.html">Awards</a></li>
-    <li><a href="projects.html">Projects</a></li>
-    <li><a href="index.html#contact">Contact</a></li>
-  </ul>
+  </nav>
 
-  </div>
-</nav>
+  <!-- Header -->
+  <header>
+    <h1>Project Involvements</h1>
+    <p>Selected professional and research projects in transport and traffic engineering.</p>
+  </header>
 
-   <!-- Projects -->
+  <!-- Projects Section -->
   <section id="projects">
     <h2>Projects</h2>
 
     <h3>Project Involvements</h3>
     <ul>
-      <li><strong>Philippine Active Transport Strategic Master Plan (ATSMP)</strong><br>
+      <li>
+        <strong>Philippine Active Transport Strategic Master Plan (ATSMP)</strong>
         <em>Identifying barriers to active transport adoption and analyzing cycling shift factors in NCR and pilot cities: Puerto Princesa, Iloilo, Zamboanga, Mati, and Surigao.</em>
       </li>
-      <li><strong>Local Public Transport Route Plan (LPTRP)</strong><br>
+      <li>
+        <strong>Local Public Transport Route Plan (LPTRP)</strong>
         <em>Conducted technical analysis for determining optimal jeepney fleet size per route.</em>
       </li>
-      <li><strong>Clark Global City Transportation Master Plan</strong><br>
-        <em>Led the team in conducting field surveys and analyzing road connectivity to support the master planning of
-Clark Global City.Performed gateway and link road capacity analysis for the entire Clark Global City.</em><br>
-        <em>Evaluated the impacts of the development's traffic generation and developed traffic forecasts under various
-build-out scenarios to support long-term planning.</em>
+      <li>
+        <strong>Clark Global City Transportation Master Plan</strong>
+        <em>Led field surveys and analyzed road connectivity to support master planning of Clark Global City. Conducted gateway and link road capacity analysis and forecasted long-term traffic conditions under various development scenarios.</em>
       </li>
     </ul>
 
     <h3>Traffic Impact Assessment Reports</h3>
-    <p><em>Involved in Various Traffic Impact Assessment (TIA) Projects</em></p><br>
-    <p>
-      Conducted transportation & traffic surveys and prepared TIA reports for the following projects:
-    </p>
+    <p><em>Involved in various Traffic Impact Assessment (TIA) projects nationwide, including mixed-use, residential, and transport developments.</em></p>
+
     <ul>
-      <li>Proposed <b>transport terminal</b> located in Cubao</li>
-      <li>Proposed <b>residential development</b>located in Makati</li>
-      <li>Proposed <b>two-tower residential development</b> located in Katipunan, Quezon City</li>
-      <li>Proposed <b>mixed-use development</b> located within Makati Central Business District</li>
-      <li>Proposed <b>warehouse development</b> located in Tutuban Center, Manila</li>
-      <li>Proposed <b>warehouse development</b> located in Sta. Rosa, Laguna</li>
-      <li>Proposed <b>international convention center </b>located in Tacloban City</li>
-      <li>Proposed <b>gas station with retail spaces</b> located in Bonifacio Global City, Taguig</li>
-      <li>Proposed <b>three-tower residential condominium </b>located in Granada Street, Quezon City</li>
-      <li>Proposed <b>residential development</b> located in Muntinlupa City</li>
-      <li>Proposed <b>retail stopover station</b> located in Laguna</li>
-      <li>Proposed <b>residential and office development</b> located in Arca South</li>
-      <li>Proposed <b>commercial development</b> located in Angeles City, Pampanga</li>
-      <li>Proposed <b>SM Expansion (2)</b></li>
-      <li>Proposed <b>mixed-use development</b> in SRP, Cebu City (SM Seaside)</li><br>
-      <p>
-      Conducted transportation & traffic surveys and prepared TIA reports for the following proposed McDonald's:
-      <li>Proposed McDonald's at Antipolo (2)</li>
-      <li>Proposed McDonald's at Tarlac (2)</li>
-      <li>Proposed McDonald's at Calamba</li>
-      <li>Proposed McDonald's at Alaminos, Laguna</li>
-      <li>Proposed McDonald's at Villaruel, Pasay</li>
-      <li>Proposed McDonald's at Putatan, Muntinlupa</li>
-      <li>Proposed McDonald's at Lemery, Batangas</li>
-    </p>
+      <li>Proposed <b>transport terminal</b> in Cubao</li>
+      <li>Proposed <b>residential development</b> in Makati</li>
+      <li>Proposed <b>two-tower residential development</b> in Katipunan, Quezon City</li>
+      <li>Proposed <b>mixed-use development</b> within Makati Central Business District</li>
+      <li>Proposed <b>warehouse developments</b> in Tutuban Center, Manila and Sta. Rosa, Laguna</li>
+      <li>Proposed <b>international convention center</b> in Tacloban City</li>
+      <li>Proposed <b>gas station with retail spaces</b> in Bonifacio Global City, Taguig</li>
+      <li>Proposed <b>residential condominium</b> in Granada Street, Quezon City</li>
+      <li>Proposed <b>retail stopover station</b> in Laguna</li>
+      <li>Proposed <b>commercial development</b> in Angeles City, Pampanga</li>
+      <li><b>SM Expansion Projects (2)</b> and <b>SM Seaside Mixed-Use Development</b> in Cebu</li>
+    </ul>
+
+    <h3>McDonald’s Projects</h3>
+    <p><em>Conducted transportation and traffic surveys and prepared TIA reports for the following proposed branches:</em></p>
+    <ul>
+      <li>Antipolo (2)</li>
+      <li>Tarlac (2)</li>
+      <li>Calamba</li>
+      <li>Alaminos, Laguna</li>
+      <li>Villaruel, Pasay</li>
+      <li>Putatan, Muntinlupa</li>
+      <li>Lemery, Batangas</li>
     </ul>
   </section>
-  
- <!-- Footer -->
+
+  <!-- Footer -->
   <footer>
-    © 2025 Lester Jay Ollero
+    © 2025 Lester Jay Ollero. All rights reserved.
   </footer>
-<script>
-  const menu = document.querySelector('#mobile-menu');
-  const navMenu = document.querySelector('.nav-menu');
-  const body = document.querySelector('body');
 
-  menu.addEventListener('click', () => {
-    navMenu.classList.toggle('active');
-    body.classList.toggle('menu-open');
-  });
+  <script>
+    const menu = document.querySelector('#mobile-menu');
+    const navMenu = document.querySelector('.nav-menu');
+    const body = document.querySelector('body');
 
-  // Close menu when a link is clicked
-  document.querySelectorAll('.nav-menu a').forEach(link => {
-    link.addEventListener('click', () => {
-      navMenu.classList.remove('active');
-      body.classList.remove('menu-open');
+    menu.addEventListener('click', () => {
+      navMenu.classList.toggle('active');
+      body.classList.toggle('menu-open');
     });
-  });
-  
-</script>
+
+    document.querySelectorAll('.nav-menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        navMenu.classList.remove('active');
+        body.classList.remove('menu-open');
+      });
+    });
+  </script>
 </body>
 </html>
