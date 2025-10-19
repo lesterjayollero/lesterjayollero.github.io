@@ -219,8 +219,11 @@ body.menu-open::after {
   margin-left: 25px;
   line-height: 1.7;
     }
+
 /* --- Education & Work Section --- */
-#background {
+#background,
+#publications,
+#conferences {
   background-color: #ffffff;
   padding: 50px 25px;
   max-width: 900px;
@@ -229,7 +232,10 @@ body.menu-open::after {
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
-#background h2 {
+/* Section Title */
+#background h2,
+#publications h2,
+#conferences h2 {
   color: #003049;
   font-size: 1.9em;
   text-align: center;
@@ -239,11 +245,16 @@ body.menu-open::after {
   letter-spacing: 0.5px;
 }
 
-#background .subsection {
+/* Subsection Headers (Education / Work Experience) */
+#background .subsection,
+#publications .subsection,
+#conferences .subsection {
   margin-bottom: 45px;
 }
 
-#background h3 {
+#background h3,
+#publications h3,
+#conferences h3 {
   color: #0077b6;
   font-size: 1.3em;
   margin-bottom: 15px;
@@ -254,12 +265,17 @@ body.menu-open::after {
   letter-spacing: 0.5px;
 }
 
-#background ul {
+/* List Layout */
+#background ul,
+#publications ul,
+#conferences ul {
   list-style-type: none;
   padding-left: 0;
 }
 
-#background li {
+#background li,
+#publications li,
+#conferences li {
   background: #f8f9fa;
   border-left: 4px solid #003049;
   padding: 12px 15px;
@@ -268,30 +284,42 @@ body.menu-open::after {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-#background li:hover {
+#background li:hover,
+#publications li:hover,
+#conferences li:hover {
   transform: translateY(-2px);
   box-shadow: 0 3px 8px rgba(0, 48, 73, 0.1);
 }
 
-#background strong {
+/* Text Styling */
+#background strong,
+#publications strong,
+#conferences strong {
   color: #003049;
   font-weight: 600;
 }
 
-#background em {
+#background em,
+#publications em,
+#conferences em {
   color: #444;
   font-style: italic;
 }
 
-#background a {
+#background a,
+#publications a,
+#conferences a {
   color: #0077b6;
   text-decoration: none;
   font-weight: 500;
 }
 
-#background a:hover {
+#background a:hover,
+#publications a:hover,
+#conferences a:hover {
   text-decoration: underline;
 }
+
 
 
     /* --- Footer --- */
