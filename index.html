@@ -220,7 +220,7 @@ body.menu-open::after {
   line-height: 1.7;
     }
 
-/* --- Education & Work Section --- */
+/* --- Education, Publications & Conferences --- */
 #background,
 #publications,
 #conferences {
@@ -228,8 +228,8 @@ body.menu-open::after {
   padding: 50px 25px;
   max-width: 900px;
   margin: 40px auto;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  border-radius: 8px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.04);
 }
 
 /* Section Title */
@@ -237,32 +237,26 @@ body.menu-open::after {
 #publications h2,
 #conferences h2 {
   color: #003049;
-  font-size: 1.9em;
+  font-size: 1.8em;
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 35px;
   font-weight: 700;
-  border-bottom: none;
-  letter-spacing: 0.5px;
+  border-bottom: 1.5px solid #0077b6;
+  display: inline-block;
+  padding-bottom: 6px;
 }
 
-/* Subsection Headers (Education / Work Experience) */
-#background .subsection,
-#publications .subsection,
-#conferences .subsection {
-  margin-bottom: 45px;
-}
-
+/* Subsection Titles */
 #background h3,
 #publications h3,
 #conferences h3 {
   color: #0077b6;
-  font-size: 1.3em;
+  font-size: 1.25em;
   margin-bottom: 15px;
   font-weight: 600;
-  text-transform: uppercase;
-  border-left: 4px solid #0077b6;
-  padding-left: 12px;
-  letter-spacing: 0.5px;
+  border-left: 2px solid #0077b6;
+  padding-left: 10px;
+  letter-spacing: 0.3px;
 }
 
 /* List Layout */
@@ -276,19 +270,19 @@ body.menu-open::after {
 #background li,
 #publications li,
 #conferences li {
-  background: #f8f9fa;
-  border-left: 4px solid #003049;
-  padding: 12px 15px;
-  margin-bottom: 15px;
+  background: #f9fafb;
+  border-left: 2px solid #003049;
+  padding: 10px 15px;
+  margin-bottom: 12px;
   border-radius: 6px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 #background li:hover,
 #publications li:hover,
 #conferences li:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 3px 8px rgba(0, 48, 73, 0.1);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(0, 48, 73, 0.08);
 }
 
 /* Text Styling */
@@ -302,8 +296,7 @@ body.menu-open::after {
 #background em,
 #publications em,
 #conferences em {
-  color: #444;
-  font-style: italic;
+  color: #555;
 }
 
 #background a,
@@ -319,8 +312,6 @@ body.menu-open::after {
 #conferences a:hover {
   text-decoration: underline;
 }
-
-
 
     /* --- Footer --- */
     footer {
