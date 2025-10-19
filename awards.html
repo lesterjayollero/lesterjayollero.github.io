@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lester Jay Ollero | Transport & Traffic Engineer | Researcher</title>
+
+  <style>
+    /* --- Global Reset --- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* --- Base Styles --- */
+    body {
+      font-family: "Segoe UI", Roboto, sans-serif;
+      color: #222;
+      background: #fff;
+      line-height: 1.6;
+      scroll-behavior: smooth;
+    }
+
+    a {
+      color: #0077b6;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+
+   /* --- Responsive Navbar --- */
+.navbar {
+  background: #f8f9fa;
+  border-bottom: 1px solid #ddd;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.nav-logo {
+  font-size: 1.4em;
+  font-weight: 600;
+  color: #003049;
+  text-decoration: none;
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-menu li {
+  margin: 0 12px;
+}
+
+.nav-menu a {
+  color: #003049;
+  font-weight: 500;
+  transition: color 0.2s ease;
+  text-decoration: none;
+}
+
+.nav-menu a:hover {
+  color: #0077b6;
+}
+
+/* --- Mobile Menu (Hamburger) --- */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.menu-toggle .bar {
+  height: 3px;
+  width: 25px;
+  background-color: #003049;
+  margin: 4px 0;
+  border-radius: 3px;
+  transition: 0.3s;
+}
+
+/* --- Responsive Rules --- */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: flex;
+  }
+
+  .nav-menu {
+    position: fixed;
+    right: -100%;       /* changed from left:-100% */
+    top: 0;
+    flex-direction: column;
+    background: #ffffff;
+    width: 220px;
+    height: 100%;
+    border-left: 1px solid #ddd;  /* changed from border-right */
+    padding-top: 60px;
+    transition: right 0.3s ease-in-out;
+    z-index: 200;
+  }
+
+  .nav-menu.active {
+    right: 0;           /* slide in from the right */
+  }
+
+  .nav-menu li {
+    margin: 20px 0;
+    text-align: center;
+  }
+
+  .nav-menu a {
+    font-size: 1.1em;
+  }
+}
+
+/* Optional: Dark overlay when sidebar is open */
+body.menu-open::after {
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.4);
+  z-index: 99;
+}
+
+    /* --- Header --- */
+    header {
+      text-align: center;
+      padding: 60px 20px 40px;
+      background: #fff;
+    }
+    header h1 {
+      font-size: 2.4em;
+      margin-bottom: 10px;
+      color: #003049;
+    }
+    header p {
+      font-size: 1.1em;
+      color: #555;
+      margin-bottom: 6px;
+    }
+    header em {
+      color: #444;
+    }
+
+    /* --- Contact Icons --- */
+    .contact-links {
+      margin-top: 1.2em;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .contact-links a svg {
+      width: 32px;
+      height: 32px;
+      transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
+    }
+
+    .contact-links a:hover svg {
+      transform: scale(1.15);
+      opacity: 0.85;
+    }
+
+    /* --- Section Styling --- */
+    section {
+      max-width: 850px;
+      margin: 15px auto;
+      padding: 0 15px;
+    }
+
+    section h2 {
+      font-size: 1.8em;
+      color: #003049;
+      margin-bottom: 10px;
+      border-bottom: 2px solid #0077b6;
+      display: inline-block;
+      padding-bottom: 5px;
+    }
+
+    section ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    section li {
+      margin-bottom: 10px;
+    }
+
+    section li strong {
+      color: #000;
+    }
+
+    section em {
+      color: #444;
+    }
+
+    section time {
+      font-size: 0.9em;
+      color: #777;
+    }
+    ol {
+  margin-left: 25px;
+  line-height: 1.7;
+    }
+
+    /* --- Footer --- */
+    footer {
+      text-align: center;
+      padding: 30px 10px;
+      background: #f8f9fa;
+      color: #555;
+      font-size: 0.9em;
+      margin-top: 50px;
+    }
+
+    /* --- Responsive --- */
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 2em;
+      }
+      section {
+        margin: 30px auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navigation -->
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="#home" class="nav-logo">Lester Jay Ollero</a>
+    <div class="menu-toggle" id="mobile-menu">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </div>
+    <ul class="nav-menu">
+    <li><a href="index.html#home">Home</a></li>
+    <li><a href="index.html#education">Education</a></li>
+    <li><a href="index.html#work">Work Experience</a></li>
+    <li><a href="index.html#publications">Publications</a></li>
+    <li><a href="index.html#conferences">Conferences</a></li>
+    <li><a href="awards.html">Awards</a></li>
+    <li><a href="index.html#projects">Projects</a></li>
+    <li><a href="tia.html">Traffic Studies</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+
+  </div>
+</nav>
+
+  <section id="tia">
+    <h2>Traffic Impact Assessment Reports</h2>
+    <p><em>Involved in Various Traffic Impact Assessment (TIA) Projects</em></p>
+    <p>
+      Conducted transportation & traffic surveys and prepared TIA reports for the following projects:
+    </p>
+    <ul>
+      <li>Proposed <b>transport terminal</b> located in Cubao</li>
+      <li>Proposed <b>residential development</b>located in Makati</li>
+      <li>Proposed <b>two-tower residential development</b> located in Katipunan, Quezon City</li>
+      <li>Proposed <b>mixed-use development</b> located within Makati Central Business District</li>
+      <li>Proposed <b>warehouse development</b> located in Tutuban Center, Manila</li>
+      <li>Proposed <b>warehouse development</b> located in Sta. Rosa, Laguna</li>
+      <li>Proposed <b>international convention center </b>located in Tacloban City</li>
+      <li>Proposed <b>gas station with retail spaces</b> located in Bonifacio Global City, Taguig</li>
+      <li>Proposed <b>three-tower residential condominium </b>located in Granada Street, Quezon City</li>
+      <li>Proposed <b>residential development</b> located in Muntinlupa City</li>
+      <li>Proposed <b>retail stopover station</b> located in Laguna</li>
+      <li>Proposed <b>residential and office development</b> located in Arca South</li>
+      <li>Proposed <b>commercial development</b> located in Angeles City, Pampanga</li>
+      <li>Proposed <b>SM Expansion (2)</b></li>
+      <li>Proposed <b>mixed-use development</b> in SRP, Cebu City (SM Seaside)</li><br>
+      <p>
+      Conducted transportation & traffic surveys and prepared TIA reports for the following proposed McDonald's:
+      <li>Proposed McDonald's at Antipolo (2)</li>
+      <li>Proposed McDonald's at Tarlac (2)</li>
+      <li>Proposed McDonald's at Calamba</li>
+      <li>Proposed McDonald's at Alaminos, Laguna</li>
+      <li>Proposed McDonald's at Villaruel, Pasay</li>
+      <li>Proposed McDonald's at Putatan, Muntinlupa</li>
+      <li>Proposed McDonald's at Lemery, Batangas</li>
+    </p>
+    </ul>
+  </section>
+
+ <!-- Footer -->
+  <footer>
+    © 2025 Lester Jay Ollero
+  </footer>
+<script>
+  const menu = document.querySelector('#mobile-menu');
+  const navMenu = document.querySelector('.nav-menu');
+  const body = document.querySelector('body');
+
+  menu.addEventListener('click', () => {
+    navMenu.classList.toggle('active');
+    body.classList.toggle('menu-open');
+  });
+
+  // Close menu when a link is clicked
+  document.querySelectorAll('.nav-menu a').forEach(link => {
+    link.addEventListener('click', () => {
+      navMenu.classList.remove('active');
+      body.classList.remove('menu-open');
+    });
+  });
+  
+</script>
+</body>
+</html>
