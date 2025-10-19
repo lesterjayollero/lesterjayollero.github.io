@@ -100,19 +100,20 @@
 
   .nav-menu {
     position: fixed;
-    left: -100%;
+    right: -100%;       /* changed from left:-100% */
     top: 0;
     flex-direction: column;
     background: #ffffff;
     width: 220px;
     height: 100%;
-    border-right: 1px solid #ddd;
+    border-left: 1px solid #ddd;  /* changed from border-right */
     padding-top: 60px;
-    transition: 0.3s ease-in-out;
+    transition: right 0.3s ease-in-out;
+    z-index: 200;
   }
 
   .nav-menu.active {
-    left: 0;
+    right: 0;           /* slide in from the right */
   }
 
   .nav-menu li {
@@ -134,7 +135,6 @@ body.menu-open::after {
   background: rgba(0,0,0,0.4);
   z-index: 99;
 }
-
 
     /* --- Header --- */
     header {
