@@ -1,198 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Personal academic website of [Your Name]" />
-  <title>[Your Name] | Personal Website</title>
-
-  <!-- Fonts and Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-
-  <style>
-    /* === Global Styles === */
-    body {
-      font-family: 'Open Sans', sans-serif;
-      color: #222;
-      background: #fff;
-      margin: 0;
-      line-height: 1.6;
-    }
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Michael Schlottke-Lakemper</title>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  body {
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+    color: #333;
+  }
+  header {
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  header h1 {
+    font-size: 20px;
+    font-weight: 600;
+  }
+  nav a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: #007bff;
+    font-weight: 500;
+  }
+  .container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    max-width: 1000px;
+    margin: 50px auto;
+    padding: 0 20px;
+    gap: 40px;
+  }
+  .profile {
+    flex: 1;
+    text-align: center;
+  }
+  .profile img {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+  }
+  .profile h2 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 600;
+  }
+  .profile p {
+    margin: 5px 0;
+  }
+  .profile a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  .icons a {
+    margin: 0 8px;
+    color: #007bff;
+    font-size: 22px;
+    text-decoration: none;
+  }
+  .details {
+    flex: 2;
+  }
+  .details p {
+    line-height: 1.6;
+  }
+  .columns {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  .column {
+    flex: 1;
+    min-width: 250px;
+  }
+  .column h3 {
+    font-weight: 600;
+  }
+  .column ul {
+    list-style: disc;
+    padding-left: 20px;
+  }
+  .education-item {
+    margin-bottom: 10px;
+  }
+  .education-item i {
+    margin-right: 8px;
+    color: #444;
+  }
+  @media (max-width: 768px) {
     .container {
-      max-width: 1000px;
-      margin: 50px auto;
-      padding: 0 20px;
-    }
-
-    /* === Profile Section === */
-    .profile {
+      flex-direction: column;
+      align-items: center;
       text-align: center;
-      margin-bottom: 40px;
     }
-
-    .profile-photo {
-      width: 220px;
-      height: 220px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-bottom: 20px;
+    .columns {
+      flex-direction: column;
+      align-items: center;
     }
-
-    h1 {
-      font-size: 2em;
-      color: #000;
-      margin-bottom: 10px;
-    }
-
-    h3 {
-      color: #666;
-      font-weight: 400;
-      margin-bottom: 10px;
-    }
-
-    .affiliation a {
-      color: #0077b6;
-      font-size: 1.1em;
-      text-decoration: none;
-    }
-
-    .affiliation a:hover {
-      text-decoration: underline;
-    }
-
-    /* === Contact Icons === */
-    .contact-icons {
-      margin-top: 20px;
-    }
-
-    .contact-icons a {
-      color: #003049;
-      font-size: 1.6em;
-      margin: 0 10px;
-      transition: color 0.3s, transform 0.3s;
-    }
-
-    .contact-icons a:hover {
-      color: #0077b6;
-      transform: scale(1.1);
-    }
-
-    /* === Bio Section === */
-    .bio {
-      text-align: justify;
-      max-width: 850px;
-      margin: 0 auto 40px;
-      font-size: 1.05em;
-      color: #333;
-    }
-
-    /* === Interests & Education Section === */
-    .details {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      gap: 40px;
-    }
-
-    .column {
-      flex: 1;
-      min-width: 300px;
-    }
-
-    .column h2 {
-      font-size: 1.4em;
-      color: #003049;
-      border-bottom: 2px solid #0077b6;
-      display: inline-block;
-      margin-bottom: 15px;
-    }
-
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    li {
-      margin-bottom: 10px;
-    }
-
-    .education i {
-      color: #0077b6;
-      margin-right: 8px;
-    }
-
-    /* === Footer === */
-    footer {
-      text-align: center;
-      padding: 30px 0;
-      background: #f8f9fa;
-      font-size: 0.9em;
-      color: #555;
-      margin-top: 50px;
-    }
-
-    /* === Responsive === */
-    @media (max-width: 768px) {
-      .details {
-        flex-direction: column;
-        align-items: center;
-      }
-    }
-  </style>
+  }
+</style>
 </head>
 <body>
-  <main class="container">
-    <section class="profile">
-      <img src="Ollero_githubphoto.png" alt="[Your Name]" class="profile-photo">
-      <h1>Lester Jay Ollero</h1>
-      <h3>Transportation Engineer & Researcher</h3>
-      <p class="affiliation">
-        <a href="#" target="_blank">Nationwide Active Transport Strategic Master Plan (ATSMP)</a>
-      </p>
 
-      <div class="contact-icons">
-        <a href="mailto:yourname@example.com" title="Email"><i class="fas fa-envelope"></i></a>
-        <a href="#" title="Google Scholar"><i class="fab fa-google"></i></a>
-        <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
-        <a href="#" title="ResearchGate"><i class="fab fa-researchgate"></i></a>
-        <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
-      </div>
-    </section>
+<header>
+  <h1>Michael Schlottke-Lakemper</h1>
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Contact</a>
+  </nav>
+</header>
 
-    <section class="bio">
-      <p>
-        I am a licensed Civil Engineer with a master's degree in Civil Engineering, specializing in Transportation Engineering. 
-        I currently contribute to the Nationwide Active Transport Strategic Master Plan (ATSMP), focusing on walking, cycling, 
-        and sustainable mobility. My research interests include bus transit priority, AI applications in transport operations, 
-        and urban mobility planning.
-      </p>
-    </section>
+<div class="container">
+  <div class="profile">
+    <img src="https://via.placeholder.com/180" alt="Profile Photo">
+    <h2>Michael Schlottke-Lakemper</h2>
+    <p><em>Professor</em></p>
+    <p><a href="#">University of Augsburg, Germany</a></p>
+    <div class="icons">
+      <a href="mailto:email@example.com"><i class="fa-solid fa-envelope"></i></a>
+      <a href="https://scholar.google.com" target="_blank"><i class="fa-brands fa-google"></i></a>
+      <a href="https://orcid.org" target="_blank"><i class="fa-brands fa-orcid"></i></a>
+      <a href="https://linkedin.com" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
+      <a href="https://github.com" target="_blank"><i class="fa-brands fa-github"></i></a>
+      <a href="https://researchgate.net" target="_blank"><i class="fa-brands fa-researchgate"></i></a>
+    </div>
+  </div>
 
-    <section class="details">
+  <div class="details">
+    <p>
+      I am a computational scientist and professor at the <a href="#">Centre for Advanced Analytics and Predictive Sciences</a> of the <a href="#">University of Augsburg, Germany</a>, where I lead the <a href="#">High-Performance Scientific Computing Lab</a> in the Faculty of Mathematics, Natural Sciences, and Materials Engineering. My focus is on numerical methods for adaptive multi-physics simulations, research software engineering for high-performance computing, and scientific machine learning.
+    </p>
+
+    <div class="columns">
       <div class="column">
-        <h2>Interests</h2>
+        <h3>Interests</h3>
         <ul>
-          <li>Public transport planning & optimization</li>
-          <li>Active transport and sustainable mobility</li>
-          <li>Microsimulation and AI in traffic systems</li>
-          <li>Transport policy and impact assessment</li>
+          <li>Adaptive multi-physics simulations</li>
+          <li>Scientific machine learning</li>
+          <li>Research software engineering for high-performance computing with Julia</li>
+          <li>Applications in fluid mechanics, aeroacoustics, and astrophysics</li>
         </ul>
       </div>
-
       <div class="column">
-        <h2>Education</h2>
-        <ul class="education">
-          <li><i class="fas fa-graduation-cap"></i> M.S. in Civil Engineering (Transportation), [University], 2024</li>
-          <li><i class="fas fa-graduation-cap"></i> B.S. in Civil Engineering, [University], 2020</li>
-        </ul>
+        <h3>Education</h3>
+        <div class="education-item"><i class="fa-solid fa-graduation-cap"></i> Dr.-Ing. in Computational Engineering Science, RWTH Aachen University, Germany</div>
+        <div class="education-item"><i class="fa-solid fa-graduation-cap"></i> Dipl.-Ing. in Aerospace Engineering, 2011, University of Stuttgart, Germany</div>
+        <div class="education-item"><i class="fa-solid fa-graduation-cap"></i> MS in Aerospace Engineering, 2010, Georgia Institute of Technology, US</div>
       </div>
-    </section>
-  </main>
+    </div>
+  </div>
+</div>
 
-  <footer>
-    <p>&copy; 2025 Lester Jay Ollero. All rights reserved.</p>
-  </footer>
 </body>
 </html>
