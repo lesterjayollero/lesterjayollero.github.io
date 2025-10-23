@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Research | Lester Jay Ollero</title>
+  <meta name="keywords" content="Lester Jay Ollero, Transport Research, Network Modeling, Route Choice, BRT, Urban Mobility">
+  <meta name="author" content="Lester Jay Ollero">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    body {
+      font-family: "Segoe UI", Roboto, sans-serif;
+      color: #222;
+      background: #fafafa;
+      line-height: 1.7;
+      margin: 0;
+      padding: 0;
+    }
+
+    a {
+      color: #0077b6;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: #005f8f;
+      text-decoration: underline;
+    }
+
+    /* Navbar */
+    .navbar {
+      background: #fff;
+      border-bottom: 1px solid #ddd;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      width: 100%;
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .nav-logo {
+      font-size: 1.4em;
+      font-weight: 600;
+      color: #003049;
+    }
+
+    .nav-menu {
+      display: flex;
+      list-style: none;
+    }
+
+    .nav-menu li {
+      margin: 0 12px;
+    }
+
+    .nav-menu a {
+      color: #003049;
+      font-weight: 500;
+    }
+
+    .nav-menu a.active {
+      color: #0077b6;
+      font-weight: 600;
+      border-bottom: 2px solid #0077b6;
+      padding-bottom: 2px;
+    }
+
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .menu-toggle .bar {
+      height: 3px;
+      width: 25px;
+      background-color: #003049;
+      margin: 4px 0;
+      border-radius: 3px;
+    }
+
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: flex;
+      }
+
+      .nav-menu {
+        position: fixed;
+        right: -100%;
+        top: 0;
+        flex-direction: column;
+        background: #fff;
+        width: 230px;
+        height: 100%;
+        border-left: 1px solid #ddd;
+        padding-top: 70px;
+        transition: right 0.3s ease-in-out;
+        z-index: 200;
+      }
+
+      .nav-menu.active {
+        right: 0;
+      }
+
+      .nav-menu li {
+        margin: 18px 0;
+        text-align: center;
+      }
+    }
+
+    /* Page Layout */
+    .container {
+      max-width: 900px;
+      margin: 50px auto;
+      padding: 0 20px;
+    }
+
+    h1 {
+      color: #003049;
+      font-size: 2em;
+      border-bottom: 3px solid #0077b6;
+      display: inline-block;
+      padding-bottom: 6px;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      color: #003049;
+      font-size: 1.5em;
+      margin-top: 40px;
+    }
+
+    .tags {
+      margin: 10px 0 15px;
+    }
+
+    .tag {
+      display: inline-block;
+      background: #fff0ec;
+      color: #d35400;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 0.9em;
+      margin-right: 5px;
+      margin-bottom: 5px;
+    }
+
+    .research-section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .research-text {
+      flex: 1 1 500px;
+    }
+
+    .research-image {
+      flex: 1 1 300px;
+      text-align: center;
+    }
+
+    .research-image img {
+      width: 100%;
+      max-width: 400px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    ol {
+      margin-left: 20px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px 10px;
+      background: #f8f9fa;
+      color: #555;
+      font-size: 0.9em;
+      margin-top: 60px;
+      border-top: 1px solid #ddd;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">Lester Jay Ollero</a>
+      <div class="menu-toggle" id="mobile-menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+      <ul class="nav-menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="publications.html">Publications</a></li>
+        <li><a href="awards.html">Awards</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="research.html" class="active">Research</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Content -->
+  <div class="container">
+    <h1>Main Research Topics</h1>
+    <p>My main research interest is developing new methodologies for modeling and analyzing agents’ behavior in <strong>networks</strong>. The particular focus of applications is on (but not limited to) <strong>urban transportation networks</strong>, such as congested transport networks, last-mile supply chain networks, pedestrian activity networks, and human-centric city network designs.</p>
+
+    <h2>Modeling of Network Route Choice Behavior</h2>
+    <div class="tags">
+      <span class="tag">#RouteChoice</span>
+      <span class="tag">#DiscreteChoice</span>
+      <span class="tag">#GPS</span>
+      <span class="tag">#Network</span>
+      <span class="tag">#MachineLearning</span>
+    </div>
+
+    <div class="research-section">
+      <div class="research-text">
+        <p>Route choice models predict which path a given agent takes to travel from one location to another in a network, and it has been a central topic to transportation planning and engineering. However, modeling route choices is challenging mainly due to the complex structure of networks.</p>
+
+        <p>In particular, I am interested in the link-based approach to route choice modeling, which describes agents' route choice behavior by the choice of links (edges) rather than paths (sequences of links), in a Markovian fashion. This allows us to model route choice behavior without enumerating all possible paths, which is often infeasible in large networks, thereby providing a consistent estimator.</p>
+
+        <p>My work includes developing models for extraordinary networks, learning behavior from raw GPS trajectories with uncertainty, and capturing local routing mechanisms. This approach can be applied not only to car networks but also to pedestrian networks, where agents' behavior is affected by street attractiveness.</p>
+
+        <p><strong>Selected publications on this topic:</strong></p>
+        <ol>
+          <li>Oyama, Y., Hato, E. (2017). <em>A discounted recursive logit model for dynamic gridlock network analysis.</em> <strong>Transportation Research Part C: Emerging Technologies</strong> 85: 509–527.</li>
+        </ol>
+      </div>
+      <div class="research-image">
+        <img src="research_network.png" alt="Network Route Choice Illustration">
+      </div>
+    </div>
+  </div>
+
+  <footer>© 2025 Lester Jay Ollero</footer>
+
+  <script>
+    const menu = document.querySelector('#mobile-menu');
+    const navMenu = document.querySelector('.nav-menu');
+    const body = document.querySelector('body');
+
+    menu.addEventListener('click', () => {
+      navMenu.classList.toggle('active');
+      body.classList.toggle('menu-open');
+    });
+
+    document.querySelectorAll('.nav-menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        navMenu.classList.remove('active');
+        body.classList.remove('menu-open');
+      });
+    });
+  </script>
+</body>
+</html>
