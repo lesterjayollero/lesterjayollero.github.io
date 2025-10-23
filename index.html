@@ -4,35 +4,43 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lester Jay Ollero | Transport & Traffic Engineer | Researcher</title>
+  <meta name="description" content="Personal professional website of Lester Jay Ollero, a licensed Civil Engineer and transport researcher specializing in public transport, traffic simulation, and sustainable mobility.">
   <meta name="keywords" content="Lester Jay Ollero, LPTRP, EDSA Busway, Traffic Impact Assessment, Active Transport, BRT, Sustainable Mobility, Urban Transport, Traffic Simulation">
   <meta name="author" content="Lester Jay Ollero">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
-    /* Reset */
+    :root {
+      --primary: #003049;
+      --secondary: #0077b6;
+      --light-bg: #fafafa;
+      --border: #e0e0e0;
+      --text: #222;
+    }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: "Segoe UI", Roboto, sans-serif;
-      color: #222;
-      background: #fafafa;
+      color: var(--text);
+      background: var(--light-bg);
       line-height: 1.7;
       scroll-behavior: smooth;
     }
 
-    a { color: #0077b6; text-decoration: none; transition: color 0.2s ease; }
+    a { color: var(--secondary); text-decoration: none; transition: color 0.25s ease; }
     a:hover { color: #005f8f; text-decoration: underline; }
 
     /* Navbar */
     .navbar {
       background: #fff;
-      border-bottom: 1px solid #ddd;
+      border-bottom: 1px solid var(--border);
       position: sticky;
       top: 0;
       z-index: 100;
-      width: 100%;
     }
+
     .nav-container {
       display: flex;
       justify-content: space-between;
@@ -41,119 +49,200 @@
       max-width: 1100px;
       margin: 0 auto;
     }
+
     .nav-logo {
       font-size: 1.4em;
       font-weight: 600;
-      color: #003049;
+      color: var(--primary);
     }
+
     .nav-menu {
       display: flex;
       list-style: none;
     }
-    .nav-menu li { margin: 0 12px; }
-    .nav-menu a { color: #003049; font-weight: 500; }
-    .nav-menu a:hover { color: #0077b6; }
 
-    .menu-toggle { display: none; flex-direction: column; cursor: pointer; }
+    .nav-menu li { margin: 0 12px; }
+    .nav-menu a { color: var(--primary); font-weight: 500; }
+    .nav-menu a:hover { color: var(--secondary); }
+
+    /* Mobile menu */
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
     .menu-toggle .bar {
-      height: 3px; width: 25px; background-color: #003049;
+      height: 3px; width: 25px; background-color: var(--primary);
       margin: 4px 0; border-radius: 3px;
     }
 
     @media (max-width: 768px) {
       .menu-toggle { display: flex; }
       .nav-menu {
-        position: fixed; right: -100%; top: 0; flex-direction: column;
-        background: #fff; width: 230px; height: 100%;
-        border-left: 1px solid #ddd; padding-top: 70px;
-        transition: right 0.3s ease-in-out; z-index: 200;
+        position: fixed; right: -100%; top: 0;
+        flex-direction: column;
+        background: #fff;
+        width: 230px; height: 100%;
+        border-left: 1px solid var(--border);
+        padding-top: 70px;
+        transition: right 0.3s ease-in-out;
+        z-index: 200;
       }
       .nav-menu.active { right: 0; }
       .nav-menu li { margin: 18px 0; text-align: center; }
     }
+
     body.menu-open::after {
       content: ""; position: fixed; top: 0; left: 0;
-      width: 100%; height: 100%; background: rgba(0,0,0,0.4);
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.4);
       z-index: 99;
     }
 
-    /* Profile Section (like academicpages) */
+    /* Profile Section */
     .profile-container {
       display: flex;
       flex-direction: row;
       align-items: flex-start;
       max-width: 1000px;
-      margin: 50px auto;
+      margin: 60px auto;
       padding: 0 20px;
       gap: 40px;
     }
-    .profile {
-      flex: 1; text-align: center;
-    }
-    .profile img {
-      width: 180px; height: 180px; border-radius: 50%;
-      object-fit: cover; margin-bottom: 20px;
-    }
-    .profile h2 { font-size: 22px; font-weight: 600; margin: 0; }
-    .profile p { margin: 5px 0; }
-    .icons a {
-      margin: 0 8px; color: #0077b6; font-size: 22px; text-decoration: none;
-    }
-    .icons a:hover { color: #005f8f; }
 
-    .details { flex: 2; }
-    .details p { line-height: 1.6; }
-    .columns {
-      display: flex; justify-content: space-between; margin-top: 20px;
-      flex-wrap: wrap;
+    .profile {
+      flex: 1;
+      text-align: center;
+      background: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
     }
-    .column { flex: 1; min-width: 250px; }
-    .column h3 { font-weight: 600; color: #003049; }
-    .column ul { list-style: disc; padding-left: 20px; }
-    .education-item { margin-bottom: 10px; }
-    .education-item i { margin-right: 8px; color: #444; }
+
+    .profile img {
+      width: 180px; height: 180px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 20px;
+      border: 3px solid var(--secondary);
+    }
+
+    .profile h2 { font-size: 22px; font-weight: 600; margin-bottom: 5px; }
+    .profile p { margin: 4px 0; color: #444; }
+
+    .icons a {
+      margin: 0 8px;
+      color: var(--secondary);
+      font-size: 22px;
+      transition: transform 0.2s ease;
+    }
+
+    .icons a:hover {
+      color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .details {
+      flex: 2;
+      padding-top: 10px;
+    }
+
+    .details p { line-height: 1.6; text-align: justify; }
+
+    .columns {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 25px;
+      flex-wrap: wrap;
+      gap: 25px;
+    }
+
+    .column {
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .column h3 {
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+
+    .column ul {
+      list-style: disc;
+      padding-left: 20px;
+    }
+
+    .education-item {
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+
+    .education-item i {
+      margin-right: 8px;
+      color: var(--secondary);
+    }
 
     @media (max-width: 768px) {
-      .profile-container { flex-direction: column; align-items: center; text-align: center; }
+      .profile-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .details { padding-top: 25px; }
       .columns { flex-direction: column; align-items: center; }
     }
 
-    /* Sections below */
+    /* Sections */
     section {
       max-width: 900px;
-      margin: 40px auto;
+      margin: 50px auto;
       padding: 0 20px;
     }
+
     section h2 {
       font-size: 1.9em;
-      color: #003049;
-      border-bottom: 3px solid #0077b6;
+      color: var(--primary);
+      border-bottom: 3px solid var(--secondary);
       display: inline-block;
       padding-bottom: 6px;
       margin-bottom: 20px;
     }
+
     section h3 {
-      color: #003049;
+      color: var(--primary);
       margin-top: 30px;
       margin-bottom: 10px;
       font-size: 1.3em;
-      border-left: 4px solid #0077b6;
+      border-left: 4px solid var(--secondary);
       padding-left: 10px;
     }
+
     section li {
-      background: #fff; padding: 12px 15px; margin-bottom: 12px;
-      border-radius: 10px; border: 1px solid #e1e1e1;
+      background: #fff;
+      padding: 12px 15px;
+      margin-bottom: 12px;
+      border-radius: 10px;
+      border: 1px solid #e1e1e1;
       box-shadow: 0 2px 4px rgba(0,0,0,0.04);
     }
+
     section li strong { color: #000; }
     section em { color: #444; display: block; margin-top: 5px; }
 
+    /* Footer */
     footer {
-      text-align: center; padding: 25px 10px;
-      background: #f8f9fa; color: #555;
-      font-size: 0.9em; margin-top: 60px;
-      border-top: 1px solid #ddd;
+      text-align: center;
+      padding: 25px 10px;
+      background: #f8f9fa;
+      color: #555;
+      font-size: 0.9em;
+      border-top: 1px solid var(--border);
+      margin-top: 60px;
     }
+
+    footer a { color: var(--secondary); }
+    footer a:hover { color: var(--primary); }
   </style>
 </head>
 
@@ -181,7 +270,7 @@
   <section id="home">
     <div class="profile-container">
       <div class="profile">
-        <img src="https://via.placeholder.com/180" alt="Lester Jay Ollero Photo">
+        <img src="https://via.placeholder.com/180" alt="Lester Jay Ollero">
         <h2>Lester Jay Ollero</h2>
         <p><em>Transport & Traffic Engineer | Researcher</em></p>
         <p><a href="#">University of the Philippines, Diliman</a></p>
@@ -251,7 +340,7 @@
 
   <!-- Footer -->
   <footer>
-    © 2025 Lester Jay Ollero
+    © 2025 Lester Jay Ollero • Built with <a href="https://pages.github.com" target="_blank">GitHub Pages</a>
   </footer>
 
   <script>
