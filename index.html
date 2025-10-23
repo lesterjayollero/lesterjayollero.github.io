@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -7,8 +7,11 @@
   <meta name="keywords" content="Lester Jay Ollero, LPTRP, EDSA Busway, Traffic Impact Assessment, Active Transport, BRT, Sustainable Mobility, Urban Transport, Traffic Simulation">
   <meta name="author" content="Lester Jay Ollero">
 
-  <!-- ✅ Updated Font Awesome (v6.6.0) -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-KD2fwSpXemhI5v6bC6RrwA84tQ0gVb+9GQxK7B9IZpXnR/8NocwoZrbtg5l4A9fB0y1Lr1OHDMfA2uZ6uzfF1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- ✅ Latest Font Awesome (v6.6.0) -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-KD2fwSpXemhI5v6bC6RrwA84tQ0gVb+9GQxK7B9IZpXnR/8NocwoZrbtg5l4A9fB0y1Lr1OHDMfA2uZ6uzfF1w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <style>
     * {
@@ -187,6 +190,7 @@
       margin-top: 8px;
     }
 
+    /* ✅ Icons */
     .icons {
       margin-top: 15px;
       display: flex;
@@ -201,7 +205,23 @@
     }
 
     .icons a:hover {
-      color: #0077b6;
+      transform: scale(1.2);
+    }
+
+    .icons a[title="Email"]:hover { color: #ea4335; }
+    .icons a[title="LinkedIn"]:hover { color: #0a66c2; }
+    .icons a[title="GitHub"]:hover { color: #333; }
+    .icons a[title="ResearchGate"]:hover { color: #00ccbb; }
+    .icons a[title="Google Scholar"]:hover { color: #4285f4; }
+
+    .icons img {
+      width: 24px;
+      height: 24px;
+      vertical-align: middle;
+      transition: transform 0.3s;
+    }
+
+    .icons img:hover {
       transform: scale(1.2);
     }
 
@@ -310,7 +330,9 @@
 
         <div class="icons">
           <a href="mailto:ollerolesterjay@gmail.com" title="Email"><i class="fa-solid fa-envelope"></i></a>
-          <a href="https://scholar.google.com/citations?hl=en&user=lB6re-QAAAAJ" target="_blank" title="Google Scholar"><i class="fa-brands fa-google"></i></a>
+          <a href="https://scholar.google.com/citations?hl=en&user=lB6re-QAAAAJ" target="_blank" title="Google Scholar">
+            <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/googlescholar.svg" alt="Google Scholar">
+          </a>
           <a href="https://www.linkedin.com/in/lesterjayventuraollero/" target="_blank" title="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
           <a href="https://github.com/lesterjayollero" target="_blank" title="GitHub"><i class="fa-brands fa-github"></i></a>
           <a href="https://www.researchgate.net/profile/Lester_Jay_Ollero" target="_blank" title="ResearchGate"><i class="fa-brands fa-researchgate"></i></a>
