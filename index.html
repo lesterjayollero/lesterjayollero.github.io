@@ -7,6 +7,9 @@
   <meta name="keywords" content="Lester Jay Ollero, LPTRP, EDSA Busway, Traffic Impact Assessment, Active Transport, BRT, Sustainable Mobility, Urban Transport, Traffic Simulation">
   <meta name="author" content="Lester Jay Ollero">
 
+  <!-- Font Awesome CDN for clean icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
   <style>
     * {
       margin: 0;
@@ -149,10 +152,6 @@
       text-align: center;
     }
 
-    .profile-pic {
-      flex: 0 0 150px;
-    }
-
     .profile-pic img {
       width: 150px;
       height: 150px;
@@ -160,11 +159,6 @@
       border-radius: 50%;
       border: 3px solid #0077b6;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-
-    .header-text {
-      flex: 1;
-      min-width: 250px;
     }
 
     .header-text h1 {
@@ -184,27 +178,35 @@
       margin-top: 8px;
     }
 
+    /* Improved icon styling */
     .icons {
-      margin-top: 15px;
+      margin-top: 18px;
       display: flex;
       justify-content: center;
-      gap: 18px;
-      font-size: 1.5em;
+      gap: 20px;
+      font-size: 1.6em;
     }
 
-    .icons a svg {
-      width: 28px;
-      height: 28px;
-      fill: #003049;
-      transition: fill 0.2s ease, transform 0.2s ease;
+    .icons a {
+      color: #003049;
+      background: #eaf3f9;
+      padding: 10px;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 45px;
+      height: 45px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
     }
 
-    .icons a:hover svg {
-      fill: #0077b6;
-      transform: scale(1.2);
+    .icons a:hover {
+      color: #fff;
+      background: #0077b6;
+      transform: scale(1.15);
     }
 
-    /* Sections */
     section {
       max-width: 900px;
       margin: 40px auto;
@@ -220,39 +222,6 @@
       margin-bottom: 20px;
     }
 
-    section h3 {
-      color: #003049;
-      margin-top: 30px;
-      margin-bottom: 10px;
-      font-size: 1.3em;
-      border-left: 4px solid #0077b6;
-      padding-left: 10px;
-    }
-
-    section ul {
-      list-style: none;
-      padding-left: 0;
-    }
-
-    section li {
-      background: #fff;
-      padding: 12px 15px;
-      margin-bottom: 12px;
-      border-radius: 10px;
-      border: 1px solid #e1e1e1;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-    }
-
-    section li strong {
-      color: #000;
-    }
-
-    section em {
-      color: #444;
-      display: block;
-      margin-top: 5px;
-    }
-
     footer {
       text-align: center;
       padding: 25px 10px;
@@ -262,40 +231,10 @@
       margin-top: 60px;
       border-top: 1px solid #ddd;
     }
-
-    @media (max-width: 600px) {
-      .header-text h1 {
-        font-size: 1.9em;
-      }
-      .header-container {
-        flex-direction: column;
-      }
-    }
   </style>
 </head>
 
 <body>
-  <!-- Navbar -->
-  <nav class="navbar">
-    <div class="nav-container">
-      <a href="#home" class="nav-logo">Lester Jay Ollero</a>
-      <div class="menu-toggle" id="mobile-menu">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-      </div>
-      <ul class="nav-menu">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#background">Background</a></li>
-        <li><a href="publications.html">Publications</a></li>
-        <li><a href="awards.html">Awards</a></li>
-        <li><a href="projects.html">Projects</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </div>
-  </nav>
-
-  <!-- Header -->
   <header id="home">
     <div class="header-container">
       <div class="profile-pic">
@@ -308,106 +247,16 @@
         <em>Research Interests: Transport Planning, Travel Behavior, BRT, Paratransit Systems, Active Transport</em>
 
         <div class="icons">
-          <!-- Email -->
-          <a href="mailto:ollerolesterjay@gmail.com" title="Email">
-            <svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 
-            2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 2v.01L12 
-            13 4 6.01V6h16zM4 18V8l8 5 8-5v10H4z"/></svg>
-          </a>
-          <!-- Google Scholar -->
-          <a href="https://scholar.google.com/citations?hl=en&user=lB6re-QAAAAJ" target="_blank" title="Google Scholar">
-            <svg viewBox="0 0 24 24"><path d="M12 2L1 9l11 7 9-5.73V18h2V9L12 2z"/></svg>
-          </a>
-          <!-- LinkedIn -->
-          <a href="https://www.linkedin.com/in/lesterjayventuraollero/" target="_blank" title="LinkedIn">
-            <svg viewBox="0 0 24 24"><path d="M4.98 3A2 2 0 1 1 5 7a2 
-            2 0 0 1 0-4zm.02 4H2V21h3V7zM9 9h3v2h.04c.42-.8 
-            1.45-1.65 2.98-1.65C18.44 9.35 19 11 19 13.5V21h-3v-7c0-1.2-.02-2.74-1.66-2.74-1.67 
-            0-1.92 1.3-1.92 2.65V21H9V9z"/></svg>
-          </a>
-          <!-- GitHub -->
-          <a href="https://github.com/lesterjayollero" target="_blank" title="GitHub">
-            <svg viewBox="0 0 24 24"><path d="M12 .5C5.73.5.5 
-            5.73.5 12a11.5 11.5 0 0 0 7.86 10.94c.58.1.79-.25.79-.56 
-            0-.28-.01-1.02-.02-2-3.2.7-3.88-1.54-3.88-1.54-.53-1.35-1.3-1.7-1.3-1.7-1.06-.73.08-.72.08-.72 
-            1.17.08 1.79 1.2 1.79 1.2 1.04 1.78 2.73 1.26 3.4.96.1-.75.41-1.26.74-1.55-2.55-.29-5.23-1.28-5.23-5.7 
-            0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.47.11-3.06 0 0 .97-.31 
-            3.18 1.18A11.1 11.1 0 0 1 12 6.8a11.1 11.1 0 0 1 2.9.39c2.2-1.49 
-            3.17-1.18 3.17-1.18.63 1.59.23 2.77.11 3.06.74.81 1.18 1.84 1.18 
-            3.1 0 4.43-2.69 5.41-5.25 5.7.42.36.8 1.07.8 2.15 0 1.55-.01 2.8-.01 3.18 
-            0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5z"/></svg>
-          </a>
-          <!-- ResearchGate -->
-          <a href="https://www.researchgate.net/profile/Lester_Jay_Ollero" target="_blank" title="ResearchGate">
-            <svg viewBox="0 0 24 24"><path d="M3 3h18v18H3V3zm5 4v10h2v-4.5l4 4.5h2l-4.5-5L16 
-            7h-2l-3 3.5L10 7H8z"/></svg>
-          </a>
+          <a href="mailto:ollerolesterjay@gmail.com" title="Email"><i class="fa-solid fa-envelope"></i></a>
+          <a href="https://scholar.google.com/citations?hl=en&user=lB6re-QAAAAJ" target="_blank" title="Google Scholar"><i class="fa-solid fa-graduation-cap"></i></a>
+          <a href="https://www.linkedin.com/in/lesterjayventuraollero/" target="_blank" title="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+          <a href="https://github.com/lesterjayollero" target="_blank" title="GitHub"><i class="fa-brands fa-github"></i></a>
+          <a href="https://www.researchgate.net/profile/Lester_Jay_Ollero" target="_blank" title="ResearchGate"><i class="fa-brands fa-researchgate"></i></a>
         </div>
       </div>
     </div>
   </header>
 
-  <!-- Background -->
-  <section id="background">
-    <h2>Background</h2>
-
-    <h3>Education</h3>
-    <ul>
-      <li><strong>2024 | Master of Science in Civil Engineering (Transportation Engineering)</strong><br>
-        Institute of Civil Engineering | University of the Philippines, Diliman<br>
-        <em>Thesis: A Microsimulation Model of An Exclusive Bus Lane: The Case of EDSA Busway</em>
-        Advisers: Dr. Karl B.N. Vergel and Dr. Noriel Christopher Tiglao
-      </li>
-      <li><strong>2020 | Bachelor of Science in Civil Engineering</strong><br>
-        Institute of Civil Engineering | University of the Philippines, Diliman<br>
-        <em>Thesis: Road Safety Risk Assessment on Circumferential Road 5 (C-5) using iRAP Methodology</em>
-        Adviser: Dr. Ricardo Sigua
-      </li>
-    </ul>
-
-    <h3>Work Experience</h3>
-    <ul>
-      <li><strong>Senior Transport Planner</strong> | Feb 2025 - Present<br>
-        <em><a href="https://www.safetravelph.org/" target="_blank">SafeTravelPH Mobility Innovations Organization, Inc.</a></em>
-      </li>
-      <li><strong>Transport/Traffic Engineer 1</strong> | Aug 2023 - Jan 2025<br>
-        <em><a href="https://www.wsp.com/en-ph/services/transport-planning" target="_blank">WSP Philippines, Inc.</a></em>
-      </li>
-      <li><strong>Sustainable Transport Research Intern</strong> | Oct 2020 - Jan 2021<br>
-        <em><a href="https://cleanairasia.org/" target="_blank">Clean Air Asia</a></em>
-      </li>
-      <li><strong>Traffic Intern</strong> | June - July 2019<br>
-        <em><a href="https://ncts.upd.edu.ph/" target="_blank">UP National Center for Transportation Studies</a></em>
-      </li>
-    </ul>
-  </section>
-
-  <!-- Contact -->
-  <section id="contact">
-    <h2>Contact</h2>
-    <p>Email: <a href="mailto:ollerolesterjay@gmail.com">ollerolesterjay@gmail.com</a></p>
-    <p>Work: <a href="mailto:lesterjayollero@safetravel.ph">lesterjayollero@safetravel.ph</a></p>
-    <p>LinkedIn: <a href="https://www.linkedin.com/in/lesterjayventuraollero/" target="_blank">linkedin.com/in/lesterjayollero</a></p>
-  </section>
-
   <footer>© 2025 Lester Jay Ollero</footer>
-
-  <script>
-    const menu = document.querySelector('#mobile-menu');
-    const navMenu = document.querySelector('.nav-menu');
-    const body = document.querySelector('body');
-
-    menu.addEventListener('click', () => {
-      navMenu.classList.toggle('active');
-      body.classList.toggle('menu-open');
-    });
-
-    document.querySelectorAll('.nav-menu a').forEach(link => {
-      link.addEventListener('click', () => {
-        navMenu.classList.remove('active');
-        body.classList.remove('menu-open');
-      });
-    });
-  </script>
 </body>
 </html>
