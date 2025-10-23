@@ -1,44 +1,49 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lester Jay Ollero | Transport & Traffic Engineer | Researcher</title>
-  <meta name="description" content="Personal professional website of Lester Jay Ollero, a licensed Civil Engineer and transport researcher specializing in public transport, traffic simulation, and sustainable mobility.">
   <meta name="keywords" content="Lester Jay Ollero, LPTRP, EDSA Busway, Traffic Impact Assessment, Active Transport, BRT, Sustainable Mobility, Urban Transport, Traffic Simulation">
   <meta name="author" content="Lester Jay Ollero">
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Font Awesome -->
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
   <style>
-    :root {
-      --primary: #003049;
-      --secondary: #0077b6;
-      --light-bg: #fafafa;
-      --border: #e0e0e0;
-      --text: #222;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: "Segoe UI", Roboto, sans-serif;
-      color: var(--text);
-      background: var(--light-bg);
+      color: #222;
+      background: #fafafa;
       line-height: 1.7;
       scroll-behavior: smooth;
     }
 
-    a { color: var(--secondary); text-decoration: none; transition: color 0.25s ease; }
-    a:hover { color: #005f8f; text-decoration: underline; }
+    a {
+      color: #0077b6;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    a:hover {
+      color: #005f8f;
+      text-decoration: underline;
+    }
 
     /* Navbar */
     .navbar {
       background: #fff;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid #ddd;
       position: sticky;
       top: 0;
       z-index: 100;
+      width: 100%;
     }
 
     .nav-container {
@@ -53,7 +58,7 @@
     .nav-logo {
       font-size: 1.4em;
       font-weight: 600;
-      color: var(--primary);
+      color: #003049;
     }
 
     .nav-menu {
@@ -61,161 +66,172 @@
       list-style: none;
     }
 
-    .nav-menu li { margin: 0 12px; }
-    .nav-menu a { color: var(--primary); font-weight: 500; }
-    .nav-menu a:hover { color: var(--secondary); }
+    .nav-menu li {
+      margin: 0 12px;
+    }
 
-    /* Mobile menu */
+    .nav-menu a {
+      color: #003049;
+      font-weight: 500;
+    }
+
+    .nav-menu a:hover {
+      color: #0077b6;
+    }
+
+    /* Mobile Nav */
     .menu-toggle {
       display: none;
       flex-direction: column;
       cursor: pointer;
     }
+
     .menu-toggle .bar {
-      height: 3px; width: 25px; background-color: var(--primary);
-      margin: 4px 0; border-radius: 3px;
+      height: 3px;
+      width: 25px;
+      background-color: #003049;
+      margin: 4px 0;
+      border-radius: 3px;
     }
 
     @media (max-width: 768px) {
-      .menu-toggle { display: flex; }
+      .menu-toggle {
+        display: flex;
+      }
+
       .nav-menu {
-        position: fixed; right: -100%; top: 0;
+        position: fixed;
+        right: -100%;
+        top: 0;
         flex-direction: column;
         background: #fff;
-        width: 230px; height: 100%;
-        border-left: 1px solid var(--border);
+        width: 230px;
+        height: 100%;
+        border-left: 1px solid #ddd;
         padding-top: 70px;
         transition: right 0.3s ease-in-out;
         z-index: 200;
       }
-      .nav-menu.active { right: 0; }
-      .nav-menu li { margin: 18px 0; text-align: center; }
+
+      .nav-menu.active {
+        right: 0;
+      }
+
+      .nav-menu li {
+        margin: 18px 0;
+        text-align: center;
+      }
     }
 
     body.menu-open::after {
-      content: ""; position: fixed; top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.4);
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
       z-index: 99;
     }
 
-    /* Profile Section */
-    .profile-container {
+    /* Header */
+    header {
+      padding: 60px 20px 40px;
+      background: linear-gradient(to bottom, #ffffff, #f3f7fb);
+      border-bottom: 2px solid #0077b6;
+    }
+
+    .header-container {
       display: flex;
-      flex-direction: row;
-      align-items: flex-start;
-      max-width: 1000px;
-      margin: 60px auto;
-      padding: 0 20px;
-      gap: 40px;
-    }
-
-    .profile {
-      flex: 1;
-      text-align: center;
-      background: #fff;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
-    }
-
-    .profile img {
-      width: 180px; height: 180px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-bottom: 20px;
-      border: 3px solid var(--secondary);
-    }
-
-    .profile h2 { font-size: 22px; font-weight: 600; margin-bottom: 5px; }
-    .profile p { margin: 4px 0; color: #444; }
-
-    .icons a {
-      margin: 0 8px;
-      color: var(--secondary);
-      font-size: 22px;
-      transition: transform 0.2s ease;
-    }
-
-    .icons a:hover {
-      color: var(--primary);
-      transform: translateY(-2px);
-    }
-
-    .details {
-      flex: 2;
-      padding-top: 10px;
-    }
-
-    .details p { line-height: 1.6; text-align: justify; }
-
-    .columns {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 25px;
+      align-items: center;
+      justify-content: center;
       flex-wrap: wrap;
+      max-width: 900px;
+      margin: 0 auto;
       gap: 25px;
+      text-align: center;
     }
 
-    .column {
+    .profile-pic {
+      flex: 0 0 150px;
+    }
+
+    .profile-pic img {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid #0077b6;
+    }
+
+    .header-text {
       flex: 1;
       min-width: 250px;
     }
 
-    .column h3 {
-      font-weight: 600;
-      color: var(--primary);
-      margin-bottom: 10px;
+    .header-text h1 {
+      font-size: 2.2em;
+      color: #003049;
+      margin-bottom: 8px;
     }
 
-    .column ul {
-      list-style: disc;
-      padding-left: 20px;
+    .header-text p {
+      color: #555;
+      font-size: 1.05em;
     }
 
-    .education-item {
-      margin-bottom: 10px;
-      line-height: 1.5;
+    .header-text em {
+      color: #444;
+      display: block;
+      margin-top: 8px;
     }
 
-    .education-item i {
-      margin-right: 8px;
-      color: var(--secondary);
+    .icons {
+      margin-top: 15px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      font-size: 1.6em;
     }
 
-    @media (max-width: 768px) {
-      .profile-container {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-      }
-      .details { padding-top: 25px; }
-      .columns { flex-direction: column; align-items: center; }
+    .icons a {
+      color: #003049;
+      transition: transform 0.2s ease, color 0.2s ease;
+    }
+
+    .icons a:hover {
+      color: #0077b6;
+      transform: scale(1.2);
     }
 
     /* Sections */
     section {
       max-width: 900px;
-      margin: 50px auto;
+      margin: 40px auto;
       padding: 0 20px;
     }
 
     section h2 {
       font-size: 1.9em;
-      color: var(--primary);
-      border-bottom: 3px solid var(--secondary);
+      color: #003049;
+      border-bottom: 3px solid #0077b6;
       display: inline-block;
       padding-bottom: 6px;
       margin-bottom: 20px;
     }
 
     section h3 {
-      color: var(--primary);
+      color: #003049;
       margin-top: 30px;
       margin-bottom: 10px;
       font-size: 1.3em;
-      border-left: 4px solid var(--secondary);
+      border-left: 4px solid #0077b6;
       padding-left: 10px;
+    }
+
+    section ul {
+      list-style: none;
+      padding-left: 0;
     }
 
     section li {
@@ -224,36 +240,49 @@
       margin-bottom: 12px;
       border-radius: 10px;
       border: 1px solid #e1e1e1;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
     }
 
-    section li strong { color: #000; }
-    section em { color: #444; display: block; margin-top: 5px; }
+    section li strong {
+      color: #000;
+    }
 
-    /* Footer */
+    section em {
+      color: #444;
+      display: block;
+      margin-top: 5px;
+    }
+
     footer {
       text-align: center;
       padding: 25px 10px;
       background: #f8f9fa;
       color: #555;
       font-size: 0.9em;
-      border-top: 1px solid var(--border);
       margin-top: 60px;
+      border-top: 1px solid #ddd;
     }
 
-    footer a { color: var(--secondary); }
-    footer a:hover { color: var(--primary); }
+    @media (max-width: 600px) {
+      .header-text h1 {
+        font-size: 1.9em;
+      }
+      .header-container {
+        flex-direction: column;
+      }
+    }
   </style>
 </head>
 
 <body>
-
   <!-- Navbar -->
   <nav class="navbar">
     <div class="nav-container">
       <a href="#home" class="nav-logo">Lester Jay Ollero</a>
       <div class="menu-toggle" id="mobile-menu">
-        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
       </div>
       <ul class="nav-menu">
         <li><a href="#home">Home</a></li>
@@ -266,65 +295,58 @@
     </div>
   </nav>
 
-  <!-- Profile Section -->
-  <section id="home">
-    <div class="profile-container">
-      <div class="profile">
-        <img src="https://via.placeholder.com/180" alt="Lester Jay Ollero">
-        <h2>Lester Jay Ollero</h2>
-        <p><em>Transport & Traffic Engineer | Researcher</em></p>
-        <p><a href="#">University of the Philippines, Diliman</a></p>
+  <!-- Header -->
+  <header id="home">
+    <div class="header-container">
+      <div class="profile-pic">
+        <img src="ollero_github.png" alt="Lester Jay Ollero Profile Photo">
+      </div>
+      <div class="header-text">
+        <h1>Lester Jay Ollero</h1>
+        <p>Transport & Traffic Engineer | Researcher</p>
+        <p>University of the Philippines, Diliman</p>
+        <em>Research Interests: Transport Planning, Travel Behavior, BRT, Paratransit Systems, Active Transport</em>
+
         <div class="icons">
           <a href="mailto:ollerolesterjay@gmail.com" title="Email"><i class="fa-solid fa-envelope"></i></a>
           <a href="https://scholar.google.com/citations?hl=en&user=lB6re-QAAAAJ" target="_blank" title="Google Scholar"><i class="fa-brands fa-google"></i></a>
           <a href="https://www.linkedin.com/in/lesterjayventuraollero/" target="_blank" title="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
-          <a href="https://github.com" target="_blank" title="GitHub"><i class="fa-brands fa-github"></i></a>
-        </div>
-      </div>
-
-      <div class="details">
-        <p>
-          I am a licensed Civil Engineer and transport researcher specializing in public transport, traffic simulation, and sustainable mobility. 
-          My work focuses on improving transport efficiency and accessibility through data-driven approaches in planning and operations. 
-          I am currently contributing to the Nationwide Active Transport Strategic Master Plan, focusing on walking, cycling, and inclusive mobility.
-        </p>
-
-        <div class="columns">
-          <div class="column">
-            <h3>Research Interests</h3>
-            <ul>
-              <li>Transport Planning and Policy</li>
-              <li>Bus Rapid Transit (BRT) and Bus Priority Systems</li>
-              <li>Active Transport and Sustainable Mobility</li>
-              <li>Traffic Simulation and Modeling</li>
-            </ul>
-          </div>
-          <div class="column">
-            <h3>Education</h3>
-            <div class="education-item"><i class="fa-solid fa-graduation-cap"></i> M.S. Civil Engineering (Transportation), 2024<br>University of the Philippines, Diliman</div>
-            <div class="education-item"><i class="fa-solid fa-graduation-cap"></i> B.S. Civil Engineering, 2020<br>University of the Philippines, Diliman</div>
-          </div>
+          <a href="https://researchgate.net" target="_blank"><i class="fa-brands fa-researchgate"></i></a>
         </div>
       </div>
     </div>
-  </section>
+  </header>
 
   <!-- Background -->
   <section id="background">
     <h2>Background</h2>
 
+    <h3>Education</h3>
+    <ul>
+      <li><strong>2024 | Master of Science in Civil Engineering (Transportation Engineering)</strong><br>
+        Institute of Civil Engineering | University of the Philippines, Diliman<br>
+        <em>Thesis: A Microsimulation Model of An Exclusive Bus Lane: The Case of EDSA Busway</em>
+        Advisers: Dr. Karl B.N. Vergel and Dr. Noriel Christopher Tiglao
+      </li>
+      <li><strong>2020 | Bachelor of Science in Civil Engineering</strong><br>
+        Institute of Civil Engineering | University of the Philippines, Diliman<br>
+        <em>Thesis: Road Safety Risk Assessment on Circumferential Road 5 (C-5) using iRAP Methodology</em>
+        Adviser: Dr. Ricardo Sigua
+      </li>
+    </ul>
+
     <h3>Work Experience</h3>
     <ul>
-      <li><strong>Senior Transport Planner</strong> | Feb 2025 – Present<br>
+      <li><strong>Senior Transport Planner</strong> | Feb 2025 - Present<br>
         <em><a href="https://www.safetravelph.org/" target="_blank">SafeTravelPH Mobility Innovations Organization, Inc.</a></em>
       </li>
-      <li><strong>Transport/Traffic Engineer 1</strong> | Aug 2023 – Jan 2025<br>
+      <li><strong>Transport/Traffic Engineer 1</strong> | Aug 2023 - Jan 2025<br>
         <em><a href="https://www.wsp.com/en-ph/services/transport-planning" target="_blank">WSP Philippines, Inc.</a></em>
       </li>
-      <li><strong>Sustainable Transport Research Intern</strong> | Oct 2020 – Jan 2021<br>
+      <li><strong>Sustainable Transport Research Intern</strong> | Oct 2020 - Jan 2021<br>
         <em><a href="https://cleanairasia.org/" target="_blank">Clean Air Asia</a></em>
       </li>
-      <li><strong>Traffic Intern</strong> | June – July 2019<br>
+      <li><strong>Traffic Intern</strong> | June - July 2019<br>
         <em><a href="https://ncts.upd.edu.ph/" target="_blank">UP National Center for Transportation Studies</a></em>
       </li>
     </ul>
@@ -338,10 +360,7 @@
     <p>LinkedIn: <a href="https://www.linkedin.com/in/lesterjayventuraollero/" target="_blank">linkedin.com/in/lesterjayollero</a></p>
   </section>
 
-  <!-- Footer -->
-  <footer>
-    © 2025 Lester Jay Ollero • Built with <a href="https://pages.github.com" target="_blank">GitHub Pages</a>
-  </footer>
+  <footer>© 2025 Lester Jay Ollero</footer>
 
   <script>
     const menu = document.querySelector('#mobile-menu');
@@ -360,6 +379,5 @@
       });
     });
   </script>
-
 </body>
 </html>
