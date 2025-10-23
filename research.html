@@ -140,20 +140,23 @@
       margin-top: 40px;
     }
 
-    .tags {
-      margin: 10px 0 15px;
+    .tag {
+  display: inline-block;
+  background: #e3f2fd; /* soft blue background */
+  color: #005f8f; /* dark blue text */
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.9em;
+  margin-right: 6px;
+  margin-bottom: 6px;
+  transition: all 0.2s ease-in-out;
     }
 
-    .tag {
-      display: inline-block;
-      background: #fff0ec;
-      color: #d35400;
-      padding: 5px 10px;
-      border-radius: 20px;
-      font-size: 0.9em;
-      margin-right: 5px;
-      margin-bottom: 5px;
-    }
+  .tag:hover {
+  background: #0077b6;
+  color: #fff;
+  cursor: default;
+  }
 
     .research-section {
       display: flex;
