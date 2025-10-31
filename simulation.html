@@ -1,549 +1,479 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Traffic Simulation | Lester Jay Ollero</title>
-  <meta name="author" content="Lester Jay Ollero">
-  <meta name="keywords" content="Traffic Simulation, Newell, Greenshields, Fundamental Diagram, Flow-Density">
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Intersection Analysis | Lester Jay Ollero</title>
+<meta name="author" content="Lester Jay Ollero">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+  /* --- Page / Nav styling consistent with your site --- */
+  body { font-family: "Segoe UI", Roboto, sans-serif; margin:0; background:#fafafa; color:#222; line-height:1.6;}
+  .navbar { background:#fff; border-bottom:1px solid #ddd; position:sticky; top:0; z-index:100; }
+  .nav-container { display:flex; justify-content:space-between; align-items:center; padding:12px 24px; max-width:1100px; margin:0 auto; }
+  .nav-logo { font-size:1.25rem; font-weight:600; color:#003049; text-decoration:none; }
+  .nav-menu { display:flex; list-style:none; gap:12px; margin:0; padding:0; align-items:center; }
+  .nav-menu a { color:#003049; font-weight:500; text-decoration:none; }
+  .nav-menu a.active { color:#0077b6; font-weight:600; border-bottom:2px solid #0077b6; padding-bottom:2px; }
 
-  <style>
-    /* === page theme similar to research.html === */
-    body { font-family: "Segoe UI", Roboto, sans-serif; margin:0; background:#fafafa; color:#222; line-height:1.6; }
-    a { color:#0077b6; text-decoration:none; }
-    .navbar { background:#fff; border-bottom:1px solid #ddd; position:sticky; top:0; z-index:100; }
-    .nav-container { display:flex; justify-content:space-between; align-items:center; padding:12px 24px; max-width:1100px; margin:0 auto; }
-    .nav-logo { font-size:1.25rem; font-weight:600; color:#003049; }
-    .nav-menu { display:flex; list-style:none; gap:12px; margin:0; padding:0; }
-    .nav-menu a { color:#003049; font-weight:500; }
-    .nav-menu a.active { color:#0077b6; font-weight:600; border-bottom:2px solid #0077b6; padding-bottom:2px; }
+  .container { max-width:1100px; margin:28px auto; padding:0 20px; }
+  h1 { color:#003049; font-size:1.6rem; border-bottom:3px solid #0077b6; display:inline-block; padding-bottom:6px; margin-bottom:14px; }
 
-    .container { max-width:1100px; margin:30px auto; padding: 0 20px; }
-    h1 { color:#003049; font-size:1.8rem; border-bottom:3px solid #0077b6; display:inline-block; padding-bottom:6px; margin-bottom:18px; }
+  .top-controls { display:flex; gap:12px; flex-wrap:wrap; margin:10px 0 18px; align-items:center; }
+  .card { background:#fff; border-radius:8px; padding:10px 12px; border:1px solid #eee; box-shadow:0 1px 3px rgba(0,0,0,0.03); }
+  label { font-size:0.9rem; color:#003049; display:block; margin-bottom:6px; }
+  select, input[type=number] { padding:6px 8px; border-radius:6px; border:1px solid #ccc; font-size:0.95rem; width:150px; }
+  input[type=checkbox] { transform:scale(1.05); margin-right:6px; }
 
-    .controls { display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin:12px 0 18px; }
-    .control-group { background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #e6eef7; box-shadow:0 1px 3px rgba(0,0,0,0.03); }
-    .control-group label { display:block; font-size:0.9rem; color:#003049; margin-bottom:6px; }
-    input[type=range] { width:260px; }
-    .small { font-size:0.85rem; color:#555; }
+  .layout { display:grid; grid-template-columns: 460px 1fr; gap:18px; align-items:start; }
+  @media (max-width:980px){ .layout{ grid-template-columns: 1fr; } }
 
-    .main-grid { display:grid; grid-template-columns: 1fr 420px; gap:18px; align-items:start; }
-    .panel { background:#fff; border-radius:8px; padding:12px; border:1px solid #eee; box-shadow:0 2px 6px rgba(0,0,0,0.03); }
-    canvas.sim { width:100%; height:320px; background:#e9f5ff; border-radius:6px; display:block; }
+  .panel { background:#fff; border-radius:8px; padding:12px; border:1px solid #eee; box-shadow:0 2px 6px rgba(0,0,0,0.03); }
+  .muted { color:#666; font-size:0.9rem; }
 
-    .row { display:flex; gap:12px; margin-top:12px; flex-wrap:wrap; }
-    .stat { min-width:110px; background:#f8fbff; padding:8px 10px; border-radius:6px; border:1px solid #e2f0ff; text-align:center; }
-    .stat h4 { margin:0; font-size:0.8rem; color:#00607f; }
-    .stat p { margin:6px 0 0; font-weight:700; font-size:1.15rem; color:#222; }
+  /* SVG intersection */
+  .intersect-wrap { text-align:center; padding:6px; }
+  svg { max-width:100%; height:auto; cursor:default; }
 
-    footer { text-align:center; margin:30px 0 40px; color:#555; font-size:0.9rem; }
+  .leg { fill:#e6f5ff; stroke:#0077b6; stroke-width:2; cursor:pointer; }
+  .leg.missing { fill:#f4f4f4; stroke:#ccc; opacity:0.6; cursor:not-allowed;}
+  .leg:hover { filter:brightness(.95); }
+  .leg-label { font-size:13px; fill:#003049; font-weight:600; pointer-events:none; }
 
-    /* responsive */
-    @media (max-width: 980px) {
-      .main-grid { grid-template-columns: 1fr; }
-      input[type=range] { width:200px; }
-    }
-  </style>
+  .small { font-size:0.9rem; color:#555; }
+
+  .table { width:100%; border-collapse:collapse; margin-top:10px; }
+  .table th, .table td { padding:8px 6px; border-bottom:1px solid #eee; text-align:left; font-size:0.95rem; }
+  .table th { background:#fafcff; color:#003049; font-weight:600; }
+
+  .los-pill { padding:4px 8px; border-radius:12px; color:white; font-weight:600; font-size:0.85rem; display:inline-block; }
+  .LOS-A{ background:#2a9d8f; } .LOS-B{ background:#7fc0b7; } .LOS-C{ background:#ffbf69; } .LOS-D{ background:#f77f00; } .LOS-E{ background:#d62828; } .LOS-F{ background:#6a0dad; }
+
+  .right-col .chart-wrap { margin-bottom:12px; }
+  .btn { padding:8px 10px; border-radius:6px; border:none; background:#0077b6; color:#fff; cursor:pointer; font-weight:600; }
+  .btn.secondary { background:#fff; color:#0077b6; border:1px solid #0077b6; }
+
+  .footer-note { margin-top:8px; font-size:0.85rem; color:#444; }
+
+  .legend { display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
+  .legend span { display:inline-block; padding:4px 8px; border-radius:6px; font-size:0.85rem; color:#fff; }
+
+</style>
 </head>
 <body>
-  <!-- navbar -->
   <nav class="navbar">
     <div class="nav-container">
       <a class="nav-logo" href="index.html">Lester Jay Ollero</a>
       <ul class="nav-menu">
         <li><a href="index.html#home">Home</a></li>
         <li><a href="research.html">Research</a></li>
-        <li><a class="active" href="simulation.html">Traffic Simulation</a></li>
+        <li><a class="active" href="intersection.html">Intersection</a></li>
         <li><a href="publications.html">Publications</a></li>
       </ul>
     </div>
   </nav>
 
   <div class="container">
-    <h1>One-Lane Traffic Simulation (Newell-style) — Greenshields Overlay</h1>
+    <h1>Interactive Intersection Analysis (3-leg / 4-leg)</h1>
 
-    <p class="small">
-      This demo simulates vehicles on a one-lane road with a bottleneck. The Flow–Density scatter from the simulation is now plotted with the
-      <strong>Greenshields</strong> theoretical curve (linear speed–density). Adjust inflow and bottleneck to see how simulated points compare to theory.
-    </p>
-
-    <!-- controls -->
-    <div class="controls">
-      <div class="control-group">
-        <label>Inflow (veh/hr)</label>
-        <input id="inflowSlider" type="range" min="200" max="2400" step="50" value="800">
-        <div class="small">Current: <span id="inflowDisplay">800</span> veh/hr</div>
+    <div class="top-controls">
+      <div class="card">
+        <label>Intersection type</label>
+        <select id="typeSel">
+          <option value="4">4-legged (cross)</option>
+          <option value="3">3-legged (T)</option>
+        </select>
+        <div class="small muted" style="margin-top:6px;">Choose 3-legged to remove one approach.</div>
       </div>
 
-      <div class="control-group">
-        <label>Bottleneck capacity (veh/hr)</label>
-        <input id="bottleCapSlider" type="range" min="200" max="2400" step="50" value="1000">
-        <div class="small">Capacity: <span id="bottleCapDisplay">1000</span> veh/hr</div>
-      </div>
-
-      <div class="control-group">
-        <label>Bottleneck speed (m/s)</label>
-        <input id="bottleSpeedSlider" type="range" min="2" max="20" step="0.5" value="6">
-        <div class="small">Bottleneck speed: <span id="bottleSpeedDisplay">6.0</span> m/s</div>
-      </div>
-
-      <div class="control-group">
-        <label>Greenshields</label>
-        <div style="display:flex; gap:8px; align-items:center;">
-          <input type="checkbox" id="showGreenshields" checked>
-          <label for="showGreenshields" class="small">Show Greenshields curve</label>
+      <div class="card">
+        <label>Legs present</label>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <label><input type="checkbox" class="legToggle" data-leg="N" checked> North</label>
+          <label><input type="checkbox" class="legToggle" data-leg="E" checked> East</label>
+          <label><input type="checkbox" class="legToggle" data-leg="S" checked> South</label>
+          <label><input type="checkbox" class="legToggle" data-leg="W" checked> West</label>
         </div>
-        <div style="margin-top:8px;font-size:0.85rem;color:#444;">
-          <div>Estimated v<sub>f</sub> (free speed): <span id="vfDisplay">54.0</span> km/h</div>
-          <div>Estimated k<sub>j</sub> (jam density): <span id="kjDisplay">111.1</span> veh/km</div>
-        </div>
+        <div class="small muted" style="margin-top:6px;">Click a leg in the diagram to edit movements & capacity.</div>
       </div>
 
-      <div class="control-group">
-        <label>Simulation</label>
-        <div style="display:flex;gap:8px;">
-          <button id="startBtn"><i class="fa-solid fa-play"></i> Start</button>
-          <button id="pauseBtn"><i class="fa-solid fa-pause"></i> Pause</button>
-          <button id="stepBtn">Step</button>
-          <button id="resetBtn"><i class="fa-solid fa-rotate-left"></i> Reset</button>
-        </div>
+      <div class="card">
+        <label>LOS thresholds</label>
+        <div class="small">A ≤ 0.60, B ≤ 0.70, C ≤ 0.80, D ≤ 0.90, E ≤ 1.00, F > 1.00</div>
       </div>
 
-      <div class="control-group">
-        <label>Additional information</label>
-        <div><input type="checkbox" id="showMacros" checked> <label for="showMacros" class="small"> Show macroscopic variables</label></div>
-        <div><input type="checkbox" id="showTimeSpace" checked> <label for="showTimeSpace" class="small"> Show time–space trajectories</label></div>
+      <div class="card">
+        <label>Actions</label>
+        <div style="display:flex; gap:8px;">
+          <button class="btn" id="calcBtn">Calculate</button>
+          <button class="btn secondary" id="resetBtn">Reset</button>
+        </div>
       </div>
     </div>
 
-    <div class="main-grid">
-      <!-- left: canvas / visuals -->
-      <div class="panel">
-        <h3 style="margin:0 0 8px 0; color:#003049;">Simulation view</h3>
+    <div class="layout">
+      <!-- LEFT: SVG diagram and leg editor modal -->
+      <div class="panel intersect-wrap">
+        <h3 style="margin-top:0;color:#003049;">Intersection diagram (click a leg)</h3>
 
-        <!-- top: animated road (moving vehicles) -->
-        <canvas id="roadCanvas" class="sim" width="800" height="160"></canvas>
+        <!-- SVG schematic -->
+        <svg id="intersectionSvg" viewBox="0 0 400 400" width="100%" height="420" xmlns="http://www.w3.org/2000/svg">
+          <!-- central square -->
+          <rect x="140" y="140" width="120" height="120" fill="#fff" stroke="#0077b6" stroke-width="2"></rect>
 
-        <!-- time-space canvas (trajectories) -->
-        <h4 style="margin-top:12px; color:#003049;">Time–space diagram (trajectories)</h4>
-        <canvas id="tsCanvas" class="sim" width="800" height="260"></canvas>
+          <!-- North leg -->
+          <rect id="legN" class="leg" x="185" y="0" width="30" height="140" rx="6"></rect>
+          <text x="200" y="20" text-anchor="middle" class="leg-label">N</text>
 
-        <div class="row" style="margin-top:10px;">
-          <div class="stat"><h4>Cumulative count N(t)</h4><p id="cumCount">0</p></div>
-          <div class="stat"><h4>Flow q (veh/hr)</h4><p id="flowVal">0</p></div>
-          <div class="stat"><h4>Density k (veh/km)</h4><p id="densVal">0</p></div>
-          <div class="stat"><h4>Speed v (km/h)</h4><p id="speedVal">0</p></div>
+          <!-- South leg -->
+          <rect id="legS" class="leg" x="185" y="260" width="30" height="140" rx="6"></rect>
+          <text x="200" y="395" text-anchor="middle" class="leg-label">S</text>
+
+          <!-- West leg -->
+          <rect id="legW" class="leg" x="0" y="185" width="140" height="30" rx="6"></rect>
+          <text x="18" y="205" text-anchor="start" class="leg-label">W</text>
+
+          <!-- East leg -->
+          <rect id="legE" class="leg" x="260" y="185" width="140" height="30" rx="6"></rect>
+          <text x="381" y="205" text-anchor="end" class="leg-label">E</text>
+
+          <!-- little movement arrows (visual) -->
+          <g id="movIcons" fill="#003049" opacity="0.85">
+            <!-- North approaches (arrows near center) -->
+            <path id="N_left" d="M160 165 L175 155 L175 175 Z" />
+            <path id="N_thru" d="M200 160 L200 140" stroke="#003049" stroke-width="3" stroke-linecap="round"/>
+            <path id="N_right" d="M240 165 L225 155 L225 175 Z" />
+            <!-- other arrows omitted for brevity (not interactive) -->
+          </g>
+        </svg>
+
+        <div style="margin-top:10px; text-align:left;">
+          <div class="small muted">Click a leg (N/E/S/W) to edit volumes & capacity. After editing, press <strong>Calculate</strong> to compute v/c and LOS, or it updates automatically.</div>
         </div>
       </div>
 
-      <!-- right: charts -->
-      <div class="panel">
-        <h3 style="margin:0 0 8px 0; color:#003049;">Analytics</h3>
-        <p class="small">Charts update as simulation runs. Use "Step" to advance one timestep.</p>
+      <!-- RIGHT: editor / results -->
+      <div class="panel right-col">
+        <h3 style="margin-top:0;color:#003049;">Leg Editor & Results</h3>
 
-        <h4 style="margin-top:8px;">Cumulative count N–t</h4>
-        <canvas id="ntChart" width="380" height="160"></canvas>
+        <!-- editor -->
+        <div id="editor" class="card" style="margin-bottom:10px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <strong id="editorTitle">Select a leg</strong>
+            <div class="small muted">Click a leg in the diagram</div>
+          </div>
 
-        <h4 style="margin-top:12px;">Flow–Density (fundamental diagram)</h4>
-        <canvas id="fdChart" width="380" height="160"></canvas>
+          <div id="editorForm" style="margin-top:10px; display:none;">
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <div>
+                <label>Left-turn (veh/hr)</label>
+                <input type="number" min="0" step="10" id="volLeft" value="0">
+              </div>
+              <div>
+                <label>Through (veh/hr)</label>
+                <input type="number" min="0" step="10" id="volThru" value="500">
+              </div>
+              <div>
+                <label>Right-turn (veh/hr)</label>
+                <input type="number" min="0" step="10" id="volRight" value="50">
+              </div>
+              <div>
+                <label>Capacity (veh/hr)</label>
+                <input type="number" min="50" step="10" id="legCap" value="1000">
+              </div>
+            </div>
 
-        <h4 style="margin-top:12px;">Speed–Density</h4>
-        <canvas id="sdChart" width="380" height="160"></canvas>
-
-        <div style="margin-top:12px;font-size:0.85rem;color:#444;">
-          <strong>Notes:</strong> Greenshields uses v = v<sub>f</sub> (1 - k/k<sub>j</sub>) and q = k v. The curve is plotted using estimated v<sub>f</sub> and k<sub>j</sub>.
+            <div style="margin-top:8px; display:flex; gap:8px;">
+              <button class="btn" id="saveLegBtn">Save</button>
+              <button class="btn secondary" id="clearLegBtn">Clear</button>
+            </div>
+          </div>
         </div>
+
+        <!-- results table -->
+        <div class="panel" style="padding:10px;">
+          <h4 style="margin:4px 0 8px 0;color:#003049;">Summary</h4>
+          <table class="table" id="resultsTable">
+            <thead><tr><th>Leg</th><th>Left</th><th>Through</th><th>Right</th><th>Total (veh/hr)</th><th>Cap (veh/hr)</th><th>v/c</th><th>LOS</th></tr></thead>
+            <tbody id="resultsBody">
+              <!-- rows inserted dynamically -->
+            </tbody>
+          </table>
+
+          <div style="margin-top:10px;">
+            <canvas id="vcChart" width="360" height="200"></canvas>
+          </div>
+
+          <div class="footer-note">
+            <strong>Remarks:</strong> v/c is computed per leg as total_flow / capacity_leg. Movement-level v/c uses movement_flow / capacity_leg.
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
 
-  <footer>© 2025 Lester Jay Ollero</footer>
-
 <script>
 /* =========================
-   Simulation parameters (same as before)
+   Data model
    ========================= */
-const roadMeters = 2000;           // physical length in meters
-const dt = 1.0;                    // time step in seconds
-const pxPerMeter = 0.28;           // initial visual scale
-const vehicleLength = 6;           // m
-const minSpacing = 2;              // m
-const jamSpacing = vehicleLength + minSpacing; // m
+const legs = { N: null, E: null, S: null, W: null }; // each leg: {present:true/false, left,thru,right,cap}
+const typeSel = document.getElementById('typeSel');
+const legToggles = document.querySelectorAll('.legToggle');
+const editorTitle = document.getElementById('editorTitle');
+const editorForm = document.getElementById('editorForm');
+let selectedLeg = null; // 'N','E','S','W'
 
-const freeSpeedDefault = 15;       // m/s (~54 km/h)
-let pxPerMeterLocal = 0.28;        // will be adapted to canvas width
-
-let vehicles = [];
-let simTime = 0;
-let running = false;
-let lastId = 0;
-let cumulativeCount = 0;
-let NtTimes = [], NtCounts = [];
-
-// segments for macroscopic computation
-const segments = [
-  { name: "upstream", x0: 0, x1: 500 },
-  { name: "mid", x0: 500, x1: 1300 },
-  { name: "bottleneck", x0: 1300, x1: roadMeters }
-];
-
-// Canvas setup
-const roadCanvas = document.getElementById('roadCanvas');
-const roadCtx = roadCanvas.getContext('2d');
-const tsCanvas = document.getElementById('tsCanvas');
-const tsCtx = tsCanvas.getContext('2d');
-
-function adaptCanvases() {
-  const containerWidth = Math.min(900, window.innerWidth - 80);
-  const w = Math.max(700, containerWidth);
-  roadCanvas.width = w;
-  tsCanvas.width = w;
-  // adjust px per meter to fill canvas width
-  pxPerMeterLocal = w / roadMeters;
+// initialize default legs present (4-leg)
+function initLegs() {
+  ['N','E','S','W'].forEach(k => {
+    legs[k] = { present: true, left: 0, thru: 500, right: 50, cap: 1000 };
+  });
 }
-adaptCanvases();
-window.addEventListener('resize', () => { adaptCanvases(); drawStaticRoad(); drawTimeSpace(); });
-
-/* Controls */
-const inflowSlider = document.getElementById('inflowSlider');
-const bottleCapSlider = document.getElementById('bottleCapSlider');
-const bottleSpeedSlider = document.getElementById('bottleSpeedSlider');
-const inflowDisplay = document.getElementById('inflowDisplay');
-const bottleCapDisplay = document.getElementById('bottleCapDisplay');
-const bottleSpeedDisplay = document.getElementById('bottleSpeedDisplay');
-const showGreenshields = document.getElementById('showGreenshields');
-const vfDisplay = document.getElementById('vfDisplay');
-const kjDisplay = document.getElementById('kjDisplay');
-
-inflowDisplay.textContent = inflowSlider.value;
-bottleCapDisplay.textContent = bottleCapSlider.value;
-bottleSpeedDisplay.textContent = parseFloat(bottleSpeedSlider.value).toFixed(1);
-
-/* Chart.js setup */
-const ntCtx = document.getElementById('ntChart').getContext('2d');
-const fdCtx = document.getElementById('fdChart').getContext('2d');
-const sdCtx = document.getElementById('sdChart').getContext('2d');
-
-const ntChart = new Chart(ntCtx, {
-  type: 'line',
-  data: { labels: [], datasets:[{ label:'N(t) downstream', data:[], borderColor:'#0077b6', fill:false, tension:0.2 }]},
-  options: { responsive:true, plugins:{ legend:{display:false} }, scales:{ x:{title:{display:true,text:'Time (s)'}}, y:{title:{display:true,text:'Cumulative count (veh)'}}}}
-});
-
-const fdScatter = new Chart(fdCtx, {
-  type: 'scatter',
-  data: { datasets: [
-    { label:'Simulation (segments)', data:[], backgroundColor:'#00607f' },
-    { label:'Greenshields', data:[], borderColor:'#ff7f0e', showLine:true, fill:false, pointRadius:0, tension:0.25 }
-  ]},
-  options: { responsive:true, plugins:{ legend:{display:true} }, scales:{ x:{title:{display:true,text:'Density (veh/km)'}}, y:{title:{display:true,text:'Flow (veh/hr)'}}}}
-});
-
-const sdScatter = new Chart(sdCtx, {
-  type:'scatter',
-  data: { datasets: [{ label:'Speed vs Density', data:[], backgroundColor:'#c44b4b' }]},
-  options: { responsive:true, plugins:{ legend:{display:false} }, scales:{ x:{title:{display:true,text:'Density (veh/km)'}}, y:{title:{display:true,text:'Speed (km/h)'}}}}
-});
+initLegs();
 
 /* utility */
-function metersToPx(m){ return m * pxPerMeterLocal; }
-function randomProb(p){ return Math.random() < p; }
-
-/* insertion */
-function tryInsertVehicle() {
-  const inflow = Number(inflowSlider.value);
-  const p = (inflow/3600) * dt;
-  // ensure spacing at upstream (check nearest vehicle near x<=50)
-  const firstVeh = vehicles.length ? vehicles[vehicles.length - 1] : null;
-  const canInsert = !firstVeh || (firstVeh.x > jamSpacing + 2);
-  if (randomProb(p) && canInsert) {
-    const v0 = freeSpeedDefault;
-    const veh = { id: ++lastId, x: 0 - vehicleLength, v: v0, history: [ {t:simTime, x: 0 - vehicleLength} ], insertTime: simTime };
-    vehicles.push(veh);
-  }
+function losFromVC(vc) {
+  if (vc <= 0.60) return 'A';
+  if (vc <= 0.70) return 'B';
+  if (vc <= 0.80) return 'C';
+  if (vc <= 0.90) return 'D';
+  if (vc <= 1.00) return 'E';
+  return 'F';
+}
+function losClass(los) {
+  return { A:'LOS-A',B:'LOS-B',C:'LOS-C',D:'LOS-D',E:'LOS-E',F:'LOS-F' }[los] || 'LOS-F';
 }
 
-/* bottleneck params */
-function getBottleneckParams(){
-  const bnStart = 1300;
-  const bSpeed = Number(bottleSpeedSlider.value);
-  const bCap = Number(bottleCapSlider.value);
-  return { bnStart, bSpeed, bCap };
-}
+/* =========================
+   SVG leg click handling & presence toggles
+   ========================= */
+const svg = document.getElementById('intersectionSvg');
+const legElements = {
+  N: document.getElementById('legN'),
+  E: document.getElementById('legE'),
+  S: document.getElementById('legS'),
+  W: document.getElementById('legW')
+};
 
-/* step update: Newell-like */
-function stepOnce(){
-  simTime += dt;
-  tryInsertVehicle();
-  vehicles.sort((a,b)=>a.x - b.x);
-
-  const { bnStart, bSpeed, bCap } = getBottleneckParams();
-  if (typeof stepOnce.lastPassTime === 'undefined') stepOnce.lastPassTime = -1e9;
-  const minHeadwayDown = 3600 / bCap;
-
-  for (let i=0;i<vehicles.length;i++){
-    const veh = vehicles[i];
-    let leader = null;
-    for (let j=i+1;j<vehicles.length;j++){ if (vehicles[j].x > veh.x) { leader = vehicles[j]; break; } }
-
-    let v_free = freeSpeedDefault;
-    if (veh.x >= bnStart) v_free = Math.min(v_free, bSpeed);
-
-    let xCand = veh.x + v_free * dt;
-
-    if (leader) {
-      const maxX = leader.x - jamSpacing;
-      if (xCand > maxX) xCand = maxX;
-    }
-
-    if (xCand >= roadMeters - 0.1) {
-      if (simTime - stepOnce.lastPassTime < minHeadwayDown) {
-        xCand = roadMeters - jamSpacing - 0.01;
-      } else {
-        stepOnce.lastPassTime = simTime;
-        cumulativeCount += 1;
-        NtTimes.push(simTime);
-        NtCounts.push(cumulativeCount);
-      }
-    }
-
-    const oldX = veh.x;
-    veh.x = xCand;
-    veh.v = (veh.x - oldX) / dt;
-    veh.history.push({t:simTime, x:veh.x});
-    if (veh.history.length > 10000) veh.history.shift();
-  }
-
-  vehicles = vehicles.filter(v => v.x < roadMeters + 50);
-
-  // sample cumulative at every second
-  if (NtTimes.length === 0 || NtTimes[NtTimes.length-1] !== simTime) {
-    NtTimes.push(simTime);
-    NtCounts.push(cumulativeCount);
-  }
-}
-
-/* macros */
-function computeMacros(){
-  const windowSec = 30;
-  const now = simTime;
-  const t0 = now - windowSec;
-  let idx0 = 0;
-  while (idx0 < NtTimes.length && NtTimes[idx0] <= t0) idx0++;
-  const countAtT0 = (idx0>0)? NtCounts[idx0-1] : 0;
-  const countNow = NtCounts.length ? NtCounts[NtCounts.length-1] : 0;
-  const flowDown = (countNow - countAtT0) / (windowSec/3600);
-
-  const segMacros = segments.map(seg => {
-    const vehiclesInSeg = vehicles.filter(v => v.x >= seg.x0 && v.x < seg.x1);
-    const lenKm = (seg.x1 - seg.x0) / 1000;
-    const density = vehiclesInSeg.length / (lenKm || 1e-6);
-    const avgSpeedMs = vehiclesInSeg.length ? (vehiclesInSeg.reduce((s,v)=>s+v.v,0) / vehiclesInSeg.length) : 0;
-    const avgSpeedKmh = avgSpeedMs * 3.6;
-    return { name: seg.name, density, avgSpeedKmh, count: vehiclesInSeg.length, lenKm };
+// set up legToggle checkbox listeners
+legToggles.forEach(chk => {
+  chk.addEventListener('change', (e) => {
+    const leg = chk.dataset.leg;
+    legs[leg].present = chk.checked;
+    updateSvgLeg(leg);
+    renderResults();
   });
+});
 
-  const totalLenKm = roadMeters / 1000;
-  const totalDensity = vehicles.length / totalLenKm;
-  const avgSpeedAllMs = vehicles.length ? vehicles.reduce((s,v)=>s+v.v,0)/vehicles.length : 0;
-  const avgSpeedAllKmh = avgSpeedAllMs * 3.6;
-
-  return { flowDown, segMacros, totalDensity, avgSpeedAllKmh };
-}
-
-/* drawing */
-function drawStaticRoad(){
-  const ctx = roadCtx;
-  const w = roadCanvas.width, h = roadCanvas.height;
-  ctx.clearRect(0,0,w,h);
-  ctx.fillStyle = "#dfefff";
-  ctx.fillRect(0,0,w,h);
-
-  const roadY = h/2 - 22;
-  const roadH = 44;
-  ctx.fillStyle = "#9fb3c8";
-  ctx.fillRect(0, roadY, w, roadH);
-
-  ctx.strokeStyle = "#fff";
-  ctx.setLineDash([16,10]);
-  ctx.lineWidth = 3;
-  ctx.beginPath(); ctx.moveTo(0, roadY + roadH/2); ctx.lineTo(w, roadY + roadH/2); ctx.stroke();
-  ctx.setLineDash([]);
-
-  const { bnStart } = getBottleneckParams();
-  const bnPx = metersToPx(bnStart);
-  ctx.fillStyle = "rgba(200,100,100,0.12)";
-  ctx.fillRect(bnPx, roadY, w - bnPx, roadH);
-  ctx.fillStyle = "rgba(200,100,100,0.25)";
-  ctx.font = "12px Arial";
-  ctx.fillText("Bottleneck region", Math.max(bnPx + 6, 6), roadY + 14);
-}
-
-function drawVehicles(){
-  const ctx = roadCtx;
-  const h = roadCanvas.height;
-  const roadY = h/2 - 22;
-
-  vehicles.forEach(v => {
-    const px = metersToPx(v.x);
-    const vehW = Math.max(6, vehicleLength * pxPerMeterLocal);
-    const vehH = 16;
-    ctx.fillStyle = "#0b486b";
-    ctx.fillRect(px, roadY + (44-vehH)/2, vehW, vehH);
-    ctx.fillStyle = "#fff";
-    ctx.fillRect(px + vehW*0.12, roadY + (44-vehH)/2 + 3, vehW*0.35, 6);
-  });
-}
-
-function drawTimeSpace(){
-  const ctx = tsCtx;
-  const w = tsCanvas.width, h = tsCanvas.height;
-  ctx.clearRect(0,0,w,h);
-  ctx.fillStyle = "#fcfeff";
-  ctx.fillRect(0,0,w,h);
-
-  ctx.strokeStyle = "#ddd";
-  ctx.strokeRect(40,10,w-50,h-40);
-
-  ctx.fillStyle = "#003049";
-  ctx.font = "12px Arial";
-  ctx.fillText("t (s)", w - 30, h - 18);
-  ctx.fillText("x (m)", 6, 20);
-
-  const tWindow = 200;
-  const t0 = Math.max(0, simTime - tWindow);
-  const plotX = (time)=> { return 40 + ((time - t0) / tWindow) * (w - 90); };
-  const plotY = (x)=> { return 10 + (1 - x/roadMeters) * (h - 60); };
-
-  if (document.getElementById('showTimeSpace').checked) {
-    vehicles.forEach(v => {
-      const hist = v.history.filter(p => p.t >= t0);
-      if (hist.length < 2) return;
-      ctx.beginPath();
-      const hue = (v.id * 37) % 360;
-      ctx.strokeStyle = `hsl(${hue},60%,35%)`;
-      ctx.lineWidth = 1.6;
-      for (let i=0;i<hist.length;i++){
-        const p = hist[i];
-        const px = plotX(p.t);
-        const py = plotY(p.x);
-        if (i===0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
-      }
-      ctx.stroke();
-    });
+// set up type selection (3-legged hides one leg if toggles not updated)
+typeSel.addEventListener('change', ()=> {
+  const val = typeSel.value;
+  if (val === '3') {
+    // if currently 4 legs, default to remove East (E) unless user unchecked already
+    // keep toggles consistent: ensure one leg unchecked
+    const checked = [...legToggles].filter(t=>t.checked).map(t=>t.dataset.leg);
+    if (checked.length === 4) {
+      // uncheck East by default (you can adjust)
+      document.querySelector('.legToggle[data-leg="E"]').checked = false;
+      legs['E'].present = false;
+      updateSvgLeg('E');
+    }
   } else {
-    ctx.fillStyle = "#eee";
-    ctx.fillRect(45,15, w-100, h-60);
+    // make sure all toggles re-check (4-leg) - but preserve manual settings
+    // If user manually toggled earlier, we won't force them; just keep their checkboxes.
   }
+  renderResults();
+});
 
-  ctx.fillStyle = "#003049";
-  ctx.fillText("t = " + Math.floor(simTime) + " s", w - 120, 20);
-}
-
-/* charts & stats update including Greenshields */
-function updateChartsAndStats(){
-  const macros = computeMacros();
-
-  document.getElementById('cumCount').textContent = cumulativeCount;
-  document.getElementById('flowVal').textContent = Math.round(macros.flowDown);
-  document.getElementById('densVal').textContent = (macros.totalDensity).toFixed(1);
-  document.getElementById('speedVal').textContent = (macros.avgSpeedAllKmh).toFixed(1);
-
-  // N-t
-  ntChart.data.labels = NtTimes.slice(-200);
-  ntChart.data.datasets[0].data = NtCounts.slice(-200);
-  ntChart.update('none');
-
-  // FD: use segment points
-  const fdPoints = [];
-  macros.segMacros.forEach(s => {
-    fdPoints.push({ x: s.density, y: macros.flowDown });
-  });
-  fdScatter.data.datasets[0].data = fdPoints;
-
-  // Greenshields: compute v_f (km/h) and kj (veh/km)
-  const vf_kmh = freeSpeedDefault * 3.6;                    // m/s -> km/h
-  const kj = 1000 / jamSpacing;                             // veh/km
-  vfDisplay.textContent = vf_kmh.toFixed(1);
-  kjDisplay.textContent = kj.toFixed(1);
-
-  if (showGreenshields.checked) {
-    // generate smooth curve
-    const n = 120;
-    const curve = [];
-    for (let i=0;i<=n;i++){
-      const k = (i/n) * kj;
-      const v = vf_kmh * (1 - (k / kj));     // Greenshields v(k) linear
-      const q = k * v;                       // q = k * v
-      curve.push({ x: k, y: q });
+// clicking SVG leg opens editor (if present)
+Object.keys(legElements).forEach(leg => {
+  legElements[leg].addEventListener('click', () => {
+    if (!legs[leg].present) {
+      // flash or ignore
+      return;
     }
-    fdScatter.data.datasets[1].data = curve;
-    fdScatter.data.datasets[1].hidden = false;
+    openEditor(leg);
+  });
+});
+
+function updateSvgLeg(leg) {
+  const el = legElements[leg];
+  if (legs[leg].present) {
+    el.classList.remove('missing');
+    el.classList.add('leg');
   } else {
-    fdScatter.data.datasets[1].data = [];
-    fdScatter.data.datasets[1].hidden = true;
+    el.classList.add('missing');
+    el.classList.remove('leg');
   }
-  fdScatter.update('none');
-
-  // Speed-density chart from segments
-  const sdPoints = macros.segMacros.map(s => ({ x: s.density, y: s.avgSpeedKmh }));
-  sdScatter.data.datasets[0].data = sdPoints;
-  sdScatter.update('none');
 }
 
-/* main loop */
-function stepSim(){
-  stepOnce();
-  drawStaticRoad();
-  drawVehicles();
-  drawTimeSpace();
-  updateChartsAndStats();
+/* =========================
+   Editor UI actions
+   ========================= */
+const volLeft = document.getElementById('volLeft');
+const volThru = document.getElementById('volThru');
+const volRight = document.getElementById('volRight');
+const legCap = document.getElementById('legCap');
+const saveLegBtn = document.getElementById('saveLegBtn');
+const clearLegBtn = document.getElementById('clearLegBtn');
+
+function openEditor(leg) {
+  selectedLeg = leg;
+  editorTitle.textContent = `Editing Leg: ${leg}`;
+  const data = legs[leg];
+  // populate fields
+  volLeft.value = data.left ?? 0;
+  volThru.value = data.thru ?? 0;
+  volRight.value = data.right ?? 0;
+  legCap.value = data.cap ?? 1000;
+  editorForm.style.display = 'block';
 }
 
-function runSim(){
-  if (!running) return;
-  stepSim();
-  setTimeout(()=> { if (running) requestAnimationFrame(runSim); }, 1000 * (dt/1.0));
+// Save
+saveLegBtn.addEventListener('click', ()=> {
+  if (!selectedLeg) return;
+  const L = Math.max(0, Number(volLeft.value)||0);
+  const T = Math.max(0, Number(volThru.value)||0);
+  const R = Math.max(0, Number(volRight.value)||0);
+  const C = Math.max(1, Number(legCap.value)||1);
+  legs[selectedLeg].left = L;
+  legs[selectedLeg].thru = T;
+  legs[selectedLeg].right = R;
+  legs[selectedLeg].cap = C;
+  // ensure presence checkbox on
+  document.querySelector('.legToggle[data-leg="'+selectedLeg+'"]').checked = true;
+  legs[selectedLeg].present = true;
+  updateSvgLeg(selectedLeg);
+  renderResults();
+  // close editor
+  //editorForm.style.display = 'none';
+});
+
+// Clear (set zeros)
+clearLegBtn.addEventListener('click', ()=> {
+  if (!selectedLeg) return;
+  legs[selectedLeg].left = 0;
+  legs[selectedLeg].thru = 0;
+  legs[selectedLeg].right = 0;
+  legs[selectedLeg].cap = 1000;
+  volLeft.value = 0; volThru.value = 0; volRight.value = 0; legCap.value = 1000;
+  renderResults();
+});
+
+/* =========================
+   Calculation & rendering
+   ========================= */
+const resultsBody = document.getElementById('resultsBody');
+const calcBtn = document.getElementById('calcBtn');
+const resetBtn = document.getElementById('resetBtn');
+
+calcBtn.addEventListener('click', ()=> renderResults());
+resetBtn.addEventListener('click', ()=> {
+  initLegs();
+  // restore toggles
+  document.querySelectorAll('.legToggle').forEach(t => t.checked = true);
+  typeSel.value = '4';
+  // update svg visual
+  Object.keys(legElements).forEach(k => updateSvgLeg(k));
+  editorForm.style.display = 'none';
+  renderResults();
+});
+
+/* Chart setup for v/c per leg */
+const vcCtx = document.getElementById('vcChart').getContext('2d');
+const vcChart = new Chart(vcCtx, {
+  type: 'bar',
+  data: { labels: [], datasets: [{ label:'v/c', data: [], backgroundColor: [] }]},
+  options: { responsive:true, plugins:{legend:{display:false}}, scales:{ y:{beginAtZero:true, max:1.6, title:{display:true,text:'v/c'}}}}
+});
+
+/* renderResults builds the table and chart */
+function renderResults() {
+  resultsBody.innerHTML = '';
+  const labels = [];
+  const vcValues = [];
+  const bgColors = [];
+
+  Object.keys(legs).forEach(leg => {
+    if (!legs[leg].present) return;
+    const data = legs[leg];
+    const total = (Number(data.left)||0) + (Number(data.thru)||0) + (Number(data.right)||0);
+    const cap = Number(data.cap) || 1;
+    const vc = total / cap;
+    const los = losFromVC(vc);
+
+    // create row html
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td><strong>${leg}</strong></td>
+      <td>${data.left}</td>
+      <td>${data.thru}</td>
+      <td>${data.right}</td>
+      <td>${total}</td>
+      <td>${cap}</td>
+      <td>${vc.toFixed(2)}</td>
+      <td><span class="los-pill ${losClass(los)}">LOS ${los}</span></td>`;
+    resultsBody.appendChild(tr);
+
+    labels.push(leg);
+    vcValues.push(vc.toFixed(2));
+    // choose color by LOS
+    const color = {
+      A:'#2a9d8f', B:'#7fc0b7', C:'#ffbf69', D:'#f77f00', E:'#d62828', F:'#6a0dad'
+    }[los];
+    bgColors.push(color);
+  });
+
+  vcChart.data.labels = labels;
+  vcChart.data.datasets[0].data = vcValues;
+  vcChart.data.datasets[0].backgroundColor = bgColors;
+  vcChart.update();
+
+  // make sure SVG leg visuals reflect LOS color
+  Object.keys(legs).forEach(leg => {
+    const el = legElements[leg];
+    if (!legs[leg].present) {
+      el.style.fill = '#f4f4f4';
+      el.style.stroke = '#ccc';
+      el.style.opacity = 0.6;
+    } else {
+      const data = legs[leg];
+      const total = (Number(data.left)||0)+(Number(data.thru)||0)+(Number(data.right)||0);
+      const cap = Number(data.cap)||1;
+      const vc = total / cap;
+      const los = losFromVC(vc);
+      const color = {
+        A:'#dff6f2', B:'#e8f6f4', C:'#fff4e0', D:'#fff0e0', E:'#ffe2e2', F:'#f2e6ff'
+      }[los] || '#fff';
+      el.style.fill = color;
+      el.style.stroke = '#0077b6';
+      el.style.opacity = 1.0;
+    }
+  });
 }
 
-/* controls wiring */
-inflowSlider.addEventListener('input', ()=> inflowDisplay.textContent = inflowSlider.value);
-bottleCapSlider.addEventListener('input', ()=> bottleCapDisplay.textContent = bottleCapSlider.value);
-bottleSpeedSlider.addEventListener('input', ()=> bottleSpeedDisplay.textContent = parseFloat(bottleSpeedSlider.value).toFixed(1));
+/* initial render */
+Object.keys(legElements).forEach(k => updateSvgLeg(k));
+renderResults();
 
-document.getElementById('startBtn').addEventListener('click', ()=> { running = true; runSim(); });
-document.getElementById('pauseBtn').addEventListener('click', ()=> { running = false; });
-document.getElementById('resetBtn').addEventListener('click', ()=> { resetSim(); });
-document.getElementById('stepBtn').addEventListener('click', ()=> { stepSim(); });
-showGreenshields.addEventListener('change', ()=> updateChartsAndStats());
+/* auto-update when inputs change in editor (live) */
+[volLeft, volThru, volRight, legCap].forEach(inp => {
+  inp.addEventListener('input', ()=> {
+    // if editing a leg, reflect to model but don't finalize until save; preview
+    if (selectedLeg) {
+      legs[selectedLeg].left = Number(volLeft.value) || 0;
+      legs[selectedLeg].thru = Number(volThru.value) || 0;
+      legs[selectedLeg].right = Number(volRight.value) || 0;
+      legs[selectedLeg].cap = Number(legCap.value) || 1;
+      renderResults();
+    }
+  });
+});
 
-/* reset */
-function resetSim(){
-  vehicles = [];
-  simTime = 0;
-  cumulativeCount = 0;
-  NtTimes = []; NtCounts = [];
-  lastId = 0;
-  stepOnce.lastPassTime = -1e9;
-  // warm vehicles
-  for (let i=0;i<6;i++){
-    vehicles.push({ id: ++lastId, x: i*40 + 20, v: freeSpeedDefault, history: [{t:0,x:i*40+20}] });
-  }
-  drawStaticRoad();
-  drawVehicles();
-  drawTimeSpace();
-  updateChartsAndStats();
-}
-
-/* initialize */
-resetSim();
-drawStaticRoad();
-drawVehicles();
-drawTimeSpace();
-updateChartsAndStats();
+/* tooltip-ish: click outside editor to close? (we keep it open to encourage save) */
+/* nothing more required */
 
 </script>
 </body>
