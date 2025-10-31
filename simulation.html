@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Traffic Simulation | Lester Jay Ollero</title>
   <meta name="author" content="Lester Jay Ollero">
-  <meta name="keywords" content="Traffic Simulation, Newell, Time-space, Flow-Density, Cumulative count">
+  <meta name="keywords" content="Traffic Simulation, Newell, Greenshields, Fundamental Diagram, Flow-Density">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -63,12 +63,11 @@
   </nav>
 
   <div class="container">
-    <h1>One-Lane Traffic Simulation (Newell-style) — Bottleneck & Fundamental Diagram</h1>
+    <h1>One-Lane Traffic Simulation (Newell-style) — Greenshields Overlay</h1>
 
     <p class="small">
-      Vehicular traffic flow on a one-lane road segment is simulated using a discrete Newell-style car-following update.
-      The road contains a bottleneck region (reduced free speed). If inflow exceeds bottleneck capacity, congestion forms.
-      Use the controls below to change inflow and bottleneck impact. Check "Additional info" to compute macroscopic variables.
+      This demo simulates vehicles on a one-lane road with a bottleneck. The Flow–Density scatter from the simulation is now plotted with the
+      <strong>Greenshields</strong> theoretical curve (linear speed–density). Adjust inflow and bottleneck to see how simulated points compare to theory.
     </p>
 
     <!-- controls -->
@@ -86,9 +85,21 @@
       </div>
 
       <div class="control-group">
-        <label>Bottleneck strength (reduced speed m/s)</label>
+        <label>Bottleneck speed (m/s)</label>
         <input id="bottleSpeedSlider" type="range" min="2" max="20" step="0.5" value="6">
         <div class="small">Bottleneck speed: <span id="bottleSpeedDisplay">6.0</span> m/s</div>
+      </div>
+
+      <div class="control-group">
+        <label>Greenshields</label>
+        <div style="display:flex; gap:8px; align-items:center;">
+          <input type="checkbox" id="showGreenshields" checked>
+          <label for="showGreenshields" class="small">Show Greenshields curve</label>
+        </div>
+        <div style="margin-top:8px;font-size:0.85rem;color:#444;">
+          <div>Estimated v<sub>f</sub> (free speed): <span id="vfDisplay">54.0</span> km/h</div>
+          <div>Estimated k<sub>j</sub> (jam density): <span id="kjDisplay">111.1</span> veh/km</div>
+        </div>
       </div>
 
       <div class="control-group">
@@ -143,7 +154,7 @@
         <canvas id="sdChart" width="380" height="160"></canvas>
 
         <div style="margin-top:12px;font-size:0.85rem;color:#444;">
-          <strong>Notes:</strong> The fundamental diagram arises from many simulated realizations. Bottleneck reduces local speed (and capacity); if inflow > bottleneck capacity, congestion forms upstream.
+          <strong>Notes:</strong> Greenshields uses v = v<sub>f</sub> (1 - k/k<sub>j</sub>) and q = k v. The curve is plotted using estimated v<sub>f</sub> and k<sub>j</sub>.
         </div>
       </div>
     </div>
@@ -153,87 +164,65 @@
 
 <script>
 /* =========================
-   Simulation parameters
+   Simulation parameters (same as before)
    ========================= */
-const roadMeters = 2000;           // physical length in meters (mapping to canvas)
+const roadMeters = 2000;           // physical length in meters
 const dt = 1.0;                    // time step in seconds
-const simStepSec = dt;
-const pxPerMeter = 0.28;           // visual scale (meters -> pixels)
-const roadPx = Math.floor(roadMeters * pxPerMeter); // canvas width in px (we will scale)
-const insertionX = 0;              // vehicles inserted at x=0 (left)
-const downstreamX = roadMeters;    // downstream detector at road end
+const pxPerMeter = 0.28;           // initial visual scale
+const vehicleLength = 6;           // m
+const minSpacing = 2;              // m
+const jamSpacing = vehicleLength + minSpacing; // m
 
-// Newell-like parameters
-const vehicleLength = 6;           // vehicle length (m)
-const minSpacing = 2;              // standstill spacing (m)
-const jamSpacing = vehicleLength + minSpacing;
+const freeSpeedDefault = 15;       // m/s (~54 km/h)
+let pxPerMeterLocal = 0.28;        // will be adapted to canvas width
 
-const freeSpeedDefault = 15;       // free-flow speed m/s (~54 km/h)
-const maxSpeed = 30;               // m/s cap
-
-// arrays & state
-let vehicles = [];                 // each vehicle: {id, x (m), t0, history: [{t,x}], v (m/s)}
-let simTime = 0;                   // seconds
+let vehicles = [];
+let simTime = 0;
 let running = false;
 let lastId = 0;
-
-// cumulative count (N-t)
 let cumulativeCount = 0;
-let NtTimes = [];
-let NtCounts = [];
+let NtTimes = [], NtCounts = [];
 
-// detectors/segmentation for macroscopic variables
+// segments for macroscopic computation
 const segments = [
   { name: "upstream", x0: 0, x1: 500 },
   { name: "mid", x0: 500, x1: 1300 },
   { name: "bottleneck", x0: 1300, x1: roadMeters }
 ];
 
-// Canvas elements
+// Canvas setup
 const roadCanvas = document.getElementById('roadCanvas');
 const roadCtx = roadCanvas.getContext('2d');
 const tsCanvas = document.getElementById('tsCanvas');
 const tsCtx = tsCanvas.getContext('2d');
 
-// adapt canvas widths to visual road size
 function adaptCanvases() {
   const containerWidth = Math.min(900, window.innerWidth - 80);
-  // compute scale to map our roadMeters -> canvas width
   const w = Math.max(700, containerWidth);
-  // set canvas widths while keeping heights
   roadCanvas.width = w;
   tsCanvas.width = w;
-  // set global scale: px per meter adjusted
+  // adjust px per meter to fill canvas width
   pxPerMeterLocal = w / roadMeters;
 }
-let pxPerMeterLocal = 0.28;
 adaptCanvases();
 window.addEventListener('resize', () => { adaptCanvases(); drawStaticRoad(); drawTimeSpace(); });
 
-// controls
+/* Controls */
 const inflowSlider = document.getElementById('inflowSlider');
 const bottleCapSlider = document.getElementById('bottleCapSlider');
 const bottleSpeedSlider = document.getElementById('bottleSpeedSlider');
 const inflowDisplay = document.getElementById('inflowDisplay');
 const bottleCapDisplay = document.getElementById('bottleCapDisplay');
 const bottleSpeedDisplay = document.getElementById('bottleSpeedDisplay');
+const showGreenshields = document.getElementById('showGreenshields');
+const vfDisplay = document.getElementById('vfDisplay');
+const kjDisplay = document.getElementById('kjDisplay');
 
 inflowDisplay.textContent = inflowSlider.value;
 bottleCapDisplay.textContent = bottleCapSlider.value;
 bottleSpeedDisplay.textContent = parseFloat(bottleSpeedSlider.value).toFixed(1);
 
-inflowSlider.addEventListener('input', ()=> inflowDisplay.textContent = inflowSlider.value);
-bottleCapSlider.addEventListener('input', ()=> bottleCapDisplay.textContent = bottleCapSlider.value);
-bottleSpeedSlider.addEventListener('input', ()=> bottleSpeedDisplay.textContent = parseFloat(bottleSpeedSlider.value).toFixed(1));
-
-document.getElementById('startBtn').addEventListener('click', ()=> { running = true; runSim(); });
-document.getElementById('pauseBtn').addEventListener('click', ()=> { running = false; });
-document.getElementById('resetBtn').addEventListener('click', ()=> { resetSim(); });
-document.getElementById('stepBtn').addEventListener('click', ()=> { stepSim(); });
-
-/* =========================
-   Charts (Chart.js)
-   ========================= */
+/* Chart.js setup */
 const ntCtx = document.getElementById('ntChart').getContext('2d');
 const fdCtx = document.getElementById('fdChart').getContext('2d');
 const sdCtx = document.getElementById('sdChart').getContext('2d');
@@ -247,9 +236,10 @@ const ntChart = new Chart(ntCtx, {
 const fdScatter = new Chart(fdCtx, {
   type: 'scatter',
   data: { datasets: [
-    { label:'Flow vs Density', data:[], backgroundColor:'#00607f' }
+    { label:'Simulation (segments)', data:[], backgroundColor:'#00607f' },
+    { label:'Greenshields', data:[], borderColor:'#ff7f0e', showLine:true, fill:false, pointRadius:0, tension:0.25 }
   ]},
-  options: { responsive:true, plugins:{ legend:{display:false} }, scales:{ x:{title:{display:true,text:'Density (veh/km)'}}, y:{title:{display:true,text:'Flow (veh/hr)'}}}}
+  options: { responsive:true, plugins:{ legend:{display:true} }, scales:{ x:{title:{display:true,text:'Density (veh/km)'}}, y:{title:{display:true,text:'Flow (veh/hr)'}}}}
 });
 
 const sdScatter = new Chart(sdCtx, {
@@ -258,91 +248,61 @@ const sdScatter = new Chart(sdCtx, {
   options: { responsive:true, plugins:{ legend:{display:false} }, scales:{ x:{title:{display:true,text:'Density (veh/km)'}}, y:{title:{display:true,text:'Speed (km/h)'}}}}
 });
 
-/* =========================
-   Utility functions
-   ========================= */
-function metersToPx(m) { return m * pxPerMeterLocal; }
-function pxToMeters(px) { return px / pxPerMeterLocal; }
-function randomProb(p) { return Math.random() < p; }
+/* utility */
+function metersToPx(m){ return m * pxPerMeterLocal; }
+function randomProb(p){ return Math.random() < p; }
 
-/* =========================
-   Inject / move vehicles
-   ========================= */
+/* insertion */
 function tryInsertVehicle() {
-  // inflowSlider value in veh/hr -> per second probability p = (veh/hr)/3600 * dt
   const inflow = Number(inflowSlider.value);
   const p = (inflow/3600) * dt;
-  // ensure spacing at upstream
-  const firstVeh = vehicles.length ? vehicles[vehicles.length - 1] : null; // vehicles sorted by x increasing
+  // ensure spacing at upstream (check nearest vehicle near x<=50)
+  const firstVeh = vehicles.length ? vehicles[vehicles.length - 1] : null;
   const canInsert = !firstVeh || (firstVeh.x > jamSpacing + 2);
   if (randomProb(p) && canInsert) {
-    const v0 = freeSpeedDefault; // free speed
+    const v0 = freeSpeedDefault;
     const veh = { id: ++lastId, x: 0 - vehicleLength, v: v0, history: [ {t:simTime, x: 0 - vehicleLength} ], insertTime: simTime };
     vehicles.push(veh);
   }
 }
 
-/* =========================
-   Bottleneck behavior
-   We implement bottleneck as a reduced free speed region and an effective capacity.
-   If a vehicle is inside the bottleneck x >= bnStart, its free speed is min(freeSpeed, bottleSpeed)
-   Additionally, we enforce a capacity by preventing crossings at a rate exceeding capacity: we keep a small queue counter.
-   ========================= */
-function getBottleneckParams() {
-  const bnStart = 1300;   // start meter of bottleneck
-  const bnEnd = roadMeters;
-  const bSpeed = Number(bottleSpeedSlider.value);   // m/s (reduced free speed)
-  const bCap = Number(bottleCapSlider.value);       // veh/hr
-  return { bnStart, bnEnd, bSpeed, bCap };
+/* bottleneck params */
+function getBottleneckParams(){
+  const bnStart = 1300;
+  const bSpeed = Number(bottleSpeedSlider.value);
+  const bCap = Number(bottleCapSlider.value);
+  return { bnStart, bSpeed, bCap };
 }
 
-/* =========================
-   Single step update (Newell-like)
-   Discrete time update: x_i(t+dt) = min( x_i(t) + v_free*dt, x_{i-1}(t) - jamSpacing )
-   v_i is computed as (x_new - x_old)/dt
-   ========================= */
-function stepOnce() {
+/* step update: Newell-like */
+function stepOnce(){
   simTime += dt;
-  // 1) possibly insert
   tryInsertVehicle();
+  vehicles.sort((a,b)=>a.x - b.x);
 
-  // sort vehicles by x ascending
-  vehicles.sort((a,b) => a.x - b.x);
+  const { bnStart, bSpeed, bCap } = getBottleneckParams();
+  if (typeof stepOnce.lastPassTime === 'undefined') stepOnce.lastPassTime = -1e9;
+  const minHeadwayDown = 3600 / bCap;
 
-  const { bnStart, bnEnd, bSpeed, bCap } = getBottleneckParams();
-
-  // We'll implement a simple capacity limiter at the downstream boundary:
-  // track last passage time of downstream; ensure rate <= capacity
-  if (typeof stepOnce.lastPassTime === 'undefined') stepOnce.lastPassTime = -1e9; // init
-  const minHeadwayDown = 3600 / bCap; // seconds per vehicle (if bCap=1000 veh/hr -> 3.6 s)
-  // iterate vehicles from upstream -> downstream (increasing x)
-  for (let i = 0; i < vehicles.length; i++) {
+  for (let i=0;i<vehicles.length;i++){
     const veh = vehicles[i];
-    // leader is the next vehicle with x > veh.x (since sorted ascending)
     let leader = null;
-    for (let j = i+1; j < vehicles.length; j++) { if (vehicles[j].x > veh.x) { leader = vehicles[j]; break; } }
+    for (let j=i+1;j<vehicles.length;j++){ if (vehicles[j].x > veh.x) { leader = vehicles[j]; break; } }
 
-    // free speed depends on whether vehicle is in bottleneck region
     let v_free = freeSpeedDefault;
     if (veh.x >= bnStart) v_free = Math.min(v_free, bSpeed);
 
-    // candidate new position if unconstrained
     let xCand = veh.x + v_free * dt;
 
-    // constraint due to leader (jam spacing)
     if (leader) {
       const maxX = leader.x - jamSpacing;
       if (xCand > maxX) xCand = maxX;
     }
 
-    // constraint at downstream boundary (simulate capacity)
-    if (xCand >= downstreamX - 0.1) {
-      // check last passage time
+    if (xCand >= roadMeters - 0.1) {
       if (simTime - stepOnce.lastPassTime < minHeadwayDown) {
-        // cannot exit yet: keep upstream of downstream boundary
-        xCand = downstreamX - jamSpacing - 0.01;
+        xCand = roadMeters - jamSpacing - 0.01;
       } else {
-        // vehicle will exit: this is a passage
         stepOnce.lastPassTime = simTime;
         cumulativeCount += 1;
         NtTimes.push(simTime);
@@ -350,60 +310,42 @@ function stepOnce() {
       }
     }
 
-    // final assignment and update velocity
     const oldX = veh.x;
     veh.x = xCand;
     veh.v = (veh.x - oldX) / dt;
-    veh.history.push({ t: simTime, x: veh.x });
-
-    // remove history older than some horizon to limit memory (keep for time-space)
+    veh.history.push({t:simTime, x:veh.x});
     if (veh.history.length > 10000) veh.history.shift();
   }
 
-  // remove vehicles that have gone beyond downstream sufficiently
-  vehicles = vehicles.filter(v => v.x < downstreamX + 50);
+  vehicles = vehicles.filter(v => v.x < roadMeters + 50);
 
-  // record N-t even if no passage (sample every 1s)
+  // sample cumulative at every second
   if (NtTimes.length === 0 || NtTimes[NtTimes.length-1] !== simTime) {
     NtTimes.push(simTime);
     NtCounts.push(cumulativeCount);
   }
 }
 
-/* =========================
-   Macroscopic variables (computed per second)
-   - We compute for entire road or per segments as selected
-   - density (veh/km): count in segment / length_km
-   - flow (veh/hr): # vehicles passing downstream in last window / (window_hours)
-   - speed (km/h): average speed of vehicles in segment
-   ========================= */
-function computeMacros() {
-  const windowSec = 30; // smoothing window for flow measurement
+/* macros */
+function computeMacros(){
+  const windowSec = 30;
   const now = simTime;
-
-  // compute flow at downstream: count of vehicles that passed in last window
-  // use NtTimes/NtCounts
-  let flowDown = 0;
-  // find counts at time now-windowSec and now
   const t0 = now - windowSec;
-  // find index of first time > t0
   let idx0 = 0;
   while (idx0 < NtTimes.length && NtTimes[idx0] <= t0) idx0++;
-  const countAtT0 = (idx0>0) ? NtCounts[idx0-1] : 0;
+  const countAtT0 = (idx0>0)? NtCounts[idx0-1] : 0;
   const countNow = NtCounts.length ? NtCounts[NtCounts.length-1] : 0;
-  flowDown = (countNow - countAtT0) / (windowSec/3600); // veh/hr
+  const flowDown = (countNow - countAtT0) / (windowSec/3600);
 
-  // density & speed per segment (we also compute overall)
   const segMacros = segments.map(seg => {
     const vehiclesInSeg = vehicles.filter(v => v.x >= seg.x0 && v.x < seg.x1);
     const lenKm = (seg.x1 - seg.x0) / 1000;
-    const density = vehiclesInSeg.length / (lenKm || 1e-6); // veh/km
+    const density = vehiclesInSeg.length / (lenKm || 1e-6);
     const avgSpeedMs = vehiclesInSeg.length ? (vehiclesInSeg.reduce((s,v)=>s+v.v,0) / vehiclesInSeg.length) : 0;
     const avgSpeedKmh = avgSpeedMs * 3.6;
-    return { name:seg.name, density, avgSpeedKmh, count: vehiclesInSeg.length, lenKm };
+    return { name: seg.name, density, avgSpeedKmh, count: vehiclesInSeg.length, lenKm };
   });
 
-  // overall metrics (entire road)
   const totalLenKm = roadMeters / 1000;
   const totalDensity = vehicles.length / totalLenKm;
   const avgSpeedAllMs = vehicles.length ? vehicles.reduce((s,v)=>s+v.v,0)/vehicles.length : 0;
@@ -412,29 +354,25 @@ function computeMacros() {
   return { flowDown, segMacros, totalDensity, avgSpeedAllKmh };
 }
 
-/* =========================
-   Drawing functions
-   ========================= */
-function drawStaticRoad() {
+/* drawing */
+function drawStaticRoad(){
   const ctx = roadCtx;
   const w = roadCanvas.width, h = roadCanvas.height;
   ctx.clearRect(0,0,w,h);
-  // draw road background
   ctx.fillStyle = "#dfefff";
-  ctx.fillRect(0, 0, w, h);
-  // draw pavement
-  ctx.fillStyle = "#9fb3c8";
+  ctx.fillRect(0,0,w,h);
+
   const roadY = h/2 - 22;
   const roadH = 44;
+  ctx.fillStyle = "#9fb3c8";
   ctx.fillRect(0, roadY, w, roadH);
-  // draw center line
+
   ctx.strokeStyle = "#fff";
-  ctx.setLineDash([16, 10]);
+  ctx.setLineDash([16,10]);
   ctx.lineWidth = 3;
-  ctx.beginPath(); ctx.moveTo(0, roadY+roadH/2); ctx.lineTo(w, roadY+roadH/2); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(0, roadY + roadH/2); ctx.lineTo(w, roadY + roadH/2); ctx.stroke();
   ctx.setLineDash([]);
 
-  // mark bottleneck region
   const { bnStart } = getBottleneckParams();
   const bnPx = metersToPx(bnStart);
   ctx.fillStyle = "rgba(200,100,100,0.12)";
@@ -444,113 +382,120 @@ function drawStaticRoad() {
   ctx.fillText("Bottleneck region", Math.max(bnPx + 6, 6), roadY + 14);
 }
 
-function drawVehicles() {
+function drawVehicles(){
   const ctx = roadCtx;
   const h = roadCanvas.height;
   const roadY = h/2 - 22;
-  // draw each vehicle as a rectangle
+
   vehicles.forEach(v => {
     const px = metersToPx(v.x);
     const vehW = Math.max(6, vehicleLength * pxPerMeterLocal);
     const vehH = 16;
     ctx.fillStyle = "#0b486b";
     ctx.fillRect(px, roadY + (44-vehH)/2, vehW, vehH);
-    // small white windows or id
     ctx.fillStyle = "#fff";
     ctx.fillRect(px + vehW*0.12, roadY + (44-vehH)/2 + 3, vehW*0.35, 6);
   });
 }
 
-function drawTimeSpace() {
+function drawTimeSpace(){
   const ctx = tsCtx;
   const w = tsCanvas.width, h = tsCanvas.height;
   ctx.clearRect(0,0,w,h);
-  // background
   ctx.fillStyle = "#fcfeff";
   ctx.fillRect(0,0,w,h);
 
-  // axes: x = time, y = space (distance along road)
   ctx.strokeStyle = "#ddd";
   ctx.strokeRect(40,10,w-50,h-40);
 
-  // labels
   ctx.fillStyle = "#003049";
   ctx.font = "12px Arial";
   ctx.fillText("t (s)", w - 30, h - 18);
   ctx.fillText("x (m)", 6, 20);
 
-  // draw trajectories: for each vehicle, draw lines connecting (t,x)
-  const tWindow = 200; // seconds shown
+  const tWindow = 200;
   const t0 = Math.max(0, simTime - tWindow);
-  // scales
   const plotX = (time)=> { return 40 + ((time - t0) / tWindow) * (w - 90); };
-  const plotY = (x)=> { return 10 + (1 - x/roadMeters) * (h - 60); }; // top is downstream
+  const plotY = (x)=> { return 10 + (1 - x/roadMeters) * (h - 60); };
 
   if (document.getElementById('showTimeSpace').checked) {
     vehicles.forEach(v => {
       const hist = v.history.filter(p => p.t >= t0);
       if (hist.length < 2) return;
       ctx.beginPath();
-      // choose color by id
       const hue = (v.id * 37) % 360;
       ctx.strokeStyle = `hsl(${hue},60%,35%)`;
       ctx.lineWidth = 1.6;
-      for (let i = 0; i < hist.length; i++) {
+      for (let i=0;i<hist.length;i++){
         const p = hist[i];
         const px = plotX(p.t);
         const py = plotY(p.x);
-        if (i === 0) ctx.moveTo(px, py);
-        else ctx.lineTo(px, py);
+        if (i===0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
       }
       ctx.stroke();
     });
   } else {
-    // show coarser time-space as density shading (not implemented for brevity)
     ctx.fillStyle = "#eee";
     ctx.fillRect(45,15, w-100, h-60);
   }
 
-  // current sim time marker
   ctx.fillStyle = "#003049";
   ctx.fillText("t = " + Math.floor(simTime) + " s", w - 120, 20);
 }
 
-/* =========================
-   update charts & stats
-   ========================= */
-function updateChartsAndStats() {
+/* charts & stats update including Greenshields */
+function updateChartsAndStats(){
   const macros = computeMacros();
 
-  // update stats
   document.getElementById('cumCount').textContent = cumulativeCount;
   document.getElementById('flowVal').textContent = Math.round(macros.flowDown);
   document.getElementById('densVal').textContent = (macros.totalDensity).toFixed(1);
   document.getElementById('speedVal').textContent = (macros.avgSpeedAllKmh).toFixed(1);
 
-  // N-t chart (sample every second)
+  // N-t
   ntChart.data.labels = NtTimes.slice(-200);
   ntChart.data.datasets[0].data = NtCounts.slice(-200);
   ntChart.update('none');
 
-  // flow-density & speed-density: sample points from segments
+  // FD: use segment points
   const fdPoints = [];
-  const sdPoints = [];
   macros.segMacros.forEach(s => {
-    // density (veh/km) and flow (veh/hr) -- approximate local flow using downstream flow for simplicity
     fdPoints.push({ x: s.density, y: macros.flowDown });
-    sdPoints.push({ x: s.density, y: s.avgSpeedKmh });
   });
   fdScatter.data.datasets[0].data = fdPoints;
+
+  // Greenshields: compute v_f (km/h) and kj (veh/km)
+  const vf_kmh = freeSpeedDefault * 3.6;                    // m/s -> km/h
+  const kj = 1000 / jamSpacing;                             // veh/km
+  vfDisplay.textContent = vf_kmh.toFixed(1);
+  kjDisplay.textContent = kj.toFixed(1);
+
+  if (showGreenshields.checked) {
+    // generate smooth curve
+    const n = 120;
+    const curve = [];
+    for (let i=0;i<=n;i++){
+      const k = (i/n) * kj;
+      const v = vf_kmh * (1 - (k / kj));     // Greenshields v(k) linear
+      const q = k * v;                       // q = k * v
+      curve.push({ x: k, y: q });
+    }
+    fdScatter.data.datasets[1].data = curve;
+    fdScatter.data.datasets[1].hidden = false;
+  } else {
+    fdScatter.data.datasets[1].data = [];
+    fdScatter.data.datasets[1].hidden = true;
+  }
   fdScatter.update('none');
 
+  // Speed-density chart from segments
+  const sdPoints = macros.segMacros.map(s => ({ x: s.density, y: s.avgSpeedKmh }));
   sdScatter.data.datasets[0].data = sdPoints;
   sdScatter.update('none');
 }
 
-/* =========================
-   Primary run loop
-   ========================= */
-function stepSim() {
+/* main loop */
+function stepSim(){
   stepOnce();
   drawStaticRoad();
   drawVehicles();
@@ -558,27 +503,34 @@ function stepSim() {
   updateChartsAndStats();
 }
 
-function runSim() {
+function runSim(){
   if (!running) return;
   stepSim();
-  // schedule next (use setTimeout to keep dt ~ real seconds scaled)
   setTimeout(()=> { if (running) requestAnimationFrame(runSim); }, 1000 * (dt/1.0));
 }
 
-/* =========================
-   Reset simulation
-   ========================= */
-function resetSim() {
+/* controls wiring */
+inflowSlider.addEventListener('input', ()=> inflowDisplay.textContent = inflowSlider.value);
+bottleCapSlider.addEventListener('input', ()=> bottleCapDisplay.textContent = bottleCapSlider.value);
+bottleSpeedSlider.addEventListener('input', ()=> bottleSpeedDisplay.textContent = parseFloat(bottleSpeedSlider.value).toFixed(1));
+
+document.getElementById('startBtn').addEventListener('click', ()=> { running = true; runSim(); });
+document.getElementById('pauseBtn').addEventListener('click', ()=> { running = false; });
+document.getElementById('resetBtn').addEventListener('click', ()=> { resetSim(); });
+document.getElementById('stepBtn').addEventListener('click', ()=> { stepSim(); });
+showGreenshields.addEventListener('change', ()=> updateChartsAndStats());
+
+/* reset */
+function resetSim(){
   vehicles = [];
   simTime = 0;
   cumulativeCount = 0;
-  NtTimes = [];
-  NtCounts = [];
+  NtTimes = []; NtCounts = [];
   lastId = 0;
   stepOnce.lastPassTime = -1e9;
-  // insert a few warm vehicles
-  for (let i=0;i<6;i++) {
-    vehicles.push({ id: ++lastId, x: i*40 + 20, v: freeSpeedDefault, history: [{t:0,x:i*40 + 20}] });
+  // warm vehicles
+  for (let i=0;i<6;i++){
+    vehicles.push({ id: ++lastId, x: i*40 + 20, v: freeSpeedDefault, history: [{t:0,x:i*40+20}] });
   }
   drawStaticRoad();
   drawVehicles();
@@ -586,12 +538,8 @@ function resetSim() {
   updateChartsAndStats();
 }
 
-/* =========================
-   Initialize & draw first state
-   ========================= */
+/* initialize */
 resetSim();
-
-/* initial drawing */
 drawStaticRoad();
 drawVehicles();
 drawTimeSpace();
