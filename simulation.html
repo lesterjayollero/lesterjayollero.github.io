@@ -1,487 +1,566 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Intersection Analysis | Lester Jay Ollero</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Interactive Intersection (v/c & LOS)</title>
 <meta name="author" content="Lester Jay Ollero">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-  /* --- Page / Nav styling consistent with your site --- */
-  body { font-family: "Segoe UI", Roboto, sans-serif; margin:0; background:#fafafa; color:#222; line-height:1.6;}
+  /* page + nav (matches your site style) */
+  body { font-family: "Segoe UI", Roboto, sans-serif; margin:0; background:#fafafa; color:#222; }
   .navbar { background:#fff; border-bottom:1px solid #ddd; position:sticky; top:0; z-index:100; }
   .nav-container { display:flex; justify-content:space-between; align-items:center; padding:12px 24px; max-width:1100px; margin:0 auto; }
-  .nav-logo { font-size:1.25rem; font-weight:600; color:#003049; text-decoration:none; }
-  .nav-menu { display:flex; list-style:none; gap:12px; margin:0; padding:0; align-items:center; }
-  .nav-menu a { color:#003049; font-weight:500; text-decoration:none; }
-  .nav-menu a.active { color:#0077b6; font-weight:600; border-bottom:2px solid #0077b6; padding-bottom:2px; }
+  .nav-logo { font-size:1.2rem; font-weight:600; color:#003049; text-decoration:none; }
+  .nav-menu { display:flex; gap:12px; list-style:none; margin:0; padding:0; align-items:center; }
+  .nav-menu a { color:#003049; text-decoration:none; font-weight:500; }
+  .container { max-width:1100px; margin:20px auto; padding:0 18px; }
 
-  .container { max-width:1100px; margin:28px auto; padding:0 20px; }
-  h1 { color:#003049; font-size:1.6rem; border-bottom:3px solid #0077b6; display:inline-block; padding-bottom:6px; margin-bottom:14px; }
+  h1 { color:#003049; font-size:1.3rem; border-bottom:3px solid #0077b6; padding-bottom:6px; margin-bottom:12px; display:inline-block; }
 
-  .top-controls { display:flex; gap:12px; flex-wrap:wrap; margin:10px 0 18px; align-items:center; }
-  .card { background:#fff; border-radius:8px; padding:10px 12px; border:1px solid #eee; box-shadow:0 1px 3px rgba(0,0,0,0.03); }
-  label { font-size:0.9rem; color:#003049; display:block; margin-bottom:6px; }
-  select, input[type=number] { padding:6px 8px; border-radius:6px; border:1px solid #ccc; font-size:0.95rem; width:150px; }
-  input[type=checkbox] { transform:scale(1.05); margin-right:6px; }
+  .controls { display:flex; gap:12px; flex-wrap:wrap; margin:12px 0; align-items:center; }
+  .card { background:#fff; border-radius:8px; padding:8px 12px; border:1px solid #eee; box-shadow:0 1px 3px rgba(0,0,0,0.03); }
+  select, input[type=checkbox] { font-size:0.95rem; padding:6px; }
 
-  .layout { display:grid; grid-template-columns: 460px 1fr; gap:18px; align-items:start; }
-  @media (max-width:980px){ .layout{ grid-template-columns: 1fr; } }
+  .layout { display:grid; grid-template-columns: 520px 1fr; gap:14px; align-items:start; }
+  @media (max-width:980px) { .layout{ grid-template-columns: 1fr; } }
 
-  .panel { background:#fff; border-radius:8px; padding:12px; border:1px solid #eee; box-shadow:0 2px 6px rgba(0,0,0,0.03); }
-  .muted { color:#666; font-size:0.9rem; }
+  /* svg styling */
+  .svg-wrap { background:#fff; padding:12px; border-radius:8px; border:1px solid #eee; }
+  svg { width:100%; height:auto; display:block; }
 
-  /* SVG intersection */
-  .intersect-wrap { text-align:center; padding:6px; }
-  svg { max-width:100%; height:auto; cursor:default; }
+  .arrow { fill:#f6f8fa; stroke:#666; stroke-width:1.5; cursor:pointer; transition: all .12s; }
+  .arrow:hover { filter:brightness(.95); transform-origin:center; }
+  .leg-area { fill: rgba(11,72,107,0.06); stroke:#0077b6; stroke-width:1.6; cursor:pointer; }
+  .leg-area.missing { fill:#f4f4f4; stroke:#ccc; opacity:0.6; cursor:not-allowed; }
 
-  .leg { fill:#e6f5ff; stroke:#0077b6; stroke-width:2; cursor:pointer; }
-  .leg.missing { fill:#f4f4f4; stroke:#ccc; opacity:0.6; cursor:not-allowed;}
-  .leg:hover { filter:brightness(.95); }
-  .leg-label { font-size:13px; fill:#003049; font-weight:600; pointer-events:none; }
+  .mov-label { font-size:11px; pointer-events:none; fill:#003049; font-weight:600; }
 
-  .small { font-size:0.9rem; color:#555; }
+  /* floating editor */
+  .editor {
+    position: absolute;
+    background:#fff;
+    border:1px solid #bbb;
+    box-shadow:0 6px 18px rgba(0,0,0,0.12);
+    border-radius:6px;
+    padding:8px;
+    z-index:220;
+    width:220px;
+    display:none;
+  }
+  .editor input[type=number] { width:100%; padding:6px; margin:6px 0; border-radius:4px; border:1px solid #ccc; }
 
-  .table { width:100%; border-collapse:collapse; margin-top:10px; }
-  .table th, .table td { padding:8px 6px; border-bottom:1px solid #eee; text-align:left; font-size:0.95rem; }
-  .table th { background:#fafcff; color:#003049; font-weight:600; }
-
-  .los-pill { padding:4px 8px; border-radius:12px; color:white; font-weight:600; font-size:0.85rem; display:inline-block; }
-  .LOS-A{ background:#2a9d8f; } .LOS-B{ background:#7fc0b7; } .LOS-C{ background:#ffbf69; } .LOS-D{ background:#f77f00; } .LOS-E{ background:#d62828; } .LOS-F{ background:#6a0dad; }
-
-  .right-col .chart-wrap { margin-bottom:12px; }
-  .btn { padding:8px 10px; border-radius:6px; border:none; background:#0077b6; color:#fff; cursor:pointer; font-weight:600; }
+  .btn { background:#0077b6; color:#fff; border:none; padding:8px 10px; border-radius:6px; cursor:pointer; font-weight:600; }
   .btn.secondary { background:#fff; color:#0077b6; border:1px solid #0077b6; }
 
-  .footer-note { margin-top:8px; font-size:0.85rem; color:#444; }
+  .panel { background:#fff; padding:12px; border-radius:8px; border:1px solid #eee; }
+  .muted { color:#666; font-size:0.9rem; }
 
-  .legend { display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
-  .legend span { display:inline-block; padding:4px 8px; border-radius:6px; font-size:0.85rem; color:#fff; }
+  table { width:100%; border-collapse:collapse; margin-top:8px; }
+  th, td { padding:8px 6px; border-bottom:1px solid #eee; text-align:left; font-size:0.95rem; }
+  th { background:#fbfdff; color:#003049; font-weight:700; }
+
+  .los-pill { padding:4px 8px; border-radius:12px; color:#fff; font-weight:700; font-size:0.85rem; display:inline-block; }
+  .A{ background:#2ecc71; } .B{ background:#4aa3d9; } .C{ background:#ffd54f; color:#2b2b2b } .D{ background:#ff9f1c } .E{ background:#ff4d4d } .F{ background:#8b0000 }
+
+  .legend { display:flex; gap:6px; margin-top:8px; align-items:center; flex-wrap:wrap; }
+  .legend .item { display:flex; gap:6px; align-items:center; font-size:0.9rem; }
+  .swatch { width:18px; height:12px; border-radius:3px; display:inline-block; border:1px solid rgba(0,0,0,0.06); }
+
+  canvas { width:100%; max-height:220px; margin-top:8px; }
 
 </style>
 </head>
 <body>
-  <!-- Navbar -->
   <nav class="navbar">
     <div class="nav-container">
-      <a href="index.html" class="nav-logo">Lester Jay Ollero</a>
-      <div class="menu-toggle" id="mobile-menu">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-      </div>
+      <a class="nav-logo" href="index.html">Lester Jay Ollero</a>
       <ul class="nav-menu">
-        <li><a href="index.html#home">Home</a></li>
         <li><a href="research.html">Research</a></li>
-        <li><a href="simulation.html" class="active">Simulation</a></li>
+        <li><a class="active" href="#">Intersection</a></li>
         <li><a href="publications.html">Publications</a></li>
-        <li><a href="awards.html">Awards</a></li>
-        <li><a href="projects.html">Projects</a></li>
       </ul>
     </div>
   </nav>
 
   <div class="container">
-    <h1>Interactive Intersection Analysis (3-leg / 4-leg)</h1>
+    <h1>Interactive Intersection — v/c & LOS</h1>
 
-    <div class="top-controls">
+    <div class="controls">
       <div class="card">
-        <label>Intersection type</label>
+        <label>Intersection type</label><br/>
         <select id="typeSel">
-          <option value="4">4-legged (cross)</option>
+          <option value="4">4-legged</option>
           <option value="3">3-legged (T)</option>
         </select>
-        <div class="small muted" style="margin-top:6px;">Choose 3-legged to remove one approach.</div>
       </div>
 
       <div class="card">
-        <label>Legs present</label>
-        <div style="display:flex; gap:8px; flex-wrap:wrap;">
-          <label><input type="checkbox" class="legToggle" data-leg="N" checked> North</label>
-          <label><input type="checkbox" class="legToggle" data-leg="E" checked> East</label>
-          <label><input type="checkbox" class="legToggle" data-leg="S" checked> South</label>
-          <label><input type="checkbox" class="legToggle" data-leg="W" checked> West</label>
-        </div>
-        <div class="small muted" style="margin-top:6px;">Click a leg in the diagram to edit movements & capacity.</div>
+        <label>Show legend</label><br/>
+        <input type="checkbox" id="showLegend" checked> Show LOS legend
       </div>
 
       <div class="card">
-        <label>LOS thresholds</label>
-        <div class="small">A ≤ 0.60, B ≤ 0.70, C ≤ 0.80, D ≤ 0.90, E ≤ 1.00, F > 1.00</div>
+        <label>Instructions</label>
+        <div class="muted">Click an <strong>arrow</strong> to edit movement volume (veh/hr). Click the <strong>approach area</strong> to edit capacity for that leg. Results update automatically.</div>
       </div>
 
       <div class="card">
         <label>Actions</label>
-        <div style="display:flex; gap:8px;">
-          <button class="btn" id="calcBtn">Calculate</button>
-          <button class="btn secondary" id="resetBtn">Reset</button>
+        <div style="display:flex;gap:8px;margin-top:6px;">
+          <button id="resetBtn" class="btn secondary">Reset</button>
+          <button id="calcBtn" class="btn">Recalculate</button>
         </div>
       </div>
     </div>
 
     <div class="layout">
-      <!-- LEFT: SVG diagram and leg editor modal -->
-      <div class="panel intersect-wrap">
-        <h3 style="margin-top:0;color:#003049;">Intersection diagram (click a leg)</h3>
+      <!-- LEFT: SVG graphic -->
+      <div class="svg-wrap panel" style="position:relative;">
+        <!-- Floating editor -->
+        <div id="editor" class="editor" role="dialog" aria-hidden="true">
+          <div style="font-weight:700;margin-bottom:6px;" id="editorTitle">Edit</div>
+          <label style="font-size:12px;color:#555">Movement / Leg capacity</label>
+          <div id="editorBody">
+            <!-- content populated dynamically -->
+          </div>
+          <div style="display:flex;gap:8px;margin-top:6px;">
+            <button id="saveBtn" class="btn">Save</button>
+            <button id="closeBtn" class="btn secondary">Close</button>
+          </div>
+        </div>
 
-        <!-- SVG schematic -->
-        <svg id="intersectionSvg" viewBox="0 0 400 400" width="100%" height="420" xmlns="http://www.w3.org/2000/svg">
-          <!-- central square -->
-          <rect x="140" y="140" width="120" height="120" fill="#fff" stroke="#0077b6" stroke-width="2"></rect>
+        <!-- Intersection SVG -->
+        <svg id="svg" viewBox="0 0 420 420" xmlns="http://www.w3.org/2000/svg">
+          <!-- center square -->
+          <rect x="160" y="160" width="100" height="100" rx="6" fill="#fff" stroke="#0077b6" stroke-width="2"></rect>
 
-          <!-- North leg -->
-          <rect id="legN" class="leg" x="185" y="0" width="30" height="140" rx="6"></rect>
-          <text x="200" y="20" text-anchor="middle" class="leg-label">N</text>
-
-          <!-- South leg -->
-          <rect id="legS" class="leg" x="185" y="260" width="30" height="140" rx="6"></rect>
-          <text x="200" y="395" text-anchor="middle" class="leg-label">S</text>
-
-          <!-- West leg -->
-          <rect id="legW" class="leg" x="0" y="185" width="140" height="30" rx="6"></rect>
-          <text x="18" y="205" text-anchor="start" class="leg-label">W</text>
-
-          <!-- East leg -->
-          <rect id="legE" class="leg" x="260" y="185" width="140" height="30" rx="6"></rect>
-          <text x="381" y="205" text-anchor="end" class="leg-label">E</text>
-
-          <!-- little movement arrows (visual) -->
-          <g id="movIcons" fill="#003049" opacity="0.85">
-            <!-- North approaches (arrows near center) -->
-            <path id="N_left" d="M160 165 L175 155 L175 175 Z" />
-            <path id="N_thru" d="M200 160 L200 140" stroke="#003049" stroke-width="3" stroke-linecap="round"/>
-            <path id="N_right" d="M240 165 L225 155 L225 175 Z" />
-            <!-- other arrows omitted for brevity (not interactive) -->
+          <!-- NORTH leg area -->
+          <rect id="legAreaN" class="leg-area" x="190" y="0" width="40" height="160" rx="6"></rect>
+          <!-- arrows: N approach movements pointing southwards -->
+          <g id="N_movements" transform="translate(0,0)">
+            <!-- left (turning left = eastbound) -->
+            <path id="N_left" class="arrow" d="M200 150 L180 135 L200 120 L200 130 L230 130 L230 140 L200 140 Z" />
+            <!-- through -->
+            <path id="N_thru" class="arrow" d="M210 150 L210 115 L206 115 L214 115" />
+            <!-- right -->
+            <path id="N_right" class="arrow" d="M220 150 L240 135 L220 120 L220 130 L205 130 L205 140 L220 140 Z" />
           </g>
+
+          <!-- SOUTH leg area -->
+          <rect id="legAreaS" class="leg-area" x="190" y="260" width="40" height="160" rx="6"></rect>
+          <!-- S approach arrows (pointing north) -->
+          <g id="S_movements" transform="translate(0,0)">
+            <path id="S_left" class="arrow" d="M210 270 L230 285 L210 300 L210 290 L180 290 L180 280 L210 280 Z" />
+            <path id="S_thru" class="arrow" d="M200 270 L200 305 L204 305 L196 305" />
+            <path id="S_right" class="arrow" d="M190 270 L170 285 L190 300 L190 290 L205 290 L205 280 L190 280 Z" />
+          </g>
+
+          <!-- WEST leg area -->
+          <rect id="legAreaW" class="leg-area" x="0" y="190" width="160" height="40" rx="6"></rect>
+          <!-- W approach arrows (pointing east) -->
+          <g id="W_movements" transform="translate(0,0)">
+            <path id="W_left" class="arrow" d="M150 200 L165 180 L180 200 L170 200 L170 230 L160 230 L160 200 Z" />
+            <path id="W_thru" class="arrow" d="M150 210 L185 210 L185 206 L185 214" />
+            <path id="W_right" class="arrow" d="M150 220 L165 240 L180 220 L170 220 L170 205 L160 205 L160 220 Z" />
+          </g>
+
+          <!-- EAST leg area -->
+          <rect id="legAreaE" class="leg-area" x="260" y="190" width="160" height="40" rx="6"></rect>
+          <!-- E approach arrows (pointing west) -->
+          <g id="E_movements" transform="translate(0,0)">
+            <path id="E_left" class="arrow" d="M270 200 L255 180 L240 200 L250 200 L250 230 L260 230 L260 200 Z" />
+            <path id="E_thru" class="arrow" d="M270 210 L235 210 L235 206 L235 214" />
+            <path id="E_right" class="arrow" d="M270 220 L255 240 L240 220 L250 220 L250 205 L260 205 L260 220 Z" />
+          </g>
+
+          <!-- approach total circles (display leg v/c color) -->
+          <circle id="totalN" cx="210" cy="150" r="12" fill="#fff" stroke="#333" stroke-width="1"></circle>
+          <text id="totalNtxt" x="210" y="154" text-anchor="middle" font-size="10" fill="#003049" font-weight="700"></text>
+
+          <circle id="totalStxt" cx="210" cy="270" r="12" fill="#fff" stroke="#333" stroke-width="1"></circle>
+          <text id="totalStxtLabel" x="210" y="274" text-anchor="middle" font-size="10" fill="#003049" font-weight="700"></text>
+
+          <circle id="totalW" cx="150" cy="210" r="12" fill="#fff" stroke="#333" stroke-width="1"></circle>
+          <text id="totalWtxt" x="150" y="214" text-anchor="middle" font-size="10" fill="#003049" font-weight="700"></text>
+
+          <circle id="totalE" cx="270" cy="210" r="12" fill="#fff" stroke="#333" stroke-width="1"></circle>
+          <text id="totalEtxt" x="270" y="214" text-anchor="middle" font-size="10" fill="#003049" font-weight="700"></text>
+
         </svg>
 
-        <div style="margin-top:10px; text-align:left;">
-          <div class="small muted">Click a leg (N/E/S/W) to edit volumes & capacity. After editing, press <strong>Calculate</strong> to compute v/c and LOS, or it updates automatically.</div>
+        <!-- legend -->
+        <div id="legendWrap" class="legend" style="margin-top:8px;">
+          <div class="item"><span class="swatch" style="background:#2ecc71"></span> A &lt;0.20</div>
+          <div class="item"><span class="swatch" style="background:#4aa3d9"></span> B 0.21–0.50</div>
+          <div class="item"><span class="swatch" style="background:#ffd54f"></span> C 0.51–0.70</div>
+          <div class="item"><span class="swatch" style="background:#ff9f1c"></span> D 0.71–0.85</div>
+          <div class="item"><span class="swatch" style="background:#ff4d4d"></span> E 0.86–1.00</div>
+          <div class="item"><span class="swatch" style="background:#8b0000"></span> F &gt;1.00</div>
         </div>
+
       </div>
 
-      <!-- RIGHT: editor / results -->
-      <div class="panel right-col">
-        <h3 style="margin-top:0;color:#003049;">Leg Editor & Results</h3>
+      <!-- RIGHT: results and controls -->
+      <div>
+        <div class="panel">
+          <h3 style="margin-top:0;color:#003049">Results</h3>
+          <div class="muted">Movement-level v/c shown by arrow color. Leg totals shown in small circle on each approach.</div>
 
-        <!-- editor -->
-        <div id="editor" class="card" style="margin-bottom:10px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;">
-            <strong id="editorTitle">Select a leg</strong>
-            <div class="small muted">Click a leg in the diagram</div>
-          </div>
-
-          <div id="editorForm" style="margin-top:10px; display:none;">
-            <div style="display:flex;gap:8px;flex-wrap:wrap;">
-              <div>
-                <label>Left-turn (veh/hr)</label>
-                <input type="number" min="0" step="10" id="volLeft" value="0">
-              </div>
-              <div>
-                <label>Through (veh/hr)</label>
-                <input type="number" min="0" step="10" id="volThru" value="500">
-              </div>
-              <div>
-                <label>Right-turn (veh/hr)</label>
-                <input type="number" min="0" step="10" id="volRight" value="50">
-              </div>
-              <div>
-                <label>Capacity (veh/hr)</label>
-                <input type="number" min="50" step="10" id="legCap" value="1000">
-              </div>
-            </div>
-
-            <div style="margin-top:8px; display:flex; gap:8px;">
-              <button class="btn" id="saveLegBtn">Save</button>
-              <button class="btn secondary" id="clearLegBtn">Clear</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- results table -->
-        <div class="panel" style="padding:10px;">
-          <h4 style="margin:4px 0 8px 0;color:#003049;">Summary</h4>
-          <table class="table" id="resultsTable">
-            <thead><tr><th>Leg</th><th>Left</th><th>Through</th><th>Right</th><th>Total (veh/hr)</th><th>Cap (veh/hr)</th><th>v/c</th><th>LOS</th></tr></thead>
-            <tbody id="resultsBody">
-              <!-- rows inserted dynamically -->
-            </tbody>
+          <table aria-label="Results table">
+            <thead>
+              <tr><th>Approach</th><th>Left</th><th>Through</th><th>Right</th><th>Total</th><th>Cap</th><th>v/c</th><th>LOS</th></tr>
+            </thead>
+            <tbody id="resultsBody"></tbody>
           </table>
 
-          <div style="margin-top:10px;">
-            <canvas id="vcChart" width="360" height="200"></canvas>
-          </div>
-
-          <div class="footer-note">
-            <strong>Remarks:</strong> v/c is computed per leg as total_flow / capacity_leg. Movement-level v/c uses movement_flow / capacity_leg.
-          </div>
+          <canvas id="vcBar" height="200"></canvas>
         </div>
 
+        <div class="panel" style="margin-top:12px;">
+          <h4 style="margin:6px 0;">Legend / Notes</h4>
+          <div class="muted">Click any arrow or approach area to change volumes / capacity. For T-intersections select 3-legged and uncheck the absent leg(s).</div>
+          <div style="margin-top:8px;">
+            <label><input type="checkbox" id="toggleLegN" checked> North</label>
+            <label style="margin-left:8px"><input type="checkbox" id="toggleLegE" checked> East</label>
+            <label style="margin-left:8px"><input type="checkbox" id="toggleLegS" checked> South</label>
+            <label style="margin-left:8px"><input type="checkbox" id="toggleLegW" checked> West</label>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
 <script>
-/* =========================
-   Data model
-   ========================= */
-const legs = { N: null, E: null, S: null, W: null }; // each leg: {present:true/false, left,thru,right,cap}
-const typeSel = document.getElementById('typeSel');
-const legToggles = document.querySelectorAll('.legToggle');
-const editorTitle = document.getElementById('editorTitle');
-const editorForm = document.getElementById('editorForm');
-let selectedLeg = null; // 'N','E','S','W'
+/* ---------------
+  Data model
+  --------------- */
+const arms = ['N','E','S','W'];
 
-// initialize default legs present (4-leg)
-function initLegs() {
-  ['N','E','S','W'].forEach(k => {
-    legs[k] = { present: true, left: 0, thru: 500, right: 50, cap: 1000 };
-  });
-}
-initLegs();
+// Each arm stores movement volumes and capacity (cap is per-leg)
+const dataModel = {
+  N: { present: true, left: 0, thru: 600, right: 50, cap: 1200 },
+  E: { present: true, left: 0, thru: 600, right: 50, cap: 1200 },
+  S: { present: true, left: 0, thru: 600, right: 50, cap: 1200 },
+  W: { present: true, left: 0, thru: 600, right: 50, cap: 1200 }
+};
 
-/* utility */
-function losFromVC(vc) {
-  if (vc <= 0.60) return 'A';
-  if (vc <= 0.70) return 'B';
-  if (vc <= 0.80) return 'C';
-  if (vc <= 0.90) return 'D';
+// LOS mapping using your legend thresholds
+function determineLOS(vc) {
+  if (vc < 0.20) return 'A';
+  if (vc <= 0.50) return 'B';
+  if (vc <= 0.70) return 'C';
+  if (vc <= 0.85) return 'D';
   if (vc <= 1.00) return 'E';
   return 'F';
 }
-function losClass(los) {
-  return { A:'LOS-A',B:'LOS-B',C:'LOS-C',D:'LOS-D',E:'LOS-E',F:'LOS-F' }[los] || 'LOS-F';
-}
+const losColor = { A:'#2ecc71', B:'#4aa3d9', C:'#ffd54f', D:'#ff9f1c', E:'#ff4d4d', F:'#8b0000' };
 
-/* =========================
-   SVG leg click handling & presence toggles
-   ========================= */
-const svg = document.getElementById('intersectionSvg');
-const legElements = {
-  N: document.getElementById('legN'),
-  E: document.getElementById('legE'),
-  S: document.getElementById('legS'),
-  W: document.getElementById('legW')
-};
+/* ---------------
+  UI references
+  --------------- */
+const svg = document.getElementById('svg');
+const editor = document.getElementById('editor');
+const editorTitle = document.getElementById('editorTitle');
+const editorBody = document.getElementById('editorBody');
+const saveBtn = document.getElementById('saveBtn');
+const closeBtn = document.getElementById('closeBtn');
 
-// set up legToggle checkbox listeners
-legToggles.forEach(chk => {
-  chk.addEventListener('change', (e) => {
-    const leg = chk.dataset.leg;
-    legs[leg].present = chk.checked;
-    updateSvgLeg(leg);
-    renderResults();
+const typeSel = document.getElementById('typeSel');
+const calcBtn = document.getElementById('calcBtn');
+const resetBtn = document.getElementById('resetBtn');
+const legendWrap = document.getElementById('legendWrap');
+
+const resultsBody = document.getElementById('resultsBody');
+
+const toggleN = document.getElementById('toggleLegN');
+const toggleE = document.getElementById('toggleLegE');
+const toggleS = document.getElementById('toggleLegS');
+const toggleW = document.getElementById('toggleLegW');
+
+const showLegend = document.getElementById('showLegend');
+
+/* Chart */
+const vcCtx = document.getElementById('vcBar').getContext('2d');
+const vcChart = new Chart(vcCtx, {
+  type: 'bar',
+  data: { labels: [], datasets: [{ label:'v/c', data:[], backgroundColor: [] }]},
+  options: { responsive:true, plugins:{legend:{display:false}}, scales:{ y:{ beginAtZero:true, max:1.6, title:{display:true,text:'v/c ratio'} } } }
+});
+
+/* ---------------
+  Helper: find element by id
+  --------------- */
+function $(id) { return document.getElementById(id); }
+
+/* ---------------
+  Setup clickable elements - movement arrows & leg areas
+  --------------- */
+const movementIds = [
+  'N_left','N_thru','N_right',
+  'E_left','E_thru','E_right',
+  'S_left','S_thru','S_right',
+  'W_left','W_thru','W_right'
+];
+
+const legAreas = { N: $('legAreaN'), E: $('legAreaE'), S: $('legAreaS'), W: $('legAreaW') };
+const totalCircles = { N: $('totalN'), E: $('totalE'), S: $('totalStxt'), W: $('totalW') };
+const totalTexts = { N: $('totalNtxt'), E: $('totalEtxt'), S: $('totalStxtLabel'), W: $('totalWtxt') };
+
+// attach movement click handlers
+movementIds.forEach(id => {
+  const el = $(id);
+  if (!el) return;
+  el.addEventListener('click', (ev) => {
+    // which approach and movement?
+    const parts = id.split('_'); // e.g. "N_left"
+    const arm = parts[0];
+    const mov = parts[1]; // left / thru / right
+    openEditorForMovement(ev, arm, mov);
   });
 });
 
-// set up type selection (3-legged hides one leg if toggles not updated)
+// attach leg area click handlers (to edit capacity)
+Object.keys(legAreas).forEach(arm => {
+  legAreas[arm].addEventListener('click', (ev) => {
+    openEditorForLeg(ev, arm);
+  });
+});
+
+/* ---------------
+  Editor UI
+  --------------- */
+let editorContext = null; // {type:'mov'|'leg', arm:'N', mov:'left'}
+
+function openEditorForMovement(ev, arm, mov) {
+  if (!dataModel[arm].present) return;
+  editorContext = { type: 'mov', arm, mov };
+  const rect = svg.getBoundingClientRect();
+  showEditorAt(ev.clientX - rect.left + 6, ev.clientY - rect.top + 6);
+  editorTitle.textContent = `Edit ${arm} → ${mov}`;
+  editorBody.innerHTML = `
+    <label>Volume (veh/hr)</label>
+    <input id="inpVol" type="number" min="0" step="10" value="${dataModel[arm][mov]||0}">
+    <div style="font-size:12px;color:#555">Leg capacity: <strong id="capPreview">${dataModel[arm].cap}</strong> veh/hr</div>
+  `;
+  editor.style.display = 'block';
+}
+
+function openEditorForLeg(ev, arm) {
+  // capacity editing
+  editorContext = { type: 'leg', arm };
+  const rect = svg.getBoundingClientRect();
+  showEditorAt(ev.clientX - rect.left + 6, ev.clientY - rect.top + 6);
+  editorTitle.textContent = `Edit ${arm} capacity & movements`;
+  editorBody.innerHTML = `
+    <label>Capacity (veh/hr)</label>
+    <input id="inpCap" type="number" min="50" step="10" value="${dataModel[arm].cap}">
+    <label style="margin-top:6px">Left (veh/hr)</label>
+    <input id="inpL" type="number" min="0" step="10" value="${dataModel[arm].left}">
+    <label>Through (veh/hr)</label>
+    <input id="inpT" type="number" min="0" step="10" value="${dataModel[arm].thru}">
+    <label>Right (veh/hr)</label>
+    <input id="inpR" type="number" min="0" step="10" value="${dataModel[arm].right}">
+  `;
+  editor.style.display = 'block';
+}
+
+function showEditorAt(x,y){
+  // position relative to svg container
+  editor.style.left = `${x}px`;
+  editor.style.top = `${y}px`;
+  editor.setAttribute('aria-hidden','false');
+}
+
+/* save & close */
+saveBtn.addEventListener('click', ()=> {
+  if (!editorContext) { closeEditor(); return; }
+  if (editorContext.type === 'mov') {
+    const vol = Number(document.getElementById('inpVol').value) || 0;
+    dataModel[editorContext.arm][editorContext.mov] = vol;
+  } else {
+    const cap = Math.max(1, Number(document.getElementById('inpCap').value) || 1);
+    const L = Math.max(0, Number(document.getElementById('inpL').value) || 0);
+    const T = Math.max(0, Number(document.getElementById('inpT').value) || 0);
+    const R = Math.max(0, Number(document.getElementById('inpR').value) || 0);
+    dataModel[editorContext.arm].cap = cap;
+    dataModel[editorContext.arm].left = L;
+    dataModel[editorContext.arm].thru = T;
+    dataModel[editorContext.arm].right = R;
+    // also make sure the corresponding toggle for presence is checked
+    enableLeg(editorContext.arm, true);
+  }
+  closeEditor();
+  recalcAndRender();
+});
+closeBtn.addEventListener('click', ()=> { closeEditor(); });
+
+function closeEditor(){
+  editor.style.display = 'none';
+  editor.setAttribute('aria-hidden','true');
+  editorContext = null;
+}
+
+/* ---------------
+  Toggle approach presence (for 3-leg)
+  --------------- */
+function enableLeg(arm, val) {
+  dataModel[arm].present = !!val;
+  // toggle visual class
+  if (!val) {
+    legAreas[arm].classList.add('missing');
+  } else {
+    legAreas[arm].classList.remove('missing');
+  }
+  // also update checkbox states
+  if (arm === 'N') toggleN.checked = val;
+  if (arm === 'E') toggleE.checked = val;
+  if (arm === 'S') toggleS.checked = val;
+  if (arm === 'W') toggleW.checked = val;
+}
+
+/* listen to visibility toggles */
+toggleN.addEventListener('change', ()=> { enableLeg('N', toggleN.checked); recalcAndRender(); });
+toggleE.addEventListener('change', ()=> { enableLeg('E', toggleE.checked); recalcAndRender(); });
+toggleS.addEventListener('change', ()=> { enableLeg('S', toggleS.checked); recalcAndRender(); });
+toggleW.addEventListener('change', ()=> { enableLeg('W', toggleW.checked); recalcAndRender(); });
+
+/* type selection: 3-legged default behavior: hide one leg (E) if not unchecked */
 typeSel.addEventListener('change', ()=> {
   const val = typeSel.value;
   if (val === '3') {
-    // if currently 4 legs, default to remove East (E) unless user unchecked already
-    // keep toggles consistent: ensure one leg unchecked
-    const checked = [...legToggles].filter(t=>t.checked).map(t=>t.dataset.leg);
-    if (checked.length === 4) {
-      // uncheck East by default (you can adjust)
-      document.querySelector('.legToggle[data-leg="E"]').checked = false;
-      legs['E'].present = false;
-      updateSvgLeg('E');
+    // if all four are present, uncheck E by default
+    if (toggleN.checked && toggleE.checked && toggleS.checked && toggleW.checked) {
+      enableLeg('E', false);
     }
   } else {
-    // make sure all toggles re-check (4-leg) - but preserve manual settings
-    // If user manually toggled earlier, we won't force them; just keep their checkboxes.
+    enableLeg('N', toggleN.checked);
+    enableLeg('E', toggleE.checked);
+    enableLeg('S', toggleS.checked);
+    enableLeg('W', toggleW.checked);
   }
-  renderResults();
+  recalcAndRender();
 });
 
-// clicking SVG leg opens editor (if present)
-Object.keys(legElements).forEach(leg => {
-  legElements[leg].addEventListener('click', () => {
-    if (!legs[leg].present) {
-      // flash or ignore
+/* reset */
+resetBtn.addEventListener('click', ()=> {
+  // restore defaults
+  dataModel.N = { present:true, left:0, thru:600, right:50, cap:1200 };
+  dataModel.E = { present:true, left:0, thru:600, right:50, cap:1200 };
+  dataModel.S = { present:true, left:0, thru:600, right:50, cap:1200 };
+  dataModel.W = { present:true, left:0, thru:600, right:50, cap:1200 };
+  toggleN.checked = true; toggleE.checked = true; toggleS.checked = true; toggleW.checked = true;
+  typeSel.value = '4';
+  recalcAndRender();
+});
+
+/* manual recalc */
+calcBtn.addEventListener('click', ()=> recalcAndRender());
+
+/* ---------------
+  Recalculation & rendering
+  --------------- */
+function recalcAndRender() {
+  // build results table & update SVG colors & chart
+  resultsBody.innerHTML = '';
+  const labels = []; const values = []; const bg = [];
+
+  arms.forEach(arm => {
+    if (!dataModel[arm].present) {
+      // skip
       return;
     }
-    openEditor(leg);
-  });
-});
+    const d = dataModel[arm];
+    const total = (Number(d.left)||0) + (Number(d.thru)||0) + (Number(d.right)||0);
+    const cap = Math.max(1, Number(d.cap)||1);
+    const vc = total / cap; // leg-level v/c
+    const los = determineLOS(vc);
 
-function updateSvgLeg(leg) {
-  const el = legElements[leg];
-  if (legs[leg].present) {
-    el.classList.remove('missing');
-    el.classList.add('leg');
-  } else {
-    el.classList.add('missing');
-    el.classList.remove('leg');
-  }
-}
+    // movement-level v/c (movement volume / leg cap)
+    const movLeftVC = (d.left || 0) / cap;
+    const movThruVC = (d.thru || 0) / cap;
+    const movRightVC = (d.right || 0) / cap;
 
-/* =========================
-   Editor UI actions
-   ========================= */
-const volLeft = document.getElementById('volLeft');
-const volThru = document.getElementById('volThru');
-const volRight = document.getElementById('volRight');
-const legCap = document.getElementById('legCap');
-const saveLegBtn = document.getElementById('saveLegBtn');
-const clearLegBtn = document.getElementById('clearLegBtn');
-
-function openEditor(leg) {
-  selectedLeg = leg;
-  editorTitle.textContent = `Editing Leg: ${leg}`;
-  const data = legs[leg];
-  // populate fields
-  volLeft.value = data.left ?? 0;
-  volThru.value = data.thru ?? 0;
-  volRight.value = data.right ?? 0;
-  legCap.value = data.cap ?? 1000;
-  editorForm.style.display = 'block';
-}
-
-// Save
-saveLegBtn.addEventListener('click', ()=> {
-  if (!selectedLeg) return;
-  const L = Math.max(0, Number(volLeft.value)||0);
-  const T = Math.max(0, Number(volThru.value)||0);
-  const R = Math.max(0, Number(volRight.value)||0);
-  const C = Math.max(1, Number(legCap.value)||1);
-  legs[selectedLeg].left = L;
-  legs[selectedLeg].thru = T;
-  legs[selectedLeg].right = R;
-  legs[selectedLeg].cap = C;
-  // ensure presence checkbox on
-  document.querySelector('.legToggle[data-leg="'+selectedLeg+'"]').checked = true;
-  legs[selectedLeg].present = true;
-  updateSvgLeg(selectedLeg);
-  renderResults();
-  // close editor
-  //editorForm.style.display = 'none';
-});
-
-// Clear (set zeros)
-clearLegBtn.addEventListener('click', ()=> {
-  if (!selectedLeg) return;
-  legs[selectedLeg].left = 0;
-  legs[selectedLeg].thru = 0;
-  legs[selectedLeg].right = 0;
-  legs[selectedLeg].cap = 1000;
-  volLeft.value = 0; volThru.value = 0; volRight.value = 0; legCap.value = 1000;
-  renderResults();
-});
-
-/* =========================
-   Calculation & rendering
-   ========================= */
-const resultsBody = document.getElementById('resultsBody');
-const calcBtn = document.getElementById('calcBtn');
-const resetBtn = document.getElementById('resetBtn');
-
-calcBtn.addEventListener('click', ()=> renderResults());
-resetBtn.addEventListener('click', ()=> {
-  initLegs();
-  // restore toggles
-  document.querySelectorAll('.legToggle').forEach(t => t.checked = true);
-  typeSel.value = '4';
-  // update svg visual
-  Object.keys(legElements).forEach(k => updateSvgLeg(k));
-  editorForm.style.display = 'none';
-  renderResults();
-});
-
-/* Chart setup for v/c per leg */
-const vcCtx = document.getElementById('vcChart').getContext('2d');
-const vcChart = new Chart(vcCtx, {
-  type: 'bar',
-  data: { labels: [], datasets: [{ label:'v/c', data: [], backgroundColor: [] }]},
-  options: { responsive:true, plugins:{legend:{display:false}}, scales:{ y:{beginAtZero:true, max:1.6, title:{display:true,text:'v/c'}}}}
-});
-
-/* renderResults builds the table and chart */
-function renderResults() {
-  resultsBody.innerHTML = '';
-  const labels = [];
-  const vcValues = [];
-  const bgColors = [];
-
-  Object.keys(legs).forEach(leg => {
-    if (!legs[leg].present) return;
-    const data = legs[leg];
-    const total = (Number(data.left)||0) + (Number(data.thru)||0) + (Number(data.right)||0);
-    const cap = Number(data.cap) || 1;
-    const vc = total / cap;
-    const los = losFromVC(vc);
-
-    // create row html
+    // append row
     const tr = document.createElement('tr');
-    tr.innerHTML = `<td><strong>${leg}</strong></td>
-      <td>${data.left}</td>
-      <td>${data.thru}</td>
-      <td>${data.right}</td>
+    tr.innerHTML = `<td><strong>${arm}</strong></td>
+      <td>${d.left}</td>
+      <td>${d.thru}</td>
+      <td>${d.right}</td>
       <td>${total}</td>
       <td>${cap}</td>
       <td>${vc.toFixed(2)}</td>
-      <td><span class="los-pill ${losClass(los)}">LOS ${los}</span></td>`;
+      <td><span class="los-pill ${los}">LOS ${los}</span></td>`;
     resultsBody.appendChild(tr);
 
-    labels.push(leg);
-    vcValues.push(vc.toFixed(2));
-    // choose color by LOS
-    const color = {
-      A:'#2a9d8f', B:'#7fc0b7', C:'#ffbf69', D:'#f77f00', E:'#d62828', F:'#6a0dad'
-    }[los];
-    bgColors.push(color);
-  });
+    labels.push(arm);
+    values.push(vc.toFixed(2));
+    bg.push(losColor[los] || '#ccc');
 
-  vcChart.data.labels = labels;
-  vcChart.data.datasets[0].data = vcValues;
-  vcChart.data.datasets[0].backgroundColor = bgColors;
-  vcChart.update();
-
-  // make sure SVG leg visuals reflect LOS color
-  Object.keys(legs).forEach(leg => {
-    const el = legElements[leg];
-    if (!legs[leg].present) {
-      el.style.fill = '#f4f4f4';
-      el.style.stroke = '#ccc';
-      el.style.opacity = 0.6;
-    } else {
-      const data = legs[leg];
-      const total = (Number(data.left)||0)+(Number(data.thru)||0)+(Number(data.right)||0);
-      const cap = Number(data.cap)||1;
-      const vc = total / cap;
-      const los = losFromVC(vc);
-      const color = {
-        A:'#dff6f2', B:'#e8f6f4', C:'#fff4e0', D:'#fff0e0', E:'#ffe2e2', F:'#f2e6ff'
-      }[los] || '#fff';
-      el.style.fill = color;
-      el.style.stroke = '#0077b6';
-      el.style.opacity = 1.0;
+    // color the approach total circle and text
+    const circle = totalCircles[arm];
+    const txt = totalTexts[arm];
+    if (circle) {
+      circle.setAttribute('fill', losColor[los] || '#fff');
+      txt.textContent = vc.toFixed(2);
     }
+
+    // color movement arrows individually by movement v/c
+    const movMap = { left: movLeftVC, thru: movThruVC, right: movRightVC };
+    ['left','thru','right'].forEach(mov => {
+      const mid = `${arm}_${mov}`;
+      const el = document.getElementById(mid);
+      if (!el) return;
+      const mv = movMap[mov];
+      const mLOS = determineLOS(mv);
+      el.style.fill = losColor[mLOS] || '#f6f8fa';
+      el.style.stroke = shadeColor(losColor[mLOS] || '#666', -10);
+      el.style.opacity = 0.95;
+      // adjust arrow stroke width by v/c (visual emphasis)
+      el.style.strokeWidth = Math.max(1.2, Math.min(3.5, 1 + mv * 3));
+    });
   });
+
+  // update chart
+  vcChart.data.labels = labels;
+  vcChart.data.datasets[0].data = values;
+  vcChart.data.datasets[0].backgroundColor = bg;
+  vcChart.update();
 }
 
-/* initial render */
-Object.keys(legElements).forEach(k => updateSvgLeg(k));
-renderResults();
+/* small util to slightly darken stroke */
+function shadeColor(hex, percent) {
+  // hex like #rrggbb
+  const f = hex.slice(1);
+  const r = parseInt(f.substring(0,2),16);
+  const g = parseInt(f.substring(2,4),16);
+  const b = parseInt(f.substring(4,6),16);
+  const t = percent < 0 ? 0 : 255;
+  const p = Math.abs(percent)/100;
+  const R = Math.round((t - r) * p) + r;
+  const G = Math.round((t - g) * p) + g;
+  const B = Math.round((t - b) * p) + b;
+  return `rgb(${R},${G},${B})`;
+}
 
-/* auto-update when inputs change in editor (live) */
-[volLeft, volThru, volRight, legCap].forEach(inp => {
-  inp.addEventListener('input', ()=> {
-    // if editing a leg, reflect to model but don't finalize until save; preview
-    if (selectedLeg) {
-      legs[selectedLeg].left = Number(volLeft.value) || 0;
-      legs[selectedLeg].thru = Number(volThru.value) || 0;
-      legs[selectedLeg].right = Number(volRight.value) || 0;
-      legs[selectedLeg].cap = Number(legCap.value) || 1;
-      renderResults();
-    }
-  });
+/* initial render on load */
+recalcAndRender();
+
+/* hide legend toggle */
+showLegend.addEventListener('change', ()=> {
+  legendWrap.style.display = showLegend.checked ? 'flex' : 'none';
 });
 
-/* tooltip-ish: click outside editor to close? (we keep it open to encourage save) */
-/* nothing more required */
+/* close editor by clicking outside */
+document.addEventListener('click', (ev)=> {
+  const isClickInside = ev.target.closest('.editor') || ev.target.closest('svg');
+  if (!isClickInside) closeEditor();
+});
+
+/* keyboard support: Esc to close */
+document.addEventListener('keydown', (ev)=> { if (ev.key === 'Escape') closeEditor(); });
 
 </script>
 </body>
