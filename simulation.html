@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Traffic Simulation | Lester Jay Ollero</title>
+  <meta name="keywords" content="Traffic Simulation, Transportation Engineering, Microsimulation, Traffic Flow, Public Transport">
+  <meta name="author" content="Lester Jay Ollero">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    body {
+      font-family: "Segoe UI", Roboto, sans-serif;
+      color: #222;
+      background: #fafafa;
+      line-height: 1.7;
+      margin: 0;
+      padding: 0;
+    }
+
+    a {
+      color: #0077b6;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: #005f8f;
+      text-decoration: underline;
+    }
+
+    /* Navbar */
+    .navbar {
+      background: #fff;
+      border-bottom: 1px solid #ddd;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      width: 100%;
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .nav-logo {
+      font-size: 1.4em;
+      font-weight: 600;
+      color: #003049;
+    }
+
+    .nav-menu {
+      display: flex;
+      list-style: none;
+    }
+
+    .nav-menu li {
+      margin: 0 12px;
+    }
+
+    .nav-menu a {
+      color: #003049;
+      font-weight: 500;
+    }
+
+    .nav-menu a.active {
+      color: #0077b6;
+      font-weight: 600;
+      border-bottom: 2px solid #0077b6;
+      padding-bottom: 2px;
+    }
+
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .menu-toggle .bar {
+      height: 3px;
+      width: 25px;
+      background-color: #003049;
+      margin: 4px 0;
+      border-radius: 3px;
+    }
+
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: flex;
+      }
+
+      .nav-menu {
+        position: fixed;
+        right: -100%;
+        top: 0;
+        flex-direction: column;
+        background: #fff;
+        width: 230px;
+        height: 100%;
+        border-left: 1px solid #ddd;
+        padding-top: 70px;
+        transition: right 0.3s ease-in-out;
+        z-index: 200;
+      }
+
+      .nav-menu.active {
+        right: 0;
+      }
+
+      .nav-menu li {
+        margin: 18px 0;
+        text-align: center;
+      }
+    }
+
+    /* Page Layout */
+    .container {
+      max-width: 950px;
+      margin: 50px auto;
+      padding: 0 20px;
+    }
+
+    h1 {
+      color: #003049;
+      font-size: 2em;
+      border-bottom: 3px solid #0077b6;
+      display: inline-block;
+      padding-bottom: 6px;
+      margin-bottom: 20px;
+    }
+
+    p {
+      text-align: justify;
+      text-justify: inter-word;
+    }
+
+    .sim-controls {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 20px 0;
+    }
+
+    button {
+      padding: 8px 14px;
+      background: #0077b6;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.2s ease-in-out;
+    }
+
+    button:hover {
+      background: #005f8f;
+    }
+
+    canvas {
+      background: #e3f2fd;
+      border: 2px solid #0077b6;
+      border-radius: 8px;
+      display: block;
+      margin: 20px auto;
+      width: 100%;
+      max-width: 800px;
+      height: 400px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px 10px;
+      background: #f8f9fa;
+      color: #555;
+      font-size: 0.9em;
+      margin-top: 60px;
+      border-top: 1px solid #ddd;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">Lester Jay Ollero</a>
+      <div class="menu-toggle" id="mobile-menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+      <ul class="nav-menu">
+        <li><a href="index.html#home">Home</a></li>
+        <li><a href="research.html">Research</a></li>
+        <li><a href="simulation.html" class="active">Traffic Simulation</a></li>
+        <li><a href="publications.html">Publications</a></li>
+        <li><a href="projects.html">Projects</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Simulation Content -->
+  <div class="container">
+    <h1>Interactive Traffic Simulation</h1>
+    <p>
+      This simulation illustrates basic traffic flow dynamics using a simplified microsimulation model.
+      Each vehicle follows a leader–follower behavior: it accelerates when the front gap increases and decelerates when congestion builds up.
+      This interactive demo serves as a visualization tool for research involving traffic operations, vehicle headways, and lane utilization.
+    </p>
+
+    <div class="sim-controls">
+      <button id="startBtn"><i class="fa-solid fa-play"></i> Start</button>
+      <button id="pauseBtn"><i class="fa-solid fa-pause"></i> Pause</button>
+      <button id="resetBtn"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+    </div>
+
+    <canvas id="trafficCanvas" width="800" height="400"></canvas>
+  </div>
+
+  <footer>© 2025 Lester Jay Ollero</footer>
+
+  <script>
+    // Navbar toggle
+    const menu = document.querySelector('#mobile-menu');
+    const navMenu = document.querySelector('.nav-menu');
+    const body = document.querySelector('body');
+
+    menu.addEventListener('click', () => {
+      navMenu.classList.toggle('active');
+      body.classList.toggle('menu-open');
+    });
+
+    document.querySelectorAll('.nav-menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        navMenu.classList.remove('active');
+        body.classList.remove('menu-open');
+      });
+    });
+
+    // Traffic simulation
+    const canvas = document.getElementById("trafficCanvas");
+    const ctx = canvas.getContext("2d");
+
+    const roadY = canvas.height / 2;
+    const numCars = 15;
+    let cars = [];
+    let animationId;
+    let running = false;
+
+    class Car {
+      constructor(x, speed, color) {
+        this.x = x;
+        this.speed = speed;
+        this.width = 35;
+        this.height = 18;
+        this.color = color;
+      }
+
+      draw() {
+        ctx.fillStyle = this.color;
+        ctx.fillRect(this.x, roadY - this.height / 2, this.width, this.height);
+      }
+
+      update(leadCar) {
+        let desiredGap = 50;
+        let accel = 0.1;
+        let decel = 0.3;
+
+        if (leadCar) {
+          let gap = leadCar.x - this.x - leadCar.width;
+          if (gap < desiredGap) this.speed -= decel;
+          else this.speed += accel;
+        } else {
+          this.speed += accel; // lead car keeps going
+        }
+
+        this.speed = Math.max(1, Math.min(this.speed, 5));
+        this.x += this.speed;
+
+        if (this.x > canvas.width) this.x = -this.width;
+      }
+    }
+
+    function createCars() {
+      cars = [];
+      for (let i = 0; i < numCars; i++) {
+        cars.push(new Car(i * 60, Math.random() * 2 + 2, `hsl(${Math.random() * 360}, 70%, 55%)`));
+      }
+    }
+
+    function drawRoad() {
+      ctx.fillStyle = "#bbb";
+      ctx.fillRect(0, roadY - 30, canvas.width, 60);
+      ctx.strokeStyle = "#fff";
+      ctx.setLineDash([20, 15]);
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(0, roadY);
+      ctx.lineTo(canvas.width, roadY);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawRoad();
+
+      for (let i = cars.length - 1; i >= 0; i--) {
+        let leadCar = i === 0 ? null : cars[i - 1];
+        cars[i].update(leadCar);
+        cars[i].draw();
+      }
+
+      animationId = requestAnimationFrame(animate);
+    }
+
+    document.getElementById("startBtn").addEventListener("click", () => {
+      if (!running) {
+        running = true;
+        animate();
+      }
+    });
+
+    document.getElementById("pauseBtn").addEventListener("click", () => {
+      cancelAnimationFrame(animationId);
+      running = false;
+    });
+
+    document.getElementById("resetBtn").addEventListener("click", () => {
+      cancelAnimationFrame(animationId);
+      running = false;
+      createCars();
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawRoad();
+      cars.forEach(car => car.draw());
+    });
+
+    createCars();
+    drawRoad();
+    cars.forEach(car => car.draw());
+  </script>
+</body>
+</html>
