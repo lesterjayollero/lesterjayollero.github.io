@@ -3,105 +3,189 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Traffic Flow and Simulation</title>
+  <title>Traffic Simulation | Lester Jay Ollero</title>
+  <meta name="keywords" content="Traffic Simulation, Transportation Engineering, Microsimulation, Traffic Flow, Multi-lane Traffic">
+  <meta name="author" content="Lester Jay Ollero">
 
-  <!-- Chart.js CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #f8f9fa;
+      font-family: "Segoe UI", Roboto, sans-serif;
+      color: #222;
+      background: #fafafa;
+      line-height: 1.7;
       margin: 0;
       padding: 0;
     }
-    header {
-      background: #212529;
-      color: white;
-      text-align: center;
-      padding: 20px 0;
-      font-size: 1.8rem;
-      font-weight: bold;
+
+    a {
+      color: #0077b6;
+      text-decoration: none;
     }
-    nav {
+
+    a:hover {
+      color: #005f8f;
+      text-decoration: underline;
+    }
+
+    /* Navbar */
+    .navbar {
+      background: #fff;
+      border-bottom: 1px solid #ddd;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      width: 100%;
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .nav-logo {
+      font-size: 1.4em;
+      font-weight: 600;
+      color: #003049;
+    }
+
+    .nav-menu {
+      display: flex;
+      list-style: none;
+    }
+
+    .nav-menu li {
+      margin: 0 12px;
+    }
+
+    .nav-menu a {
+      color: #003049;
+      font-weight: 500;
+    }
+
+    .nav-menu a.active {
+      color: #0077b6;
+      font-weight: 600;
+      border-bottom: 2px solid #0077b6;
+      padding-bottom: 2px;
+    }
+
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .menu-toggle .bar {
+      height: 3px;
+      width: 25px;
+      background-color: #003049;
+      margin: 4px 0;
+      border-radius: 3px;
+    }
+
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: flex;
+      }
+
+      .nav-menu {
+        position: fixed;
+        right: -100%;
+        top: 0;
+        flex-direction: column;
+        background: #fff;
+        width: 230px;
+        height: 100%;
+        border-left: 1px solid #ddd;
+        padding-top: 70px;
+        transition: right 0.3s ease-in-out;
+        z-index: 200;
+      }
+
+      .nav-menu.active {
+        right: 0;
+      }
+
+      .nav-menu li {
+        margin: 18px 0;
+        text-align: center;
+      }
+    }
+
+    /* Page Layout */
+    .container {
+      max-width: 950px;
+      margin: 50px auto;
+      padding: 0 20px;
+    }
+
+    h1 {
+      color: #003049;
+      font-size: 2em;
+      border-bottom: 3px solid #0077b6;
+      display: inline-block;
+      padding-bottom: 6px;
+      margin-bottom: 20px;
+    }
+
+    p {
+      text-align: justify;
+      text-justify: inter-word;
+    }
+
+    .sim-controls {
       display: flex;
       justify-content: center;
-      background: #343a40;
-      flex-wrap: wrap;
+      gap: 10px;
+      margin: 20px 0;
     }
-    nav button {
-      background: none;
+
+    button {
+      padding: 8px 14px;
+      background: #0077b6;
       color: white;
       border: none;
-      padding: 14px 20px;
-      font-size: 1rem;
+      border-radius: 5px;
       cursor: pointer;
-      transition: background 0.3s;
+      font-weight: 500;
+      transition: background 0.2s ease-in-out;
     }
-    nav button:hover,
-    nav button.active {
-      background: #495057;
+
+    button:hover {
+      background: #005f8f;
     }
-    .content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px;
-    }
-    .metrics {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      margin-bottom: 30px;
-      flex-wrap: wrap;
-    }
-    .card {
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-      text-align: center;
-      width: 120px;
-    }
-    .card h3 {
-      margin: 0;
-      font-size: 0.9rem;
-      color: #6c757d;
-    }
-    .card p {
-      margin: 5px 0 0 0;
-      font-size: 1.3rem;
-      font-weight: bold;
-      color: #212529;
-    }
-    .slider-container {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    .slider-container input[type="range"] {
-      width: 300px;
-    }
-    .charts {
-      display: flex;
-      justify-content: center;
-      gap: 40px;
-      flex-wrap: wrap;
-    }
+
     canvas {
-      max-width: 500px;
+      background: #e3f2fd;
+      border: 2px solid #0077b6;
+      border-radius: 8px;
+      display: block;
+      margin: 20px auto;
       width: 100%;
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-      padding: 10px;
+      max-width: 800px;
+      height: 400px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px 10px;
+      background: #f8f9fa;
+      color: #555;
+      font-size: 0.9em;
+      margin-top: 60px;
+      border-top: 1px solid #ddd;
     }
   </style>
 </head>
 <body>
 
-  <header>Traffic Flow and Simulation</header>
-
-    <!-- Navbar -->
+  <!-- Navbar -->
   <nav class="navbar">
     <div class="nav-container">
       <a href="index.html" class="nav-logo">Lester Jay Ollero</a>
@@ -113,135 +197,176 @@
       <ul class="nav-menu">
         <li><a href="index.html#home">Home</a></li>
         <li><a href="research.html">Research</a></li>
-        <li><a href="simulations.html" class="active">traffic flow</a></li>
+        <li><a href="simulation.html" class="active">Traffic Simulation</a></li>
         <li><a href="publications.html">Publications</a></li>
-        <li><a href="awards.html">Awards</a></li>
         <li><a href="projects.html">Projects</a></li>
       </ul>
     </div>
   </nav>
 
-  <div class="content">
-    <div class="slider-container">
-      <label for="inflowSlider"><b>Inflow:</b> <span id="inflowVal">0.36</span></label><br>
-      <input type="range" id="inflowSlider" min="0.1" max="0.8" step="0.01" value="0.36">
+  <!-- Simulation Content -->
+  <div class="container">
+    <h1>Multi-Lane Traffic Simulation</h1>
+    <p>
+      This interactive demo visualizes a simplified two-lane microsimulation model.  
+      Each vehicle follows its leader but can change lanes when encountering slower traffic or smaller headways.  
+      This model demonstrates lane-changing behavior and flow dynamics commonly analyzed in traffic engineering research.
+    </p>
+
+    <div class="sim-controls">
+      <button id="startBtn"><i class="fa-solid fa-play"></i> Start</button>
+      <button id="pauseBtn"><i class="fa-solid fa-pause"></i> Pause</button>
+      <button id="resetBtn"><i class="fa-solid fa-rotate-left"></i> Reset</button>
     </div>
 
-    <div class="metrics">
-      <div class="card">
-        <h3>Flow</h3>
-        <p id="flowVal">0.36</p>
-      </div>
-      <div class="card">
-        <h3>Density</h3>
-        <p id="densityVal">0.09</p>
-      </div>
-      <div class="card">
-        <h3>Speed</h3>
-        <p id="speedVal">4.00</p>
-      </div>
-    </div>
-
-    <div class="charts">
-      <canvas id="flowChart"></canvas>
-      <canvas id="speedChart"></canvas>
-    </div>
+    <canvas id="trafficCanvas" width="800" height="400"></canvas>
   </div>
 
+  <footer>© 2025 Lester Jay Ollero</footer>
+
   <script>
-    // Base data for each section
-    const baseData = {
-      A: { density: 0.09 },
-      B: { density: 0.10 },
-      C: { density: 0.09 },
-      D: { density: 0.09 }
-    };
+    // Navbar toggle
+    const menu = document.querySelector('#mobile-menu');
+    const navMenu = document.querySelector('.nav-menu');
+    const body = document.querySelector('body');
 
-    let currentSection = "A";
-    let inflow = 0.36;
-
-    // --- Initialize charts ---
-    const flowCtx = document.getElementById("flowChart");
-    const speedCtx = document.getElementById("speedChart");
-
-    const flowChart = new Chart(flowCtx, {
-      type: "scatter",
-      data: {
-        datasets: [{
-          label: "Flow vs Density",
-          data: [{ x: 0.09, y: 0.36 }],
-          backgroundColor: "red"
-        }]
-      },
-      options: {
-        responsive: true,
-        scales: {
-          x: { title: { display: true, text: "Density" }, min: 0, max: 0.2 },
-          y: { title: { display: true, text: "Flow" }, min: 0, max: 0.8 }
-        }
-      }
+    menu.addEventListener('click', () => {
+      navMenu.classList.toggle('active');
+      body.classList.toggle('menu-open');
     });
 
-    const speedChart = new Chart(speedCtx, {
-      type: "scatter",
-      data: {
-        datasets: [{
-          label: "Speed vs Density",
-          data: [{ x: 0.09, y: 4.0 }],
-          backgroundColor: "blue"
-        }]
-      },
-      options: {
-        responsive: true,
-        scales: {
-          x: { title: { display: true, text: "Density" }, min: 0, max: 0.2 },
-          y: { title: { display: true, text: "Speed" }, min: 0, max: 6 }
-        }
-      }
-    });
-
-    // --- Update Function ---
-    function updateDisplay() {
-      const density = baseData[currentSection].density;
-      const flow = inflow * (1 - density * 2);   // simplified fundamental relation
-      const speed = flow / density;              // v = q / k
-
-      // Prevent unrealistic speed explosion
-      const boundedSpeed = Math.min(speed, 6);
-
-      // Update metric cards
-      document.getElementById("flowVal").textContent = flow.toFixed(2);
-      document.getElementById("densityVal").textContent = density.toFixed(2);
-      document.getElementById("speedVal").textContent = boundedSpeed.toFixed(2);
-      document.getElementById("inflowVal").textContent = inflow.toFixed(2);
-
-      // Update Flow–Density Chart
-      flowChart.data.datasets[0].data = [{ x: density, y: flow }];
-      flowChart.update();
-
-      // Update Speed–Density Chart
-      speedChart.data.datasets[0].data = [{ x: density, y: boundedSpeed }];
-      speedChart.update();
-    }
-
-    // --- Event Listeners ---
-    document.getElementById("inflowSlider").addEventListener("input", (e) => {
-      inflow = parseFloat(e.target.value);
-      updateDisplay();
-    });
-
-    ["A", "B", "C", "D"].forEach(sec => {
-      document.getElementById("tab" + sec).addEventListener("click", () => {
-        currentSection = sec;
-        document.querySelectorAll("nav button").forEach(btn => btn.classList.remove("active"));
-        document.getElementById("tab" + sec).classList.add("active");
-        updateDisplay();
+    document.querySelectorAll('.nav-menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        navMenu.classList.remove('active');
+        body.classList.remove('menu-open');
       });
     });
 
-    // Initialize
-    updateDisplay();
-  </script>
+    // Traffic simulation logic
+    const canvas = document.getElementById("trafficCanvas");
+    const ctx = canvas.getContext("2d");
 
+    const laneYs = [140, 260];
+    const numCars = 20;
+    const laneWidth = 60;
+    let cars = [];
+    let animationId;
+    let running = false;
+
+    class Car {
+      constructor(x, lane, speed, color) {
+        this.x = x;
+        this.lane = lane;
+        this.speed = speed;
+        this.width = 35;
+        this.height = 18;
+        this.color = color;
+      }
+
+      draw() {
+        ctx.fillStyle = this.color;
+        ctx.fillRect(this.x, laneYs[this.lane] - this.height / 2, this.width, this.height);
+      }
+
+      update(leadCar, otherLaneCars) {
+        const desiredGap = 45;
+        const accel = 0.1;
+        const decel = 0.3;
+
+        // Adjust speed based on leader
+        if (leadCar) {
+          let gap = leadCar.x - this.x - leadCar.width;
+          if (gap < desiredGap) this.speed -= decel;
+          else this.speed += accel;
+        } else {
+          this.speed += accel;
+        }
+
+        this.speed = Math.max(1, Math.min(this.speed, 5));
+
+        // Lane change logic
+        if (leadCar && leadCar.x - this.x < 30) {
+          // Check alternate lane for space
+          let targetLane = this.lane === 0 ? 1 : 0;
+          let safe = otherLaneCars.every(c => 
+            Math.abs(c.x - this.x) > 50
+          );
+          if (safe && Math.random() < 0.05) {
+            this.lane = targetLane;
+          }
+        }
+
+        this.x += this.speed;
+        if (this.x > canvas.width) this.x = -this.width;
+      }
+    }
+
+    function createCars() {
+      cars = [];
+      for (let i = 0; i < numCars; i++) {
+        const lane = i % 2;
+        cars.push(new Car(i * 50, lane, Math.random() * 2 + 2, `hsl(${Math.random() * 360}, 70%, 55%)`));
+      }
+    }
+
+    function drawRoad() {
+      ctx.fillStyle = "#bbb";
+      ctx.fillRect(0, 100, canvas.width, laneWidth * 2);
+      ctx.strokeStyle = "#fff";
+      ctx.setLineDash([25, 20]);
+      ctx.lineWidth = 3;
+
+      laneYs.forEach(y => {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(canvas.width, y);
+        ctx.stroke();
+      });
+
+      ctx.setLineDash([]);
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawRoad();
+
+      for (let lane = 0; lane < 2; lane++) {
+        let laneCars = cars.filter(c => c.lane === lane).sort((a, b) => a.x - b.x);
+        for (let i = laneCars.length - 1; i >= 0; i--) {
+          let leadCar = i === 0 ? null : laneCars[i - 1];
+          let otherLaneCars = cars.filter(c => c.lane !== lane);
+          laneCars[i].update(leadCar, otherLaneCars);
+          laneCars[i].draw();
+        }
+      }
+
+      animationId = requestAnimationFrame(animate);
+    }
+
+    document.getElementById("startBtn").addEventListener("click", () => {
+      if (!running) {
+        running = true;
+        animate();
+      }
+    });
+
+    document.getElementById("pauseBtn").addEventListener("click", () => {
+      cancelAnimationFrame(animationId);
+      running = false;
+    });
+
+    document.getElementById("resetBtn").addEventListener("click", () => {
+      cancelAnimationFrame(animationId);
+      running = false;
+      createCars();
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawRoad();
+      cars.forEach(car => car.draw());
+    });
+
+    createCars();
+    drawRoad();
+    cars.forEach(car => car.draw());
+  </script>
 </body>
 </html>
