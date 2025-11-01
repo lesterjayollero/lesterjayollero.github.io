@@ -201,12 +201,10 @@ input[type=range] { width: 120px; }
 
   <h2>Bus Bunching</h2>
   <div class="tags">
-    <span class="tag">#EDSA Busway</span>
-    <span class="tag">#Microsimulation</span>
+    <span class="tag">#Bus Headway</span>
     <span class="tag">#Dynamic Operations</span>
   </div>
 
-  <!-- Original write-up retained -->
   <p>The following interactive simulation demonstrates the phenomenon of <strong>bus bunching</strong>. The oval represents a closed-loop route where multiple buses circulate in a clockwise direction. Each moving dot is a bus, and the outward dandelion-like dots indicate passengers waiting at designated stops. As time progresses, passengers accumulate at stops (larger dots mean more waiting passengers). When a bus reaches a stop with many passengers, it experiences a longer dwell time. Meanwhile, the bus behind it encounters fewer passengers, allowing it to move faster and eventually catch up. This process repeats until two or more buses pair up and travel as a single unit, a visual representation of the <em>bus bunching effect</em>. Overtaking is not permitted, as each bus follows the one ahead within the looped route.</p>
 
   <!-- Embedded interactive simulation -->
@@ -272,7 +270,7 @@ function updateBuses() {
 
     const nextBus = buses[(i + 1) % buses.length];
     const gap = (nextBus.angle - bus.angle + 2 * Math.PI) % (2 * Math.PI);
-    const minGap = (2 * Math.PI) / busCount * 0.4;
+    const minGap = (2 * Math.PI) / busCount * 0.2;
 
     // prevent overtaking
     if (gap < minGap) continue;
