@@ -19,6 +19,7 @@ body {
 a { color: #0077b6; text-decoration: none; }
 a:hover { color: #005f8f; text-decoration: underline; }
 
+/* Navbar */
 .navbar {
   background: #fff;
   border-bottom: 1px solid #ddd;
@@ -68,6 +69,7 @@ a:hover { color: #005f8f; text-decoration: underline; }
   .nav-menu li { margin: 18px 0; text-align: center; }
 }
 
+/* Layout */
 .container {
   max-width: 900px;
   margin: 50px auto;
@@ -121,6 +123,7 @@ footer {
   border-top: 1px solid #ddd;
 }
 
+/* Simulation Styles */
 #simulation-container {
   margin: 30px auto;
   text-align: center;
@@ -140,6 +143,32 @@ footer {
 label { font-weight: 500; color: #003049; }
 input[type=range] { width: 120px; }
 #clock { margin-top: 10px; font-family: monospace; font-weight: bold; }
+
+.legend {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 0.9em;
+  color: #333;
+}
+.legend span {
+  display: inline-block;
+  margin: 0 10px;
+  padding-left: 20px;
+  position: relative;
+}
+.legend span::before {
+  content: "";
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.legend .normal::before { background: #0077b6; }
+.legend .approaching::before { background: #a020f0; }
+.legend .bunched::before { background: #ff0000; }
 </style>
 </head>
 
@@ -204,13 +233,18 @@ input[type=range] { width: 120px; }
 
   <p>The following interactive simulation demonstrates the phenomenon of <strong>bus bunching</strong>. The oval represents a closed-loop route where multiple buses circulate in a clockwise direction. Each moving dot is a bus, and the outward dandelion-like dots indicate passengers waiting at designated stops. As time progresses, passengers accumulate at stops (larger dots mean more waiting passengers). When a bus reaches a stop with many passengers, it experiences a longer dwell time. Meanwhile, the bus behind it encounters fewer passengers, allowing it to move faster and eventually catch up. This process repeats until two or more buses pair up and travel as a single unit, a visual representation of the <em>bus bunching effect</em>. Overtaking is not permitted, as each bus follows the one ahead within the looped route.</p>
 
-  <!-- Simulation -->
+  <!-- Embedded interactive simulation -->
   <div id="simulation-container">
     <canvas id="busCanvas" width="600" height="400"></canvas>
     <div class="controls">
       <div><label>Buses: <span id="busCountLabel">4</span></label><br><input type="range" id="busCount" min="2" max="10" value="4"></div>
       <div><label>Stops: <span id="stopCountLabel">6</span></label><br><input type="range" id="stopCount" min="3" max="12" value="6"></div>
       <div><label>Speed: <span id="speedLabel">1.0x</span></label><br><input type="range" id="speed" min="0.5" max="2" step="0.1" value="1"></div>
+    </div>
+    <div class="legend">
+      <span class="normal">Normal Operation</span>
+      <span class="approaching">Approaching Bunch</span>
+      <span class="bunched">Bunched</span>
     </div>
     <div id="clock">00:00</div>
   </div>
@@ -219,7 +253,7 @@ input[type=range] { width: 120px; }
 <footer>© 2025 Lester Jay Ollero</footer>
 
 <script>
-// --- Navigation ---
+// Mobile Nav
 const menu = document.querySelector('#mobile-menu');
 const navMenu = document.querySelector('.nav-menu');
 menu.addEventListener('click', () => navMenu.classList.toggle('active'));
@@ -267,7 +301,7 @@ function updateBuses() {
 
     const nextBus = buses[(i + 1) % buses.length];
     const gap = (nextBus.angle - bus.angle + 2 * Math.PI) % (2 * Math.PI);
-    const minGap = (2 * Math.PI) / busCount * 0.05; // allow closeness but no overtaking
+    const minGap = (2 * Math.PI) / busCount * 0.05;
     if (gap < minGap) continue;
 
     bus.angle = (bus.angle + bus.speed * simSpeed) % (2 * Math.PI);
@@ -275,7 +309,7 @@ function updateBuses() {
     for (let stop of stops) {
       const diff = Math.abs(bus.angle - stop.angle);
       if (diff < 0.04 && stop.passengers > 0) {
-        bus.dwell = Math.pow(stop.passengers, 1.2) * 0.015; // nonlinear dwell time
+        bus.dwell = Math.pow(stop.passengers, 1.2) * 0.015;
         stop.passengers = 0;
         break;
       }
@@ -290,9 +324,9 @@ function updateBuses() {
     if (gap < nominalGap * 0.3) {
       bus.color = nextBus.color = "#ff0000"; // bunched
     } else if (gap < nominalGap * 0.6) {
-      bus.color = "#ff8800"; // approaching
+      bus.color = "#a020f0"; // approaching (purple)
     } else {
-      bus.color = "#0077b6";
+      bus.color = "#0077b6"; // normal (blue)
     }
   }
 }
