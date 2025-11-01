@@ -246,7 +246,7 @@ function initSimulation() {
   }
   for (let i = 0; i < busCount; i++) {
     const angle = (2 * Math.PI * i) / busCount;
-    buses.push({ angle, speed: 0.005, dwell: 0 });
+    buses.push({ angle, speed: 0.005, dwell: 0, color: "#0077b6" });
   }
 }
 
@@ -270,15 +270,15 @@ function updateBuses() {
     const bus = buses[i];
     if (bus.dwell > 0) { bus.dwell -= 0.01 * simSpeed; continue; }
 
-    // prevent overtaking
     const nextBus = buses[(i + 1) % buses.length];
     const gap = (nextBus.angle - bus.angle + 2 * Math.PI) % (2 * Math.PI);
     const minGap = (2 * Math.PI) / busCount * 0.4;
+
+    // prevent overtaking
     if (gap < minGap) continue;
 
     bus.angle = (bus.angle + bus.speed * simSpeed) % (2 * Math.PI);
 
-    // stop dwell interaction
     for (let stop of stops) {
       const diff = Math.abs(bus.angle - stop.angle);
       if (diff < 0.05 && stop.passengers > 0) {
@@ -286,6 +286,22 @@ function updateBuses() {
         stop.passengers = 0;
         break;
       }
+    }
+  }
+
+  // update colors based on proximity
+  for (let i = 0; i < buses.length; i++) {
+    const bus = buses[i];
+    const nextBus = buses[(i + 1) % buses.length];
+    const gap = (nextBus.angle - bus.angle + 2 * Math.PI) % (2 * Math.PI);
+    const nominalGap = (2 * Math.PI) / busCount;
+    if (gap < nominalGap * 0.3) {
+      bus.color = "#ff0000"; // red = bunched
+      nextBus.color = "#ff0000";
+    } else if (gap < nominalGap * 0.6) {
+      bus.color = "#ff8800"; // orange = approaching bunch
+    } else {
+      bus.color = "#0077b6"; // blue = normal
     }
   }
 }
@@ -308,7 +324,7 @@ function drawBuses() {
     const y = centerY + radiusY * Math.sin(bus.angle);
     ctx.beginPath();
     ctx.arc(x, y, 6, 0, 2 * Math.PI);
-    ctx.fillStyle = "#0077b6";
+    ctx.fillStyle = bus.color;
     ctx.fill();
   }
 }
@@ -327,12 +343,24 @@ function animate() {
   requestAnimationFrame(animate);
 }
 
-document.getElementById("busCount").oninput = e => { busCount = +e.target.value; document.getElementById("busCountLabel").innerText = busCount; initSimulation(); };
-document.getElementById("stopCount").oninput = e => { stopCount = +e.target.value; document.getElementById("stopCountLabel").innerText = stopCount; initSimulation(); };
-document.getElementById("speed").oninput = e => { simSpeed = +e.target.value; document.getElementById("speedLabel").innerText = `${simSpeed.toFixed(1)}x`; };
+document.getElementById("busCount").oninput = e => {
+  busCount = +e.target.value;
+  document.getElementById("busCountLabel").innerText = busCount;
+  initSimulation();
+};
+document.getElementById("stopCount").oninput = e => {
+  stopCount = +e.target.value;
+  document.getElementById("stopCountLabel").innerText = stopCount;
+  initSimulation();
+};
+document.getElementById("speed").oninput = e => {
+  simSpeed = +e.target.value;
+  document.getElementById("speedLabel").innerText = `${simSpeed.toFixed(1)}x`;
+};
 
 initSimulation();
 animate();
 </script>
+
 </body>
 </html>
