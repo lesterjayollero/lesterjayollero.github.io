@@ -140,18 +140,9 @@ footer {
   flex-wrap: wrap;
   gap: 20px;
 }
-label {
-  font-weight: 500;
-  color: #003049;
-}
-input[type=range] {
-  width: 120px;
-}
-#clock {
-  margin-top: 10px;
-  font-family: monospace;
-  font-weight: bold;
-}
+label { font-weight: 500; color: #003049; }
+input[type=range] { width: 120px; }
+#clock { margin-top: 10px; font-family: monospace; font-weight: bold; }
 </style>
 </head>
 
@@ -193,7 +184,9 @@ input[type=range] {
   </div>
   <div class="research-section">
     <div class="research-text">
-      <p>Modeling the performance of exclusive bus lanes remains challenging due to complex behavioral, infrastructural, and policy-related factors...</p>
+      <p>Modeling the performance of exclusive bus lanes remains challenging due to complex behavioral, infrastructural, and policy-related factors. Specifically, I am interested in developing data-driven and scenario-based microsimulation models that capture the dynamic behavior of buses under various operational settings, such as dwell time regulation, headway control, and lane management. This approach enables the evaluation of travel time reliability, emissions, and fuel consumption without relying solely on theoretical assumptions, thereby producing realistic and evidence-based assessments of network performance.</p>
+      <p>Key outcomes of this research include the development of a microsimulation framework for the EDSA Busway, integration of mobile crowdsourced data & on-board diagnostics device data, and evaluation of policy scenarios that optimize dwell time and headway to enhance overall network efficiency.</p>
+      <p><strong>Relevant publication/s on this topic:</strong></p>
       <ol>
         <li><b>Ollero, L.J.</b>, Vergel, K., & Tiglao, N.C. (2024). 
         <a href="https://ncts.upd.edu.ph/tssp/wp-content/uploads/2025/07/TSSP2024-Vol7-No2_01-Ollero-Vergel-and-Tiglao.pdf" target="_blank">
@@ -206,7 +199,6 @@ input[type=range] {
     </div>
   </div>
 
-  <!-- Bus Bunching -->
   <h2>Bus Bunching</h2>
   <div class="tags">
     <span class="tag">#EDSA Busway</span>
@@ -214,6 +206,10 @@ input[type=range] {
     <span class="tag">#Dynamic Operations</span>
   </div>
 
+  <!-- Original write-up retained -->
+  <p>The following interactive simulation demonstrates the phenomenon of <strong>bus bunching</strong>. The oval represents a closed-loop route where multiple buses circulate in a clockwise direction. Each moving dot is a bus, and the outward dandelion-like dots indicate passengers waiting at designated stops. As time progresses, passengers accumulate at stops (larger dots mean more waiting passengers). When a bus reaches a stop with many passengers, it experiences a longer dwell time. Meanwhile, the bus behind it encounters fewer passengers, allowing it to move faster and eventually catch up. This process repeats until two or more buses pair up and travel as a single unit — a visual representation of the <em>bus bunching effect</em>. Overtaking is not permitted, as each bus follows the one ahead within the looped route.</p>
+
+  <!-- Embedded interactive simulation -->
   <div id="simulation-container">
     <canvas id="busCanvas" width="600" height="400"></canvas>
     <div class="controls">
@@ -228,19 +224,11 @@ input[type=range] {
 <footer>© 2025 Lester Jay Ollero</footer>
 
 <script>
+// Mobile Nav
 const menu = document.querySelector('#mobile-menu');
 const navMenu = document.querySelector('.nav-menu');
-const body = document.querySelector('body');
-menu.addEventListener('click', () => {
-  navMenu.classList.toggle('active');
-  body.classList.toggle('menu-open');
-});
-document.querySelectorAll('.nav-menu a').forEach(link => {
-  link.addEventListener('click', () => {
-    navMenu.classList.remove('active');
-    body.classList.remove('menu-open');
-  });
-});
+menu.addEventListener('click', () => navMenu.classList.toggle('active'));
+document.querySelectorAll('.nav-menu a').forEach(link => link.addEventListener('click', () => navMenu.classList.remove('active')));
 
 // --- Bus Bunching Simulation ---
 const canvas = document.getElementById("busCanvas");
@@ -272,7 +260,7 @@ function drawOval() {
 
 function updatePassengers() {
   for (let stop of stops) {
-    stop.passengers += 0.01 * simSpeed; // accumulate passengers
+    stop.passengers += 0.01 * simSpeed;
     if (stop.passengers > 10) stop.passengers = 10;
   }
 }
@@ -282,20 +270,20 @@ function updateBuses() {
     const bus = buses[i];
     if (bus.dwell > 0) { bus.dwell -= 0.01 * simSpeed; continue; }
 
-    // detect next bus ahead to prevent overtaking
+    // prevent overtaking
     const nextBus = buses[(i + 1) % buses.length];
     const gap = (nextBus.angle - bus.angle + 2 * Math.PI) % (2 * Math.PI);
     const minGap = (2 * Math.PI) / busCount * 0.4;
-    if (gap < minGap) continue; // maintain spacing
+    if (gap < minGap) continue;
 
     bus.angle = (bus.angle + bus.speed * simSpeed) % (2 * Math.PI);
 
-    // check stops
+    // stop dwell interaction
     for (let stop of stops) {
       const diff = Math.abs(bus.angle - stop.angle);
       if (diff < 0.05 && stop.passengers > 0) {
-        bus.dwell = stop.passengers * 0.02; // slow down
-        stop.passengers = 0; // picked up passengers
+        bus.dwell = stop.passengers * 0.02;
+        stop.passengers = 0;
         break;
       }
     }
@@ -339,20 +327,9 @@ function animate() {
   requestAnimationFrame(animate);
 }
 
-document.getElementById("busCount").oninput = e => {
-  busCount = +e.target.value;
-  document.getElementById("busCountLabel").innerText = busCount;
-  initSimulation();
-};
-document.getElementById("stopCount").oninput = e => {
-  stopCount = +e.target.value;
-  document.getElementById("stopCountLabel").innerText = stopCount;
-  initSimulation();
-};
-document.getElementById("speed").oninput = e => {
-  simSpeed = +e.target.value;
-  document.getElementById("speedLabel").innerText = `${simSpeed.toFixed(1)}x`;
-};
+document.getElementById("busCount").oninput = e => { busCount = +e.target.value; document.getElementById("busCountLabel").innerText = busCount; initSimulation(); };
+document.getElementById("stopCount").oninput = e => { stopCount = +e.target.value; document.getElementById("stopCountLabel").innerText = stopCount; initSimulation(); };
+document.getElementById("speed").oninput = e => { simSpeed = +e.target.value; document.getElementById("speedLabel").innerText = `${simSpeed.toFixed(1)}x`; };
 
 initSimulation();
 animate();
