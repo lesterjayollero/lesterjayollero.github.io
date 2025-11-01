@@ -348,12 +348,14 @@
     © 2025 Lester Jay Ollero. All rights reserved.
   </footer>
 
-  <script>
+<script>
     const menu = document.querySelector('#mobile-menu');
     const navMenu = document.querySelector('.nav-menu');
-    const body = document.querySelector('body');
+    const body = document.body;
     const toggleBtn = document.getElementById('theme-toggle');
+    const icon = toggleBtn.querySelector('i');
 
+    // Mobile nav
     menu.addEventListener('click', () => {
       navMenu.classList.toggle('active');
       body.classList.toggle('menu-open');
@@ -366,14 +368,19 @@
       });
     });
 
-    // Dark mode toggle
+    // Theme toggle
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      body.classList.add('dark-mode');
+      icon.classList.replace('fa-moon', 'fa-sun');
+    }
+
     toggleBtn.addEventListener('click', () => {
       body.classList.toggle('dark-mode');
-      if (body.classList.contains('dark-mode')) {
-        toggleBtn.textContent = '☀️ Light Mode';
-      } else {
-        toggleBtn.textContent = '🌙 Dark Mode';
-      }
+      const isDark = body.classList.contains('dark-mode');
+      icon.classList.toggle('fa-moon', !isDark);
+      icon.classList.toggle('fa-sun', isDark);
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
     });
   </script>
 </body>
