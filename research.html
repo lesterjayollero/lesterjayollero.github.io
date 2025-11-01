@@ -9,228 +9,197 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
-/* === Global === */
-body {
-  font-family: "Segoe UI", Roboto, sans-serif;
-  color: #222;
-  background: #fafafa;
-  line-height: 1.7;
-  margin: 0;
-  padding: 0;
-}
-a { color: #0077b6; text-decoration: none; transition: color 0.2s; }
-a:hover { color: #005f8f; text-decoration: underline; }
+  /* --- Reset & theme vars --- */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* === Navbar === */
-.navbar {
-  background: #fff;
-  border-bottom: 1px solid #ddd;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  width: 100%;
-}
-.nav-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 24px;
-  max-width: 1100px;
-  margin: 0 auto;
-}
-.nav-logo {
-  font-size: 1.4em;
-  font-weight: 600;
-  color: #003049;
-}
-.nav-menu {
-  display: flex;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.nav-menu li { margin: 0 12px; }
-.nav-menu a {
-  color: #003049;
-  font-weight: 500;
-  padding-bottom: 2px;
-}
-.nav-menu a.active {
-  color: #0077b6;
-  font-weight: 600;
-  border-bottom: 2px solid #0077b6;
-}
-.menu-toggle {
-  display: none;
-  flex-direction: column;
-  cursor: pointer;
-}
-.menu-toggle .bar {
-  height: 3px; width: 25px;
-  background-color: #003049;
-  margin: 4px 0;
-  border-radius: 3px;
-  transition: 0.3s;
-}
-
-/* Mobile */
-@media (max-width: 768px) {
-  .menu-toggle { display: flex; }
-  .nav-menu {
-    position: fixed;
-    right: -100%;
-    top: 0;
-    flex-direction: column;
-    background: #fff;
-    width: 230px;
-    height: 100%;
-    border-left: 1px solid #ddd;
-    padding-top: 70px;
-    transition: right 0.3s ease-in-out;
-    z-index: 200;
+  :root{
+    --bg: #fafafa;
+    --text: #222;
+    --muted: #555;
+    --accent: #0077b6;
+    --accent-hover: #005f8f;
+    --nav-bg: #fff;
+    --card-bg: #fff;
+    --border: #ddd;
+    --header-grad1: #ffffff;
+    --header-grad2: #f3f7fb;
+    --footer-bg: #f8f9fa;
+    --footer-text: #555;
+    --shadow: rgba(0,0,0,0.04);
   }
-  .nav-menu.active { right: 0; }
-  .nav-menu li { margin: 18px 0; text-align: center; }
-}
 
-/* === Layout === */
-.container {
-  max-width: 900px;
-  margin: 50px auto;
-  padding: 0 20px;
-}
-h1 {
-  color: #003049;
-  font-size: 2em;
-  border-bottom: 3px solid #0077b6;
-  display: inline-block;
-  padding-bottom: 6px;
-  margin-bottom: 20px;
-}
-h2 {
-  color: #003049;
-  font-size: 1.5em;
-  margin-top: 40px;
-}
-p, ol { text-align: justify; text-justify: inter-word; }
+  body.dark-mode {
+    --bg: #0d1117;
+    --text: #e6edf3;
+    --muted: #9da6b5;
+    --accent: #58a6ff;
+    --accent-hover: #1f6feb;
+    --nav-bg: #161b22;
+    --card-bg: #161b22;
+    --border: #30363d;
+    --header-grad1: #161b22;
+    --header-grad2: #0d1117;
+    --footer-bg: #161b22;
+    --footer-text: #9da6b5;
+    --shadow: rgba(0,0,0,0.3);
+  }
 
-/* === Tags === */
-.tag {
-  display: inline-block;
-  background: #e3f2fd;
-  color: #005f8f;
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 0.9em;
-  margin-right: 6px;
-  margin-bottom: 6px;
-  transition: all 0.2s ease-in-out;
-}
-.tag:hover {
-  background: #0077b6;
-  color: #fff;
-  cursor: default;
-}
+  body {
+    font-family: "Segoe UI", Roboto, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.7;
+    margin: 0;
+    padding: 0;
+    transition: background 0.35s, color 0.35s;
+  }
 
-/* === Research Layout === */
-.research-section {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  align-items: flex-start;
-}
-.research-text { flex: 1 1 500px; }
-.research-image { flex: 1 1 300px; text-align: center; }
-.research-image img {
-  width: 100%;
-  max-width: 400px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
+  a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+  a:hover { color: var(--accent-hover); text-decoration: underline; }
 
-/* === Simulation === */
-#simulation-container {
-  margin: 30px auto;
-  text-align: center;
-}
-#busCanvas {
-  background: #fdfdfd;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-}
-.controls {
-  margin-top: 15px;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-label {
-  font-weight: 500;
-  color: #003049;
-}
-input[type=range] { width: 120px; }
-#clock {
-  margin-top: 10px;
-  font-family: monospace;
-  font-weight: bold;
-}
-.legend {
-  margin-top: 15px;
-  text-align: center;
-  font-size: 0.9em;
-  color: #333;
-}
-.legend span {
-  display: inline-block;
-  margin: 0 10px;
-  padding-left: 20px;
-  position: relative;
-}
-.legend span::before {
-  content: "";
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-}
-.legend .normal::before { background: #0077b6; }
-.legend .approaching::before { background: #a020f0; }
-.legend .bunched::before { background: #ff0000; }
+  /* --- Navbar --- */
+  .navbar {
+    background: var(--nav-bg);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    width: 100%;
+    transition: background 0.35s, border-color 0.35s;
+  }
+  .nav-container {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:12px 24px;
+    max-width:1100px;
+    margin:0 auto;
+  }
+  .nav-logo { font-size:1.4em; font-weight:600; color:var(--text); }
+  .nav-menu { display:flex; list-style:none; align-items:center; }
+  .nav-menu li { margin: 0 12px; }
+  .nav-menu a { color: var(--text); font-weight:500; padding-bottom:2px; transition: color 0.25s; }
+  .nav-menu a.active { color: var(--accent); font-weight:600; border-bottom:2px solid var(--accent); }
 
-/* === Footer === */
-footer {
-  text-align: center;
-  padding: 25px 10px;
-  background: #f8f9fa;
-  color: #555;
-  font-size: 0.9em;
-  margin-top: 60px;
-  border-top: 1px solid #ddd;
-}
+  .menu-toggle { display:none; flex-direction:column; cursor:pointer; }
+  .menu-toggle .bar { height:3px; width:25px; background:var(--text); margin:4px 0; border-radius:3px; transition: background .3s; }
+
+  /* Theme toggle button (fixed size to avoid shift) */
+  #theme-toggle {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 10px;
+    cursor: pointer;
+    color: var(--text);
+    font-size: 1em;
+    transition: all 0.3s ease;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:44px;
+    height:40px;
+  }
+  #theme-toggle i { width:1em; display:inline-block; text-align:center; transition: transform 0.35s; }
+  #theme-toggle:hover { background: var(--accent); color:#fff; border-color:var(--accent); transform: translateY(-1px); }
+
+  @media (max-width:768px){
+    .menu-toggle { display:flex; }
+    .nav-menu {
+      position: fixed;
+      right: -100%;
+      top: 0;
+      flex-direction: column;
+      background: var(--nav-bg);
+      width: 230px;
+      height: 100%;
+      border-left: 1px solid var(--border);
+      padding-top: 70px;
+      transition: right 0.3s ease-in-out;
+      z-index: 200;
+    }
+    .nav-menu.active { right: 0; }
+    .nav-menu li { margin: 18px 0; text-align: center; }
+  }
+
+  body.menu-open::after {
+    content: "";
+    position: fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    background: rgba(0,0,0,0.4);
+    z-index: 99;
+  }
+
+  /* --- Layout --- */
+  .container { max-width:900px; margin:50px auto; padding:0 20px; }
+  h1 { color: var(--text); font-size:2em; border-bottom:3px solid var(--accent); display:inline-block; padding-bottom:6px; margin-bottom:20px; }
+  h2 { color: var(--text); font-size:1.5em; margin-top:40px; }
+  p, ol { text-align: justify; text-justify: inter-word; color: var(--text); }
+
+  .tag {
+    display:inline-block;
+    background:#e3f2fd;
+    color:#005f8f;
+    padding:5px 12px;
+    border-radius:20px;
+    font-size:0.9em;
+    margin-right:6px;
+    margin-bottom:6px;
+    transition: all .2s;
+  }
+  body.dark-mode .tag { background:#203544; color: #bfe6ff; }
+  .tag:hover { background: var(--accent); color:#fff; cursor:default; }
+
+  .research-section { display:flex; flex-wrap:wrap; gap:20px; align-items:flex-start; }
+  .research-text { flex:1 1 500px; }
+  .research-image { flex:1 1 300px; text-align:center; }
+  .research-image img { width:100%; max-width:400px; border-radius:8px; box-shadow: 0 2px 8px var(--shadow); }
+
+  /* --- Simulation --- */
+  #simulation-container { margin:30px auto; text-align:center; }
+  #busCanvas { background: var(--card-bg); border:1px solid var(--border); border-radius:8px; transition: background .3s, border-color .3s; }
+  .controls { margin-top:15px; display:flex; justify-content:center; flex-wrap:wrap; gap:20px; }
+  label { font-weight:500; color: var(--text); }
+  input[type=range] { width:120px; }
+  #clock { margin-top:10px; font-family:monospace; font-weight:bold; color:var(--text); }
+
+  .legend { margin-top:15px; text-align:center; font-size:0.9em; color:var(--text); }
+  .legend span { display:inline-block; margin:0 10px; padding-left:20px; position:relative; }
+  .legend span::before { content:""; width:12px; height:12px; border-radius:50%; position:absolute; left:0; top:50%; transform:translateY(-50%); }
+  .legend .normal::before { background:#0077b6; }
+  .legend .approaching::before { background:#a020f0; }
+  .legend .bunched::before { background:#ff0000; }
+
+  footer { text-align:center; padding:25px 10px; background:var(--footer-bg); color:var(--footer-text); font-size:0.9em; margin-top:60px; border-top:1px solid var(--border); transition: background .3s, color .3s; }
+
+  @media (max-width:600px){ h1{ font-size:1.6em;} .container{ margin:30px auto;} }
 </style>
 </head>
 
 <body>
-
 <!-- Navbar -->
 <nav class="navbar">
   <div class="nav-container">
     <a href="index.html" class="nav-logo">Lester Jay Ollero</a>
-    <div class="menu-toggle" id="mobile-menu">
+
+    <div class="menu-toggle" id="mobile-menu" aria-label="Toggle navigation" aria-expanded="false" role="button">
       <span class="bar"></span>
       <span class="bar"></span>
       <span class="bar"></span>
     </div>
-    <ul class="nav-menu">
+
+    <ul class="nav-menu" role="menu">
       <li><a href="index.html#home">Home</a></li>
       <li><a href="research.html" class="active">Research</a></li>
       <li><a href="publications.html">Publications</a></li>
       <li><a href="awards.html">Awards</a></li>
       <li><a href="projects.html">Projects</a></li>
+      <li>
+        <button id="theme-toggle" title="Toggle dark/light mode" aria-label="Toggle dark mode">
+          <i class="fa-solid fa-moon" aria-hidden="true"></i>
+        </button>
+      </li>
     </ul>
   </div>
 </nav>
@@ -251,18 +220,23 @@ footer {
     <span class="tag">#Microsimulation</span>
     <span class="tag">#Mobile Application</span>
   </div>
+
   <div class="research-section">
     <div class="research-text">
       <p>Modeling the performance of exclusive bus lanes remains challenging due to complex behavioral, infrastructural, and policy-related factors. Specifically, I am interested in developing data-driven and scenario-based microsimulation models that capture the dynamic behavior of buses under various operational settings, such as dwell time regulation, headway control, and lane management. This approach enables the evaluation of travel time reliability, emissions, and fuel consumption without relying solely on theoretical assumptions, thereby producing realistic and evidence-based assessments of network performance.</p>
+
       <p>Key outcomes of this research include the development of a microsimulation framework for the EDSA Busway, integration of mobile crowdsourced data & on-board diagnostics device data, and evaluation of policy scenarios that optimize dwell time and headway to enhance overall network efficiency.</p>
+
       <p><strong>Relevant publication/s on this topic:</strong></p>
       <ol>
-        <li><b>Ollero, L.J.</b>, Vergel, K., & Tiglao, N.C. (2024). 
-        <a href="https://ncts.upd.edu.ph/tssp/wp-content/uploads/2025/07/TSSP2024-Vol7-No2_01-Ollero-Vergel-and-Tiglao.pdf" target="_blank">
-        <em>A Microsimulation Model of An Exclusive Bus Lane: The Case of EDSA Busway</em>.</a>
-        <strong>Philippine Transportation Journal</strong>, Vol. 7 No. 2, 2024.</li>
+        <li><b>Ollero, L.J.</b>, Vergel, K., & Tiglao, N.C. (2024).
+          <a href="https://ncts.upd.edu.ph/tssp/wp-content/uploads/2025/07/TSSP2024-Vol7-No2_01-Ollero-Vergel-and-Tiglao.pdf" target="_blank" rel="noopener">
+            <em>A Microsimulation Model of An Exclusive Bus Lane: The Case of EDSA Busway</em>
+          </a>. <strong>Philippine Transportation Journal</strong>, Vol. 7 No. 2, 2024.
+        </li>
       </ol>
     </div>
+
     <div class="research-image">
       <img src="images/EDSA Busway_network.jpg" alt="Modeled Network Illustration">
     </div>
@@ -279,16 +253,28 @@ footer {
   <!-- Embedded interactive simulation -->
   <div id="simulation-container">
     <canvas id="busCanvas" width="600" height="400"></canvas>
+
     <div class="controls">
-      <div><label>Buses: <span id="busCountLabel">4</span></label><br><input type="range" id="busCount" min="2" max="10" value="4"></div>
-      <div><label>Stops: <span id="stopCountLabel">6</span></label><br><input type="range" id="stopCount" min="3" max="12" value="6"></div>
-      <div><label>Speed: <span id="speedLabel">1.0x</span></label><br><input type="range" id="speed" min="0.5" max="2" step="0.1" value="1"></div>
+      <div>
+        <label>Buses: <span id="busCountLabel">4</span></label><br>
+        <input type="range" id="busCount" min="2" max="10" value="4">
+      </div>
+      <div>
+        <label>Stops: <span id="stopCountLabel">6</span></label><br>
+        <input type="range" id="stopCount" min="3" max="12" value="6">
+      </div>
+      <div>
+        <label>Speed: <span id="speedLabel">1.0x</span></label><br>
+        <input type="range" id="speed" min="0.5" max="2" step="0.1" value="1">
+      </div>
     </div>
+
     <div class="legend">
       <span class="normal">Normal Operation</span>
       <span class="approaching">Approaching Bunch</span>
       <span class="bunched">Bunched</span>
     </div>
+
     <div id="clock">00:00</div>
   </div>
 </div>
@@ -296,131 +282,169 @@ footer {
 <footer>© 2025 Lester Jay Ollero</footer>
 
 <script>
-// --- Mobile Navigation Toggle ---
-const menu = document.querySelector('#mobile-menu');
-const navMenu = document.querySelector('.nav-menu');
-menu.addEventListener('click', () => navMenu.classList.toggle('active'));
-document.querySelectorAll('.nav-menu a').forEach(link => link.addEventListener('click', () => navMenu.classList.remove('active')));
+  // Mobile Nav
+  const menu = document.querySelector('#mobile-menu');
+  const navMenu = document.querySelector('.nav-menu');
+  menu.addEventListener('click', () => {
+    const open = navMenu.classList.toggle('active');
+    document.body.classList.toggle('menu-open', open);
+    menu.setAttribute('aria-expanded', String(open));
+  });
+  document.querySelectorAll('.nav-menu a').forEach(link => {
+    link.addEventListener('click', () => {
+      navMenu.classList.remove('active');
+      document.body.classList.remove('menu-open');
+      menu.setAttribute('aria-expanded', 'false');
+    });
+  });
 
-// --- Bus Bunching Simulation ---
-const canvas = document.getElementById("busCanvas");
-const ctx = canvas.getContext("2d");
-let busCount = 4, stopCount = 6, simSpeed = 1;
-let buses = [], stops = [], time = 0;
-const radiusX = 220, radiusY = 140, centerX = 300, centerY = 200;
+  // Theme toggle (persistent, icon swap)
+  const toggleBtn = document.getElementById('theme-toggle');
+  const icon = toggleBtn.querySelector('i');
 
-function initSimulation() {
-  buses = [];
-  stops = [];
-  for (let i = 0; i < stopCount; i++) {
-    const angle = (2 * Math.PI * i) / stopCount;
-    stops.push({ angle, passengers: Math.random() * 3, rate: 0.005 + Math.random() * 0.015 });
+  // On load, apply saved theme if any
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark') {
+    document.body.classList.add('dark-mode');
+    if (icon.classList.contains('fa-moon')) icon.classList.replace('fa-moon','fa-sun');
   }
-  for (let i = 0; i < busCount; i++) {
-    const angle = (2 * Math.PI * i) / busCount;
-    buses.push({ angle, speed: 0.0045 + Math.random() * 0.001, dwell: 0, color: "#0077b6" });
+
+  toggleBtn.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+    const isDark = document.body.classList.contains('dark-mode');
+    icon.classList.toggle('fa-moon', !isDark);
+    icon.classList.toggle('fa-sun', isDark);
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  });
+
+  // --- Bus Bunching Simulation ---
+  const canvas = document.getElementById("busCanvas");
+  const ctx = canvas.getContext("2d");
+  let busCount = 4, stopCount = 6, simSpeed = 1;
+  let buses = [], stops = [], time = 0;
+  const radiusX = 220, radiusY = 140, centerX = canvas.width/2, centerY = canvas.height/2;
+
+  function initSimulation() {
+    buses = [];
+    stops = [];
+    for (let i = 0; i < stopCount; i++) {
+      const angle = (2 * Math.PI * i) / stopCount;
+      stops.push({ angle, passengers: Math.random() * 3, rate: 0.005 + Math.random() * 0.015 });
+    }
+    for (let i = 0; i < busCount; i++) {
+      const angle = (2 * Math.PI * i) / busCount;
+      buses.push({ angle, speed: 0.0045 + Math.random() * 0.001, dwell: 0, color: "#0077b6" });
+    }
   }
-}
 
-function drawOval() {
-  ctx.beginPath();
-  ctx.ellipse(centerX, centerY, radiusX, radiusY, 0, 0, 2 * Math.PI);
-  ctx.strokeStyle = "#aaa";
-  ctx.lineWidth = 2;
-  ctx.stroke();
-}
-
-function updatePassengers() {
-  for (let stop of stops) {
-    stop.passengers += stop.rate * simSpeed;
-    if (stop.passengers > 15) stop.passengers = 15;
+  function drawOval() {
+    ctx.beginPath();
+    ctx.ellipse(centerX, centerY, radiusX, radiusY, 0, 0, 2 * Math.PI);
+    ctx.strokeStyle = "#aaa";
+    ctx.lineWidth = 2;
+    ctx.stroke();
   }
-}
 
-function updateBuses() {
-  for (let i = 0; i < buses.length; i++) {
-    const bus = buses[i];
-    if (bus.dwell > 0) { bus.dwell -= 0.01 * simSpeed; continue; }
-
-    const nextBus = buses[(i + 1) % buses.length];
-    const gap = (nextBus.angle - bus.angle + 2 * Math.PI) % (2 * Math.PI);
-    const minGap = (2 * Math.PI) / busCount * 0.05;
-    if (gap < minGap) continue;
-
-    bus.angle = (bus.angle + bus.speed * simSpeed) % (2 * Math.PI);
-
+  function updatePassengers() {
     for (let stop of stops) {
-      const diff = Math.abs(bus.angle - stop.angle);
-      if (diff < 0.04 && stop.passengers > 0) {
-        bus.dwell = Math.pow(stop.passengers, 1.2) * 0.015;
-        stop.passengers = 0;
-        break;
+      stop.passengers += stop.rate * simSpeed;
+      if (stop.passengers > 15) stop.passengers = 15;
+    }
+  }
+
+  function updateBuses() {
+    for (let i = 0; i < buses.length; i++) {
+      const bus = buses[i];
+      if (bus.dwell > 0) { bus.dwell -= 0.01 * simSpeed; continue; }
+
+      const nextBus = buses[(i + 1) % buses.length];
+      const gap = (nextBus.angle - bus.angle + 2 * Math.PI) % (2 * Math.PI);
+      const minGap = (2 * Math.PI) / busCount * 0.05;
+      if (gap < minGap) continue;
+
+      bus.angle = (bus.angle + bus.speed * simSpeed) % (2 * Math.PI);
+
+      for (let stop of stops) {
+        const diff = Math.abs(bus.angle - stop.angle);
+        if (diff < 0.04 && stop.passengers > 0) {
+          bus.dwell = Math.pow(stop.passengers, 1.2) * 0.015;
+          stop.passengers = 0;
+          break;
+        }
+      }
+    }
+
+    for (let i = 0; i < buses.length; i++) {
+      const bus = buses[i];
+      const nextBus = buses[(i + 1) % buses.length];
+      const gap = (nextBus.angle - bus.angle + 2 * Math.PI) % (2 * Math.PI);
+      const nominalGap = (2 * Math.PI) / busCount;
+      if (gap < nominalGap * 0.3) {
+        bus.color = nextBus.color = "#ff0000"; // bunched
+      } else if (gap < nominalGap * 0.6) {
+        bus.color = "#a020f0"; // approaching
+      } else {
+        bus.color = "#0077b6"; // normal
       }
     }
   }
 
-  for (let i = 0; i < buses.length; i++) {
-    const bus = buses[i];
-    const nextBus = buses[(i + 1) % buses.length];
-    const gap = (nextBus.angle - bus.angle + 2 * Math.PI) % (2 * Math.PI);
-    const nominalGap = (2 * Math.PI) / busCount;
-    if (gap < nominalGap * 0.3) {
-      bus.color = nextBus.color = "#ff0000"; // bunched
-    } else if (gap < nominalGap * 0.6) {
-      bus.color = "#a020f0"; // approaching
-    } else {
-      bus.color = "#0077b6"; // normal
+  function drawStops() {
+    for (let stop of stops) {
+      const x = centerX + radiusX * Math.cos(stop.angle);
+      const y = centerY + radiusY * Math.sin(stop.angle);
+      const size = 3 + stop.passengers;
+      ctx.beginPath();
+      ctx.arc(x, y, size, 0, 2 * Math.PI);
+      ctx.fillStyle = "rgba(255, 150, 0, 0.6)";
+      ctx.fill();
     }
   }
-}
 
-function drawStops() {
-  for (let stop of stops) {
-    const x = centerX + radiusX * Math.cos(stop.angle);
-    const y = centerY + radiusY * Math.sin(stop.angle);
-    const size = 3 + stop.passengers;
-    ctx.beginPath();
-    ctx.arc(x, y, size, 0, 2 * Math.PI);
-    ctx.fillStyle = "rgba(255, 150, 0, 0.6)";
-    ctx.fill();
+  function drawBuses() {
+    for (let bus of buses) {
+      const x = centerX + radiusX * Math.cos(bus.angle);
+      const y = centerY + radiusY * Math.sin(bus.angle);
+      ctx.beginPath();
+      ctx.arc(x, y, 6, 0, 2 * Math.PI);
+      ctx.fillStyle = bus.color;
+      ctx.fill();
+    }
   }
-}
 
-function drawBuses() {
-  for (let bus of buses) {
-    const x = centerX + radiusX * Math.cos(bus.angle);
-    const y = centerY + radiusY * Math.sin(bus.angle);
-    ctx.beginPath();
-    ctx.arc(x, y, 6, 0, 2 * Math.PI);
-    ctx.fillStyle = bus.color;
-    ctx.fill();
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawOval();
+    updatePassengers();
+    updateBuses();
+    drawStops();
+    drawBuses();
+    time += 0.016 * simSpeed;
+    const minutes = String(Math.floor(time / 60)).padStart(2, "0");
+    const seconds = String(Math.floor(time % 60)).padStart(2, "0");
+    document.getElementById("clock").innerText = `${minutes}:${seconds}`;
+    requestAnimationFrame(animate);
   }
-}
 
-function animate() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  drawOval();
-  updatePassengers();
-  updateBuses();
-  drawStops();
-  drawBuses();
-  time += 0.016 * simSpeed;
-  const minutes = String(Math.floor(time / 60)).padStart(2, "0");
-  const seconds = String(Math.floor(time % 60)).padStart(2, "0");
-  document.getElementById("clock").innerText = `${minutes}:${seconds}`;
-  requestAnimationFrame(animate);
-}
+  // Controls
+  document.getElementById("busCount").oninput = e => {
+    busCount = +e.target.value;
+    document.getElementById("busCountLabel").innerText = busCount;
+    initSimulation();
+  };
+  document.getElementById("stopCount").oninput = e => {
+    stopCount = +e.target.value;
+    document.getElementById("stopCountLabel").innerText = stopCount;
+    initSimulation();
+  };
+  document.getElementById("speed").oninput = e => {
+    simSpeed = +e.target.value;
+    document.getElementById("speedLabel").innerText = `${simSpeed.toFixed(1)}x`;
+  };
 
-document.getElementById("busCount").oninput = e => {
-  busCount = +e.target.value;
-  document.getElementById("busCountLabel").innerText = busCount;
+  // Init & start
   initSimulation();
-};
-document.getElementById("stopCount").oninput = e => {
-  stopCount = +e.target.value;
-  document.getElementById("stopCountLabel").innerText = stopCount;
-  initSimulation();
-};
-document.getElementById("speed").oninput = e => {
-  simSpeed = +e.target.value;
-  document.getElementById("speedLabel").innerText = `${simSpeed
+  animate();
+</script>
+</body>
+</html>
