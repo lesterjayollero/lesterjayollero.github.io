@@ -19,6 +19,7 @@
       background: #fafafa;
       line-height: 1.7;
       scroll-behavior: smooth;
+      transition: background 0.3s, color 0.3s;
     }
 
     a {
@@ -26,6 +27,7 @@
       text-decoration: none;
       transition: color 0.2s ease;
     }
+
     a:hover {
       color: #005f8f;
       text-decoration: underline;
@@ -39,6 +41,7 @@
       top: 0;
       z-index: 100;
       width: 100%;
+      transition: background 0.3s, border-color 0.3s;
     }
 
     .nav-container {
@@ -54,6 +57,7 @@
       font-size: 1.4em;
       font-weight: 600;
       color: #003049;
+      transition: color 0.3s;
     }
 
     .nav-menu {
@@ -68,10 +72,28 @@
     .nav-menu a {
       color: #003049;
       font-weight: 500;
+      transition: color 0.3s;
     }
 
     .nav-menu a:hover {
       color: #0077b6;
+    }
+
+    /* Dark Mode Toggle Button */
+    .toggle-btn {
+      cursor: pointer;
+      padding: 6px 10px;
+      border: 1px solid #0077b6;
+      border-radius: 5px;
+      background: none;
+      color: #0077b6;
+      font-size: 0.9em;
+      transition: all 0.3s;
+    }
+
+    .toggle-btn:hover {
+      background: #0077b6;
+      color: #fff;
     }
 
     /* --- Mobile Nav --- */
@@ -87,6 +109,7 @@
       background-color: #003049;
       margin: 4px 0;
       border-radius: 3px;
+      transition: background 0.3s;
     }
 
     @media (max-width: 768px) {
@@ -135,17 +158,20 @@
       padding: 60px 20px 30px;
       background: linear-gradient(to bottom, #ffffff, #f3f7fb);
       border-bottom: 2px solid #0077b6;
+      transition: background 0.3s, border-color 0.3s;
     }
 
     header h1 {
       font-size: 2.2em;
       color: #003049;
       margin-bottom: 10px;
+      transition: color 0.3s;
     }
 
     header p {
       color: #555;
       font-size: 1.05em;
+      transition: color 0.3s;
     }
 
     /* --- Section Styling --- */
@@ -153,6 +179,7 @@
       max-width: 900px;
       margin: 40px auto;
       padding: 0 20px;
+      transition: color 0.3s;
     }
 
     section h2 {
@@ -162,6 +189,7 @@
       display: inline-block;
       padding-bottom: 6px;
       margin-bottom: 20px;
+      transition: color 0.3s, border-color 0.3s;
     }
 
     section h3 {
@@ -171,6 +199,7 @@
       font-size: 1.3em;
       border-left: 4px solid #0077b6;
       padding-left: 10px;
+      transition: color 0.3s, border-color 0.3s;
     }
 
     section ul {
@@ -186,21 +215,25 @@
       border-radius: 10px;
       border: 1px solid #e1e1e1;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+      transition: background 0.3s, color 0.3s, border-color 0.3s;
     }
 
     section li strong {
       color: #000;
+      transition: color 0.3s;
     }
 
     section em {
       color: #444;
       display: block;
       margin-top: 5px;
+      transition: color 0.3s;
     }
 
     section p {
       margin-bottom: 10px;
       color: #333;
+      transition: color 0.3s;
     }
 
     ol {
@@ -216,6 +249,80 @@
       font-size: 0.9em;
       margin-top: 60px;
       border-top: 1px solid #ddd;
+      transition: background 0.3s, color 0.3s, border-color 0.3s;
+    }
+
+    /* --- Dark Mode --- */
+    body.dark-mode {
+      background: #121212;
+      color: #e0e0e0;
+    }
+
+    body.dark-mode .navbar {
+      background: #1c1c1c;
+      border-color: #333;
+    }
+
+    body.dark-mode .nav-logo,
+    body.dark-mode .nav-menu a {
+      color: #e0e0e0;
+    }
+
+    body.dark-mode .nav-menu a:hover {
+      color: #4dabf7;
+    }
+
+    body.dark-mode header {
+      background: linear-gradient(to bottom, #1c1c1c, #181818);
+      border-color: #4dabf7;
+    }
+
+    body.dark-mode header h1 {
+      color: #fff;
+    }
+
+    body.dark-mode header p {
+      color: #bbb;
+    }
+
+    body.dark-mode section h2,
+    body.dark-mode section h3 {
+      color: #fff;
+      border-color: #4dabf7;
+    }
+
+    body.dark-mode section li {
+      background: #1e1e1e;
+      border-color: #333;
+      box-shadow: none;
+    }
+
+    body.dark-mode section li strong {
+      color: #fff;
+    }
+
+    body.dark-mode section em {
+      color: #aaa;
+    }
+
+    body.dark-mode footer {
+      background: #1c1c1c;
+      color: #aaa;
+      border-color: #333;
+    }
+
+    body.dark-mode .menu-toggle .bar {
+      background: #e0e0e0;
+    }
+
+    body.dark-mode .toggle-btn {
+      border-color: #4dabf7;
+      color: #4dabf7;
+    }
+
+    body.dark-mode .toggle-btn:hover {
+      background: #4dabf7;
+      color: #fff;
     }
 
     @media (max-width: 600px) {
@@ -230,7 +337,6 @@
 </head>
 
 <body>
-
   <!-- Navbar -->
   <nav class="navbar">
     <div class="nav-container">
@@ -247,6 +353,7 @@
         <li><a href="awards.html">Awards</a></li>
         <li><a href="projects.html" style="color:#0077b6;">Projects</a></li>
       </ul>
+      <button class="toggle-btn" id="theme-toggle">🌙 Dark Mode</button>
     </div>
   </nav>
 
@@ -271,15 +378,15 @@
         <strong>Local Public Transport Route Plan (LPTRP)</strong>
         <em>Ongoing</em>
       </li>
-       <li>
+      <li>
         <strong>Research Health Institute Transportation Master Plan</strong>
         <em>Ongoing</em>
       </li>
-       <li>
+      <li>
         <strong>Taguig Traffic Study</strong>
         <em>Led field traffic surveys and prepared traffic analysis reports, evaluating traffic flow characteristics, congestion patterns, and operational performance of key road sections.</em>
       </li>
-       <li>
+      <li>
         <strong>Smart City Traffic Study</strong>
         <em>Evaluated the development's traffic generation and its impacts on both the internal and external road networks.</em>
       </li>
@@ -330,6 +437,7 @@
     const menu = document.querySelector('#mobile-menu');
     const navMenu = document.querySelector('.nav-menu');
     const body = document.querySelector('body');
+    const toggleBtn = document.getElementById('theme-toggle');
 
     menu.addEventListener('click', () => {
       navMenu.classList.toggle('active');
@@ -341,6 +449,16 @@
         navMenu.classList.remove('active');
         body.classList.remove('menu-open');
       });
+    });
+
+    // Dark mode toggle
+    toggleBtn.addEventListener('click', () => {
+      body.classList.toggle('dark-mode');
+      if (body.classList.contains('dark-mode')) {
+        toggleBtn.textContent = '☀️ Light Mode';
+      } else {
+        toggleBtn.textContent = '🌙 Dark Mode';
+      }
     });
   </script>
 </body>
