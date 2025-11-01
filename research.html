@@ -1,339 +1,361 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Research | Lester Jay Ollero</title>
-  <meta name="keywords" content="Lester Jay Ollero, Transport Research, Network Modeling, Route Choice, BRT, Urban Mobility">
-  <meta name="author" content="Lester Jay Ollero">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <style>
-    body {
-      font-family: "Segoe UI", Roboto, sans-serif;
-      color: #222;
-      background: #fafafa;
-      line-height: 1.7;
-      margin: 0;
-      padding: 0;
-    }
-    a { color: #0077b6; text-decoration: none; }
-    a:hover { color: #005f8f; text-decoration: underline; }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Research | Lester Jay Ollero</title>
+<meta name="keywords" content="Lester Jay Ollero, Transport Research, Network Modeling, Route Choice, BRT, Urban Mobility">
+<meta name="author" content="Lester Jay Ollero">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+body {
+  font-family: "Segoe UI", Roboto, sans-serif;
+  color: #222;
+  background: #fafafa;
+  line-height: 1.7;
+  margin: 0;
+  padding: 0;
+}
+a { color: #0077b6; text-decoration: none; }
+a:hover { color: #005f8f; text-decoration: underline; }
 
-    /* Navbar */
-    .navbar {
-      background: #fff;
-      border-bottom: 1px solid #ddd;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      width: 100%;
-    }
-    .nav-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 24px;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-    .nav-logo { font-size: 1.4em; font-weight: 600; color: #003049; }
-    .nav-menu { display: flex; list-style: none; }
-    .nav-menu li { margin: 0 12px; }
-    .nav-menu a { color: #003049; font-weight: 500; }
-    .nav-menu a.active {
-      color: #0077b6;
-      font-weight: 600;
-      border-bottom: 2px solid #0077b6;
-      padding-bottom: 2px;
-    }
-    .menu-toggle {
-      display: none; flex-direction: column; cursor: pointer;
-    }
-    .menu-toggle .bar {
-      height: 3px; width: 25px; background-color: #003049;
-      margin: 4px 0; border-radius: 3px;
-    }
-    @media (max-width: 768px) {
-      .menu-toggle { display: flex; }
-      .nav-menu {
-        position: fixed; right: -100%; top: 0;
-        flex-direction: column; background: #fff;
-        width: 230px; height: 100%;
-        border-left: 1px solid #ddd;
-        padding-top: 70px; transition: right 0.3s ease-in-out; z-index: 200;
-      }
-      .nav-menu.active { right: 0; }
-      .nav-menu li { margin: 18px 0; text-align: center; }
-    }
+/* Navbar */
+.navbar {
+  background: #fff;
+  border-bottom: 1px solid #ddd;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+}
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.nav-logo { font-size: 1.4em; font-weight: 600; color: #003049; }
+.nav-menu { display: flex; list-style: none; }
+.nav-menu li { margin: 0 12px; }
+.nav-menu a { color: #003049; font-weight: 500; }
+.nav-menu a.active {
+  color: #0077b6;
+  font-weight: 600;
+  border-bottom: 2px solid #0077b6;
+  padding-bottom: 2px;
+}
+.menu-toggle { display: none; flex-direction: column; cursor: pointer; }
+.menu-toggle .bar {
+  height: 3px; width: 25px;
+  background-color: #003049;
+  margin: 4px 0; border-radius: 3px;
+}
+@media (max-width: 768px) {
+  .menu-toggle { display: flex; }
+  .nav-menu {
+    position: fixed;
+    right: -100%; top: 0;
+    flex-direction: column;
+    background: #fff;
+    width: 230px; height: 100%;
+    border-left: 1px solid #ddd;
+    padding-top: 70px;
+    transition: right 0.3s ease-in-out;
+    z-index: 200;
+  }
+  .nav-menu.active { right: 0; }
+  .nav-menu li { margin: 18px 0; text-align: center; }
+}
 
-    /* Page Layout */
-    .container {
-      max-width: 900px; margin: 50px auto; padding: 0 20px;
-    }
-    h1 {
-      color: #003049; font-size: 2em;
-      border-bottom: 3px solid #0077b6;
-      display: inline-block; padding-bottom: 6px; margin-bottom: 20px;
-    }
-    h2 { color: #003049; font-size: 1.5em; margin-top: 40px; }
-    p, ol { text-align: justify; text-justify: inter-word; }
-    .tag {
-      display: inline-block; background: #e3f2fd; color: #005f8f;
-      padding: 5px 12px; border-radius: 20px; font-size: 0.9em;
-      margin-right: 6px; margin-bottom: 6px; transition: all 0.2s ease-in-out;
-    }
-    .tag:hover { background: #0077b6; color: #fff; cursor: default; }
-    .research-section { display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start; }
-    .research-text { flex: 1 1 500px; }
-    .research-image { flex: 1 1 300px; text-align: center; }
-    .research-image img {
-      width: 100%; max-width: 400px;
-      border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-    ol { margin-left: 20px; }
+/* Layout */
+.container {
+  max-width: 900px;
+  margin: 50px auto;
+  padding: 0 20px;
+}
+h1 {
+  color: #003049;
+  font-size: 2em;
+  border-bottom: 3px solid #0077b6;
+  display: inline-block;
+  padding-bottom: 6px;
+  margin-bottom: 20px;
+}
+h2 { color: #003049; font-size: 1.5em; margin-top: 40px; }
+p, ol { text-align: justify; text-justify: inter-word; }
 
-    footer {
-      text-align: center; padding: 25px 10px;
-      background: #f8f9fa; color: #555; font-size: 0.9em;
-      margin-top: 60px; border-top: 1px solid #ddd;
-    }
+.tag {
+  display: inline-block;
+  background: #e3f2fd;
+  color: #005f8f;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.9em;
+  margin-right: 6px;
+  margin-bottom: 6px;
+  transition: all 0.2s ease-in-out;
+}
+.tag:hover { background: #0077b6; color: #fff; cursor: default; }
 
-    /* Simulation Styles */
-    #busSimulation {
-      background: #f4f9ff;
-      border-radius: 50%;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      max-width: 100%;
-    }
-    .controls {
-      text-align: center; margin-top: 15px; font-size: 0.9em;
-    }
-    .controls label {
-      display: block; margin: 8px 0 4px; font-weight: 500; color: #003049;
-    }
-    input[type="range"] {
-      width: 80%; accent-color: #0077b6;
-    }
-  </style>
+.research-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: flex-start;
+}
+.research-text { flex: 1 1 500px; }
+.research-image { flex: 1 1 300px; text-align: center; }
+.research-image img {
+  width: 100%; max-width: 400px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+footer {
+  text-align: center;
+  padding: 25px 10px;
+  background: #f8f9fa;
+  color: #555;
+  font-size: 0.9em;
+  margin-top: 60px;
+  border-top: 1px solid #ddd;
+}
+
+/* Simulation Styles */
+#simulation-container {
+  margin: 30px auto;
+  text-align: center;
+}
+#busCanvas {
+  background: #fdfdfd;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+.controls {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+label {
+  font-weight: 500;
+  color: #003049;
+}
+input[type=range] {
+  width: 120px;
+}
+#clock {
+  margin-top: 10px;
+  font-family: monospace;
+  font-weight: bold;
+}
+</style>
 </head>
 
 <body>
-  <!-- Navbar -->
-  <nav class="navbar">
-    <div class="nav-container">
-      <a href="index.html" class="nav-logo">Lester Jay Ollero</a>
-      <div class="menu-toggle" id="mobile-menu">
-        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
-      </div>
-      <ul class="nav-menu">
-        <li><a href="index.html#home">Home</a></li>
-        <li><a href="research.html" class="active">Research</a></li>
-        <li><a href="publications.html">Publications</a></li>
-        <li><a href="awards.html">Awards</a></li>
-        <li><a href="projects.html">Projects</a></li>
-      </ul>
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo">Lester Jay Ollero</a>
+    <div class="menu-toggle" id="mobile-menu">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
     </div>
-  </nav>
+    <ul class="nav-menu">
+      <li><a href="index.html#home">Home</a></li>
+      <li><a href="research.html" class="active">Research</a></li>
+      <li><a href="publications.html">Publications</a></li>
+      <li><a href="awards.html">Awards</a></li>
+      <li><a href="projects.html">Projects</a></li>
+    </ul>
+  </div>
+</nav>
 
-  <!-- Content -->
-  <div class="container">
-    <h1>Research Overview</h1>
-    <p>My main research interest centers on the development of advanced methodologies for modeling and analyzing the operational performance of public transport systems within complex urban networks.</p>
-    <p>A key area of my research involves assessing exclusive bus lanes to evaluate network efficiency, pollutant emissions, and fuel consumption under various operational scenarios. I also examine the formalization of paratransit systems by evaluating their travel time reliability and dwell time policies and by developing criteria for viability or acceptability [minimum internal rate of return (IRR) thresholds, benefit–cost ratios (BCR), payback periods, and risk metrics] to determine the optimal rate of fleet modernization.</p>
-    <p>The broader objective is to derive insights that inform transport planning and public policy interventions for improving the efficiency, reliability, and sustainability of urban transport systems.</p>
+<!-- Content -->
+<div class="container">
+  <h1>Research Overview</h1>
+  <p>My main research interest centers on the development of advanced methodologies for modeling and analyzing the operational performance of public transport systems within complex urban networks.</p>
 
-    <h2>Modeling of an Exclusive Bus Lane</h2>
-    <div class="tags">
-      <span class="tag">#EDSA Busway</span>
-      <span class="tag">#Telematics</span>
-      <span class="tag">#Microsimulation</span>
-      <span class="tag">#Mobile Application</span>
+  <p>A key area of my research involves assessing exclusive bus lanes to evaluate network efficiency, pollutant emissions, and fuel consumption under various operational scenarios. I also examine the formalization of paratransit systems by evaluating their travel time reliability and dwell time policies and by developing criteria for viability or acceptability [minimum internal rate of return (IRR) thresholds, benefit–cost ratios (BCR), payback periods, and risk metrics] to determine the optimal rate of fleet modernization.</p>
+
+  <p>The broader objective is to derive insights that inform transport planning and public policy interventions for improving the efficiency, reliability, and sustainability of urban transport systems.</p>
+
+  <h2>Modeling of an Exclusive Bus Lane</h2>
+  <div class="tags">
+    <span class="tag">#EDSA Busway</span>
+    <span class="tag">#Telematics</span>
+    <span class="tag">#Microsimulation</span>
+    <span class="tag">#Mobile Application</span>
+  </div>
+  <div class="research-section">
+    <div class="research-text">
+      <p>Modeling the performance of exclusive bus lanes remains challenging due to complex behavioral, infrastructural, and policy-related factors...</p>
+      <ol>
+        <li><b>Ollero, L.J.</b>, Vergel, K., & Tiglao, N.C. (2024). 
+        <a href="https://ncts.upd.edu.ph/tssp/wp-content/uploads/2025/07/TSSP2024-Vol7-No2_01-Ollero-Vergel-and-Tiglao.pdf" target="_blank">
+        <em>A Microsimulation Model of An Exclusive Bus Lane: The Case of EDSA Busway</em>.</a>
+        <strong>Philippine Transportation Journal</strong>, Vol. 7 No. 2, 2024.</li>
+      </ol>
     </div>
-
-    <div class="research-section">
-      <div class="research-text">
-        <p>Modeling the performance of exclusive bus lanes remains challenging due to complex behavioral, infrastructural, and policy-related factors. Specifically, I am interested in developing data-driven and scenario-based microsimulation models that capture the dynamic behavior of buses under various operational settings, such as dwell time regulation, headway control, and lane management.</p>
-        <p>Key outcomes of this research include the development of a microsimulation framework for the EDSA Busway, integration of mobile crowdsourced data & on-board diagnostics device data, and evaluation of policy scenarios that optimize dwell time and headway to enhance overall network efficiency.</p>
-        <p><strong>Relevant publication/s on this topic:</strong></p>
-        <ol>
-          <li><b>Ollero, L.J.</b>, Vergel, K., & Tiglao, N.C. (2024). 
-            <a href="https://ncts.upd.edu.ph/tssp/wp-content/uploads/2025/07/TSSP2024-Vol7-No2_01-Ollero-Vergel-and-Tiglao.pdf" target="_blank">
-              <em>A Microsimulation Model of An Exclusive Bus Lane: The Case of EDSA Busway</em>.
-            </a> 
-            <strong>Philippine Transportation Journal</strong>, Vol. 7 No. 2, 2024.
-          </li>
-        </ol>
-      </div>
-      <div class="research-image">
-        <img src="images/EDSA Busway_network.jpg" alt="Modeled Network Illustration">
-      </div>
-    </div>
-
-    <h2>Bus Bunching</h2>
-    <div class="tags">
-      <span class="tag">#EDSA Busway</span>
-      <span class="tag">#Telematics</span>
-      <span class="tag">#Microsimulation</span>
-      <span class="tag">#Mobile Application</span>
-    </div>
-
-    <!-- Interactive Simulation -->
-    <div class="research-section">
-      <div class="research-text">
-        <p>This interactive simulation demonstrates the <strong>bus bunching phenomenon</strong>. 
-        <p>The Oval is your looped route.</p>
-        <p>Each dot is a bus moving in clockwise direction. </p>
-        <p>Dandelion dots are passengers accumulating at stops(bigger dots means more passengers)</p>
-        <p>As a bus encounters more waiting passengers, it slows down.</p>
-        <p>Then, the bus behind it catches up, illustrating the bus bunching behavior.</p>
-      </div>
-
-      <div class="research-image">
-        <canvas id="busSimulation" width="400" height="400"></canvas>
-        <div class="controls">
-          ⏱️ <span id="clock">0.0</span> s
-          <label>Number of Buses: <span id="busCountLabel">6</span></label>
-          <input type="range" id="busCount" min="2" max="12" value="6" />
-          <label>Number of Stops: <span id="stopCountLabel">8</span></label>
-          <input type="range" id="stopCount" min="4" max="20" value="8" />
-          <label>Simulation Speed: <span id="speedLabel">1.0×</span></label>
-          <input type="range" id="simSpeed" min="0.5" max="3" step="0.1" value="1" />
-        </div>
-      </div>
+    <div class="research-image">
+      <img src="images/EDSA Busway_network.jpg" alt="Modeled Network Illustration">
     </div>
   </div>
 
-  <footer>© 2025 Lester Jay Ollero</footer>
+  <!-- Bus Bunching -->
+  <h2>Bus Bunching</h2>
+  <div class="tags">
+    <span class="tag">#EDSA Busway</span>
+    <span class="tag">#Microsimulation</span>
+    <span class="tag">#Dynamic Operations</span>
+  </div>
 
-  <script>
-    const menu = document.querySelector('#mobile-menu');
-    const navMenu = document.querySelector('.nav-menu');
-    const body = document.querySelector('body');
-    menu.addEventListener('click', () => {
-      navMenu.classList.toggle('active');
-      body.classList.toggle('menu-open');
-    });
-    document.querySelectorAll('.nav-menu a').forEach(link => {
-      link.addEventListener('click', () => {
-        navMenu.classList.remove('active');
-        body.classList.remove('menu-open');
-      });
-    });
+  <div id="simulation-container">
+    <canvas id="busCanvas" width="600" height="400"></canvas>
+    <div class="controls">
+      <div><label>Buses: <span id="busCountLabel">4</span></label><br><input type="range" id="busCount" min="2" max="10" value="4"></div>
+      <div><label>Stops: <span id="stopCountLabel">6</span></label><br><input type="range" id="stopCount" min="3" max="12" value="6"></div>
+      <div><label>Speed: <span id="speedLabel">1.0x</span></label><br><input type="range" id="speed" min="0.5" max="2" step="0.1" value="1"></div>
+    </div>
+    <div id="clock">00:00</div>
+  </div>
+</div>
 
-    // ==== Bus Bunching Simulation ====
-    const canvas = document.getElementById("busSimulation");
-    const ctx = canvas.getContext("2d");
-    const clockEl = document.getElementById("clock");
+<footer>© 2025 Lester Jay Ollero</footer>
 
-    const busCountSlider = document.getElementById("busCount");
-    const stopCountSlider = document.getElementById("stopCount");
-    const speedSlider = document.getElementById("simSpeed");
-    const busCountLabel = document.getElementById("busCountLabel");
-    const stopCountLabel = document.getElementById("stopCountLabel");
-    const speedLabel = document.getElementById("speedLabel");
+<script>
+const menu = document.querySelector('#mobile-menu');
+const navMenu = document.querySelector('.nav-menu');
+const body = document.querySelector('body');
+menu.addEventListener('click', () => {
+  navMenu.classList.toggle('active');
+  body.classList.toggle('menu-open');
+});
+document.querySelectorAll('.nav-menu a').forEach(link => {
+  link.addEventListener('click', () => {
+    navMenu.classList.remove('active');
+    body.classList.remove('menu-open');
+  });
+});
 
-    let buses = [], passengers = [];
-    let time = 0;
+// --- Bus Bunching Simulation ---
+const canvas = document.getElementById("busCanvas");
+const ctx = canvas.getContext("2d");
+let busCount = 4, stopCount = 6, simSpeed = 1;
+let buses = [], stops = [], time = 0;
+const radiusX = 220, radiusY = 140, centerX = 300, centerY = 200;
 
-    const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2;
-    const radiusX = 140, radiusY = 100;
+function initSimulation() {
+  buses = [];
+  stops = [];
+  for (let i = 0; i < stopCount; i++) {
+    const angle = (2 * Math.PI * i) / stopCount;
+    stops.push({ angle, passengers: Math.random() * 3 });
+  }
+  for (let i = 0; i < busCount; i++) {
+    const angle = (2 * Math.PI * i) / busCount;
+    buses.push({ angle, speed: 0.005, dwell: 0 });
+  }
+}
 
-    function initSimulation() {
-      buses = [];
-      passengers = [];
-      for (let i = 0; i < busCountSlider.value; i++) {
-        buses.push({ angle: (i / busCountSlider.value) * 2 * Math.PI, speed: 0.015 });
+function drawOval() {
+  ctx.beginPath();
+  ctx.ellipse(centerX, centerY, radiusX, radiusY, 0, 0, 2 * Math.PI);
+  ctx.strokeStyle = "#aaa";
+  ctx.lineWidth = 2;
+  ctx.stroke();
+}
+
+function updatePassengers() {
+  for (let stop of stops) {
+    stop.passengers += 0.01 * simSpeed; // accumulate passengers
+    if (stop.passengers > 10) stop.passengers = 10;
+  }
+}
+
+function updateBuses() {
+  for (let i = 0; i < buses.length; i++) {
+    const bus = buses[i];
+    if (bus.dwell > 0) { bus.dwell -= 0.01 * simSpeed; continue; }
+
+    // detect next bus ahead to prevent overtaking
+    const nextBus = buses[(i + 1) % buses.length];
+    const gap = (nextBus.angle - bus.angle + 2 * Math.PI) % (2 * Math.PI);
+    const minGap = (2 * Math.PI) / busCount * 0.4;
+    if (gap < minGap) continue; // maintain spacing
+
+    bus.angle = (bus.angle + bus.speed * simSpeed) % (2 * Math.PI);
+
+    // check stops
+    for (let stop of stops) {
+      const diff = Math.abs(bus.angle - stop.angle);
+      if (diff < 0.05 && stop.passengers > 0) {
+        bus.dwell = stop.passengers * 0.02; // slow down
+        stop.passengers = 0; // picked up passengers
+        break;
       }
-      for (let i = 0; i < stopCountSlider.value; i++) {
-        passengers.push({ angle: (i / stopCountSlider.value) * 2 * Math.PI, waiting: Math.floor(Math.random() * 10) });
-      }
     }
+  }
+}
 
-    function drawOval() {
-      ctx.beginPath();
-      ctx.ellipse(centerX, centerY, radiusX, radiusY, 0, 0, 2 * Math.PI);
-      ctx.strokeStyle = "#0077b6";
-      ctx.lineWidth = 2;
-      ctx.stroke();
-    }
+function drawStops() {
+  for (let stop of stops) {
+    const x = centerX + radiusX * Math.cos(stop.angle);
+    const y = centerY + radiusY * Math.sin(stop.angle);
+    const size = 3 + stop.passengers;
+    ctx.beginPath();
+    ctx.arc(x, y, size, 0, 2 * Math.PI);
+    ctx.fillStyle = "rgba(255, 150, 0, 0.6)";
+    ctx.fill();
+  }
+}
 
-    function drawPassengers() {
-      passengers.forEach(p => {
-        const x = centerX + Math.cos(p.angle) * radiusX;
-        const y = centerY + Math.sin(p.angle) * radiusY;
-        ctx.beginPath();
-        ctx.arc(x, y, 3 + Math.min(p.waiting, 8) / 2, 0, 2 * Math.PI);
-        ctx.fillStyle = "#ff9800";
-        ctx.fill();
-      });
-    }
+function drawBuses() {
+  for (let bus of buses) {
+    const x = centerX + radiusX * Math.cos(bus.angle);
+    const y = centerY + radiusY * Math.sin(bus.angle);
+    ctx.beginPath();
+    ctx.arc(x, y, 6, 0, 2 * Math.PI);
+    ctx.fillStyle = "#0077b6";
+    ctx.fill();
+  }
+}
 
-    function drawBuses() {
-      buses.forEach((b, i) => {
-        const x = centerX + Math.cos(b.angle) * radiusX;
-        const y = centerY + Math.sin(b.angle) * radiusY;
-        ctx.beginPath();
-        ctx.arc(x, y, 6, 0, 2 * Math.PI);
-        ctx.fillStyle = i === 0 ? "#d62828" : "#003049";
-        ctx.fill();
-      });
-    }
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawOval();
+  updatePassengers();
+  updateBuses();
+  drawStops();
+  drawBuses();
+  time += 0.016 * simSpeed;
+  const minutes = String(Math.floor(time / 60)).padStart(2, "0");
+  const seconds = String(Math.floor(time % 60)).padStart(2, "0");
+  document.getElementById("clock").innerText = `${minutes}:${seconds}`;
+  requestAnimationFrame(animate);
+}
 
-    function updateBuses() {
-      const speedFactor = parseFloat(speedSlider.value);
-      const N = buses.length;
+document.getElementById("busCount").oninput = e => {
+  busCount = +e.target.value;
+  document.getElementById("busCountLabel").innerText = busCount;
+  initSimulation();
+};
+document.getElementById("stopCount").oninput = e => {
+  stopCount = +e.target.value;
+  document.getElementById("stopCountLabel").innerText = stopCount;
+  initSimulation();
+};
+document.getElementById("speed").oninput = e => {
+  simSpeed = +e.target.value;
+  document.getElementById("speedLabel").innerText = `${simSpeed.toFixed(1)}x`;
+};
 
-      // Passenger effect
-      buses.forEach(bus => {
-        passengers.forEach(p => {
-          const diff = Math.abs(bus.angle - p.angle);
-          if (diff < 0.08 && p.waiting > 0) {
-            bus.speed = 0.008;
-            p.waiting = Math.max(0, p.waiting - 1);
-          }
-        });
-      });
-
-      // Collision avoidance (no overtaking)
-      for (let i = 0; i < N; i++) {
-        const next = buses[(i + 1) % N];
-        let gap = (next.angle - buses[i].angle + 2 * Math.PI) % (2 * Math.PI);
-        if (gap < (2 * Math.PI) / N * 0.6) {
-          buses[i].speed *= 0.95;
-        } else {
-          buses[i].speed = Math.min(buses[i].speed * 1.01, 0.02);
-        }
-      }
-
-      // Update bus angles
-      buses.forEach(bus => {
-        bus.angle += bus.speed * speedFactor;
-        if (bus.angle > 2 * Math.PI) bus.angle -= 2 * Math.PI;
-      });
-
-      // Random passenger arrivals
-      passengers.forEach(p => {
-        if (Math.random() < 0.03) p.waiting++;
-      });
-    }
-
-    function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      drawOval(); drawPassengers(); drawBuses();
-      updateBuses();
-      time += 0.05 * parseFloat(speedSlider.value);
-      clockEl.textContent = time.toFixed(1);
-      requestAnimationFrame(animate);
-    }
-
-    // Slider listeners
-    busCountSlider.oninput = () => { busCountLabel.textContent = busCountSlider.value; initSimulation(); };
-    stopCountSlider.oninput = () => { stopCountLabel.textContent = stopCountSlider.value; initSimulation(); };
-    speedSlider.oninput = () => { speedLabel.textContent = speedSlider.value + "×"; };
-
-    initSimulation();
-    animate();
-  </script>
+initSimulation();
+animate();
+</script>
 </body>
 </html>
