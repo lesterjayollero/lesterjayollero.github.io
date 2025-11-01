@@ -16,14 +16,9 @@
       margin: 0;
       padding: 0;
     }
-    a {
-      color: #0077b6;
-      text-decoration: none;
-    }
-    a:hover {
-      color: #005f8f;
-      text-decoration: underline;
-    }
+    a { color: #0077b6; text-decoration: none; }
+    a:hover { color: #005f8f; text-decoration: underline; }
+
     /* Navbar */
     .navbar {
       background: #fff;
@@ -41,22 +36,10 @@
       max-width: 1100px;
       margin: 0 auto;
     }
-    .nav-logo {
-      font-size: 1.4em;
-      font-weight: 600;
-      color: #003049;
-    }
-    .nav-menu {
-      display: flex;
-      list-style: none;
-    }
-    .nav-menu li {
-      margin: 0 12px;
-    }
-    .nav-menu a {
-      color: #003049;
-      font-weight: 500;
-    }
+    .nav-logo { font-size: 1.4em; font-weight: 600; color: #003049; }
+    .nav-menu { display: flex; list-style: none; }
+    .nav-menu li { margin: 0 12px; }
+    .nav-menu a { color: #003049; font-weight: 500; }
     .nav-menu a.active {
       color: #0077b6;
       font-weight: 600;
@@ -64,117 +47,72 @@
       padding-bottom: 2px;
     }
     .menu-toggle {
-      display: none;
-      flex-direction: column;
-      cursor: pointer;
+      display: none; flex-direction: column; cursor: pointer;
     }
     .menu-toggle .bar {
-      height: 3px;
-      width: 25px;
-      background-color: #003049;
-      margin: 4px 0;
-      border-radius: 3px;
+      height: 3px; width: 25px; background-color: #003049;
+      margin: 4px 0; border-radius: 3px;
     }
     @media (max-width: 768px) {
-      .menu-toggle {
-        display: flex;
-      }
+      .menu-toggle { display: flex; }
       .nav-menu {
-        position: fixed;
-        right: -100%;
-        top: 0;
-        flex-direction: column;
-        background: #fff;
-        width: 230px;
-        height: 100%;
+        position: fixed; right: -100%; top: 0;
+        flex-direction: column; background: #fff;
+        width: 230px; height: 100%;
         border-left: 1px solid #ddd;
-        padding-top: 70px;
-        transition: right 0.3s ease-in-out;
-        z-index: 200;
+        padding-top: 70px; transition: right 0.3s ease-in-out; z-index: 200;
       }
-      .nav-menu.active {
-        right: 0;
-      }
-      .nav-menu li {
-        margin: 18px 0;
-        text-align: center;
-      }
+      .nav-menu.active { right: 0; }
+      .nav-menu li { margin: 18px 0; text-align: center; }
     }
+
     /* Page Layout */
     .container {
-      max-width: 900px;
-      margin: 50px auto;
-      padding: 0 20px;
+      max-width: 900px; margin: 50px auto; padding: 0 20px;
     }
     h1 {
-      color: #003049;
-      font-size: 2em;
+      color: #003049; font-size: 2em;
       border-bottom: 3px solid #0077b6;
-      display: inline-block;
-      padding-bottom: 6px;
-      margin-bottom: 20px;
+      display: inline-block; padding-bottom: 6px; margin-bottom: 20px;
     }
-    h2 {
-      color: #003049;
-      font-size: 1.5em;
-      margin-top: 40px;
-    }
-    p, ol {
-      text-align: justify;
-      text-justify: inter-word;
-    }
+    h2 { color: #003049; font-size: 1.5em; margin-top: 40px; }
+    p, ol { text-align: justify; text-justify: inter-word; }
     .tag {
-      display: inline-block;
-      background: #e3f2fd;
-      color: #005f8f;
-      padding: 5px 12px;
-      border-radius: 20px;
-      font-size: 0.9em;
-      margin-right: 6px;
-      margin-bottom: 6px;
-      transition: all 0.2s ease-in-out;
+      display: inline-block; background: #e3f2fd; color: #005f8f;
+      padding: 5px 12px; border-radius: 20px; font-size: 0.9em;
+      margin-right: 6px; margin-bottom: 6px; transition: all 0.2s ease-in-out;
     }
-    .tag:hover {
-      background: #0077b6;
-      color: #fff;
-      cursor: default;
-    }
-    .research-section {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      align-items: flex-start;
-    }
-    .research-text {
-      flex: 1 1 500px;
-    }
-    .research-image {
-      flex: 1 1 300px;
-      text-align: center;
-    }
+    .tag:hover { background: #0077b6; color: #fff; cursor: default; }
+    .research-section { display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start; }
+    .research-text { flex: 1 1 500px; }
+    .research-image { flex: 1 1 300px; text-align: center; }
     .research-image img {
-      width: 100%;
-      max-width: 400px;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      width: 100%; max-width: 400px;
+      border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
-    ol {
-      margin-left: 20px;
-    }
+    ol { margin-left: 20px; }
+
     footer {
-      text-align: center;
-      padding: 25px 10px;
-      background: #f8f9fa;
-      color: #555;
-      font-size: 0.9em;
-      margin-top: 60px;
-      border-top: 1px solid #ddd;
+      text-align: center; padding: 25px 10px;
+      background: #f8f9fa; color: #555; font-size: 0.9em;
+      margin-top: 60px; border-top: 1px solid #ddd;
     }
-    /* Simulation Canvas */
+
+    /* Simulation Styles */
     #busSimulation {
       background: #f4f9ff;
       border-radius: 50%;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      max-width: 100%;
+    }
+    .controls {
+      text-align: center; margin-top: 15px; font-size: 0.9em;
+    }
+    .controls label {
+      display: block; margin: 8px 0 4px; font-weight: 500; color: #003049;
+    }
+    input[type="range"] {
+      width: 80%; accent-color: #0077b6;
     }
   </style>
 </head>
@@ -185,9 +123,7 @@
     <div class="nav-container">
       <a href="index.html" class="nav-logo">Lester Jay Ollero</a>
       <div class="menu-toggle" id="mobile-menu">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
+        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
       </div>
       <ul class="nav-menu">
         <li><a href="index.html#home">Home</a></li>
@@ -216,7 +152,7 @@
 
     <div class="research-section">
       <div class="research-text">
-        <p>Modeling the performance of exclusive bus lanes remains challenging due to complex behavioral, infrastructural, and policy-related factors. Specifically, I am interested in developing data-driven and scenario-based microsimulation models that capture the dynamic behavior of buses under various operational settings, such as dwell time regulation, headway control, and lane management. This approach enables the evaluation of travel time reliability, emissions, and fuel consumption without relying solely on theoretical assumptions, thereby producing realistic and evidence-based assessments of network performance.</p>
+        <p>Modeling the performance of exclusive bus lanes remains challenging due to complex behavioral, infrastructural, and policy-related factors. Specifically, I am interested in developing data-driven and scenario-based microsimulation models that capture the dynamic behavior of buses under various operational settings, such as dwell time regulation, headway control, and lane management.</p>
         <p>Key outcomes of this research include the development of a microsimulation framework for the EDSA Busway, integration of mobile crowdsourced data & on-board diagnostics device data, and evaluation of policy scenarios that optimize dwell time and headway to enhance overall network efficiency.</p>
         <p><strong>Relevant publication/s on this topic:</strong></p>
         <ol>
@@ -246,10 +182,17 @@
       <div class="research-text">
         <p>This interactive simulation demonstrates the <strong>bus bunching phenomenon</strong>. Buses circulate on a closed-loop route, each serving passengers at stops. As one bus falls behind, it picks up more passengers, causing further delay—while the following bus encounters fewer passengers and speeds up. Over time, they form pairs and eventually bunch together into a single convoy.</p>
       </div>
+
       <div class="research-image">
         <canvas id="busSimulation" width="400" height="400"></canvas>
-        <div style="text-align:center; margin-top:10px; font-family:monospace; color:#003049;">
+        <div class="controls">
           ⏱️ <span id="clock">0.0</span> s
+          <label>Number of Buses: <span id="busCountLabel">6</span></label>
+          <input type="range" id="busCount" min="2" max="12" value="6" />
+          <label>Number of Stops: <span id="stopCountLabel">8</span></label>
+          <input type="range" id="stopCount" min="4" max="20" value="8" />
+          <label>Simulation Speed: <span id="speedLabel">1.0×</span></label>
+          <input type="range" id="simSpeed" min="0.5" max="3" step="0.1" value="1" />
         </div>
       </div>
     </div>
@@ -277,29 +220,29 @@
     const ctx = canvas.getContext("2d");
     const clockEl = document.getElementById("clock");
 
+    const busCountSlider = document.getElementById("busCount");
+    const stopCountSlider = document.getElementById("stopCount");
+    const speedSlider = document.getElementById("simSpeed");
+    const busCountLabel = document.getElementById("busCountLabel");
+    const stopCountLabel = document.getElementById("stopCountLabel");
+    const speedLabel = document.getElementById("speedLabel");
+
+    let buses = [], passengers = [];
+    let time = 0, baseSpeed = 1;
+
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
-    const radiusX = 140;
-    const radiusY = 100;
+    const radiusX = 140, radiusY = 100;
 
-    const numBuses = 6;
-    let buses = [];
-    let passengers = [];
-    let time = 0;
-
-    for (let i = 0; i < numBuses; i++) {
-      buses.push({
-        angle: (i / numBuses) * 2 * Math.PI,
-        speed: 0.015 + Math.random() * 0.005,
-        load: 0
-      });
-    }
-
-    for (let i = 0; i < 8; i++) {
-      passengers.push({
-        angle: (i / 8) * 2 * Math.PI,
-        waiting: Math.floor(Math.random() * 10)
-      });
+    function initSimulation() {
+      buses = [];
+      passengers = [];
+      for (let i = 0; i < busCountSlider.value; i++) {
+        buses.push({ angle: (i / busCountSlider.value) * 2 * Math.PI, speed: 0.015 + Math.random() * 0.005 });
+      }
+      for (let i = 0; i < stopCountSlider.value; i++) {
+        passengers.push({ angle: (i / stopCountSlider.value) * 2 * Math.PI, waiting: Math.floor(Math.random() * 10) });
+      }
     }
 
     function drawOval() {
@@ -337,25 +280,23 @@
     }
 
     function updateBuses() {
-      for (let i = 0; i < buses.length; i++) {
-        const bus = buses[i];
-        bus.angle += bus.speed;
+      const speedFactor = parseFloat(speedSlider.value);
+      buses.forEach(bus => {
+        bus.angle += bus.speed * speedFactor;
         if (bus.angle > 2 * Math.PI) bus.angle -= 2 * Math.PI;
 
         passengers.forEach(p => {
           const diff = Math.abs(bus.angle - p.angle);
-          if (diff < 0.1) {
-            if (p.waiting > 0) {
-              bus.speed -= 0.0005 * p.waiting;
-              bus.speed = Math.max(bus.speed, 0.005);
-              p.waiting = Math.max(0, p.waiting - 1);
-            }
+          if (diff < 0.1 && p.waiting > 0) {
+            bus.speed -= 0.0005 * p.waiting;
+            bus.speed = Math.max(bus.speed, 0.005);
+            p.waiting = Math.max(0, p.waiting - 1);
           }
         });
-      }
+      });
 
       passengers.forEach(p => {
-        if (Math.random() < 0.05) p.waiting += 1;
+        if (Math.random() < 0.05) p.waiting++;
       });
 
       for (let i = 0; i < buses.length; i++) {
@@ -369,15 +310,19 @@
 
     function animate() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      drawOval();
-      drawPassengers();
-      drawBuses();
+      drawOval(); drawPassengers(); drawBuses();
       updateBuses();
-      time += 0.05;
+      time += 0.05 * parseFloat(speedSlider.value);
       clockEl.textContent = time.toFixed(1);
       requestAnimationFrame(animate);
     }
 
+    // Slider listeners
+    busCountSlider.oninput = () => { busCountLabel.textContent = busCountSlider.value; initSimulation(); };
+    stopCountSlider.oninput = () => { stopCountLabel.textContent = stopCountSlider.value; initSimulation(); };
+    speedSlider.oninput = () => { speedLabel.textContent = speedSlider.value + "×"; };
+
+    initSimulation();
     animate();
   </script>
 </body>
