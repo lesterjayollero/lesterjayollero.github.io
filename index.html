@@ -6,8 +6,6 @@
   <title>Lester Jay Ollero | Transport & Traffic Engineer | Researcher</title>
   <meta name="keywords" content="Lester Jay Ollero, LPTRP, EDSA Busway, Traffic Impact Assessment, Active Transport, BRT, Sustainable Mobility, Urban Transport, Traffic Simulation">
   <meta name="author" content="Lester Jay Ollero">
-
-  <!-- Font Awesome for modern icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <style>
@@ -18,34 +16,64 @@
       box-sizing: border-box;
     }
 
+    :root {
+      --bg: #fafafa;
+      --text: #222;
+      --muted: #555;
+      --accent: #0077b6;
+      --accent-hover: #005f8f;
+      --nav-bg: #fff;
+      --card-bg: #fff;
+      --border: #ddd;
+      --shadow: rgba(0, 0, 0, 0.04);
+      --header-grad1: #ffffff;
+      --header-grad2: #f3f7fb;
+    }
+
+    body.dark-mode {
+      --bg: #0d1117;
+      --text: #e6edf3;
+      --muted: #9da6b5;
+      --accent: #58a6ff;
+      --accent-hover: #1f6feb;
+      --nav-bg: #161b22;
+      --card-bg: #161b22;
+      --border: #30363d;
+      --shadow: rgba(0, 0, 0, 0.3);
+      --header-grad1: #161b22;
+      --header-grad2: #0d1117;
+    }
+
     /* --- Base --- */
     body {
       font-family: "Segoe UI", Roboto, sans-serif;
-      color: #222;
-      background: #fafafa;
+      color: var(--text);
+      background: var(--bg);
       line-height: 1.7;
       scroll-behavior: smooth;
+      transition: background 0.4s, color 0.4s;
     }
 
     a {
-      color: #0077b6;
+      color: var(--accent);
       text-decoration: none;
       transition: color 0.2s ease;
     }
 
     a:hover {
-      color: #005f8f;
+      color: var(--accent-hover);
       text-decoration: underline;
     }
 
     /* --- Navbar --- */
     .navbar {
-      background: #fff;
-      border-bottom: 1px solid #ddd;
+      background: var(--nav-bg);
+      border-bottom: 1px solid var(--border);
       position: sticky;
       top: 0;
       z-index: 100;
       width: 100%;
+      transition: background 0.4s, color 0.4s;
     }
 
     .nav-container {
@@ -60,12 +88,13 @@
     .nav-logo {
       font-size: 1.4em;
       font-weight: 600;
-      color: #003049;
+      color: var(--text);
     }
 
     .nav-menu {
       display: flex;
       list-style: none;
+      align-items: center;
     }
 
     .nav-menu li {
@@ -73,12 +102,30 @@
     }
 
     .nav-menu a {
-      color: #003049;
+      color: var(--text);
       font-weight: 500;
     }
 
     .nav-menu a:hover {
-      color: #0077b6;
+      color: var(--accent);
+    }
+
+    /* --- Theme toggle button --- */
+    #theme-toggle {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 6px 10px;
+      cursor: pointer;
+      color: var(--text);
+      font-size: 1em;
+      transition: all 0.3s ease;
+    }
+
+    #theme-toggle:hover {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
     }
 
     /* --- Mobile Nav --- */
@@ -91,9 +138,10 @@
     .menu-toggle .bar {
       height: 3px;
       width: 25px;
-      background-color: #003049;
+      background-color: var(--text);
       margin: 4px 0;
       border-radius: 3px;
+      transition: background 0.3s;
     }
 
     @media (max-width: 768px) {
@@ -106,10 +154,10 @@
         right: -100%;
         top: 0;
         flex-direction: column;
-        background: #fff;
+        background: var(--nav-bg);
         width: 230px;
         height: 100%;
-        border-left: 1px solid #ddd;
+        border-left: 1px solid var(--border);
         padding-top: 70px;
         transition: right 0.3s ease-in-out;
         z-index: 200;
@@ -139,8 +187,9 @@
     /* --- Header --- */
     header {
       padding: 60px 20px 40px;
-      background: linear-gradient(to bottom, #ffffff, #f3f7fb);
-      border-bottom: 2px solid #0077b6;
+      background: linear-gradient(to bottom, var(--header-grad1), var(--header-grad2));
+      border-bottom: 2px solid var(--accent);
+      transition: background 0.4s;
     }
 
     .header-container {
@@ -159,28 +208,28 @@
       height: 150px;
       object-fit: cover;
       border-radius: 50%;
-      border: 3px solid #0077b6;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      border: 3px solid var(--accent);
+      box-shadow: 0 4px 10px var(--shadow);
     }
 
     .header-text h1 {
       font-size: 2.2em;
-      color: #003049;
+      color: var(--text);
       margin-bottom: 8px;
     }
 
     .header-text p {
-      color: #555;
+      color: var(--muted);
       font-size: 1.05em;
     }
 
     .header-text em {
-      color: #444;
+      color: var(--muted);
       display: block;
       margin-top: 8px;
     }
 
-    /* --- Modern Icon Styling --- */
+    /* --- Contact icons --- */
     .contact-links {
       margin-top: 18px;
       display: flex;
@@ -190,8 +239,8 @@
     }
 
     .contact-links a {
-      color: #003049;
-      background: #eaf3f9;
+      color: var(--text);
+      background: var(--card-bg);
       padding: 10px;
       border-radius: 50%;
       transition: all 0.3s ease;
@@ -200,16 +249,17 @@
       justify-content: center;
       width: 45px;
       height: 45px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      box-shadow: 0 2px 6px var(--shadow);
+      border: 1px solid var(--border);
     }
 
     .contact-links a:hover {
       color: #fff;
-      background: #0077b6;
+      background: var(--accent);
       transform: scale(1.15);
     }
 
-    /* --- Section General --- */
+    /* --- Sections --- */
     section {
       max-width: 900px;
       margin: 40px auto;
@@ -218,19 +268,19 @@
 
     section h2 {
       font-size: 1.9em;
-      color: #003049;
-      border-bottom: 3px solid #0077b6;
+      color: var(--text);
+      border-bottom: 3px solid var(--accent);
       display: inline-block;
       padding-bottom: 6px;
       margin-bottom: 20px;
     }
 
     section h3 {
-      color: #003049;
+      color: var(--text);
       margin-top: 30px;
       margin-bottom: 10px;
       font-size: 1.3em;
-      border-left: 4px solid #0077b6;
+      border-left: 4px solid var(--accent);
       padding-left: 10px;
     }
 
@@ -240,37 +290,35 @@
     }
 
     section li {
-      background: #fff;
+      background: var(--card-bg);
       padding: 12px 15px;
       margin-bottom: 12px;
       border-radius: 10px;
-      border: 1px solid #e1e1e1;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 4px var(--shadow);
+      transition: background 0.4s, border 0.4s, color 0.4s;
     }
 
     section li strong {
-      color: #000;
+      color: var(--text);
     }
 
     section em {
-      color: #444;
+      color: var(--muted);
       display: block;
       margin-top: 5px;
-    }
-
-    ol {
-      margin-left: 25px;
     }
 
     /* --- Footer --- */
     footer {
       text-align: center;
       padding: 25px 10px;
-      background: #f8f9fa;
-      color: #555;
+      background: var(--nav-bg);
+      color: var(--muted);
       font-size: 0.9em;
       margin-top: 60px;
-      border-top: 1px solid #ddd;
+      border-top: 1px solid var(--border);
+      transition: background 0.4s, color 0.4s;
     }
 
     @media (max-width: 600px) {
@@ -285,7 +333,6 @@
 </head>
 
 <body>
-
   <!-- Navbar -->
   <nav class="navbar">
     <div class="nav-container">
@@ -296,11 +343,12 @@
         <span class="bar"></span>
       </div>
       <ul class="nav-menu">
-        <li><a href="#home" style="color:#0077b6;">Home</a></li>
+        <li><a href="#home" style="color:var(--accent);">Home</a></li>
         <li><a href="research.html">Research</a></li>
         <li><a href="publications.html">Publications</a></li>
         <li><a href="awards.html">Awards</a></li>
         <li><a href="projects.html">Projects</a></li>
+        <li><button id="theme-toggle" title="Toggle dark/light mode"><i class="fa-solid fa-moon"></i></button></li>
       </ul>
     </div>
   </nav>
@@ -331,7 +379,6 @@
   <!-- Background -->
   <section id="background">
     <h2>Background</h2>
-
     <h3>Education</h3>
     <ul>
       <li><strong>2024 | Master of Science in Civil Engineering (Transportation Engineering)</strong><br>
@@ -363,14 +410,16 @@
     </ul>
   </section>
 
-  <!-- Footer -->
   <footer>© 2025 Lester Jay Ollero</footer>
 
   <script>
     const menu = document.querySelector('#mobile-menu');
     const navMenu = document.querySelector('.nav-menu');
     const body = document.querySelector('body');
+    const toggleBtn = document.getElementById('theme-toggle');
+    const icon = toggleBtn.querySelector('i');
 
+    // Menu toggle
     menu.addEventListener('click', () => {
       navMenu.classList.toggle('active');
       body.classList.toggle('menu-open');
@@ -381,6 +430,21 @@
         navMenu.classList.remove('active');
         body.classList.remove('menu-open');
       });
+    });
+
+    // Theme toggle
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      body.classList.add('dark-mode');
+      icon.classList.replace('fa-moon', 'fa-sun');
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      body.classList.toggle('dark-mode');
+      const isDark = body.classList.contains('dark-mode');
+      icon.classList.toggle('fa-moon', !isDark);
+      icon.classList.toggle('fa-sun', isDark);
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
     });
   </script>
 </body>
