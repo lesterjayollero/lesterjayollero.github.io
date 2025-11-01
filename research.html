@@ -19,7 +19,6 @@ body {
 a { color: #0077b6; text-decoration: none; }
 a:hover { color: #005f8f; text-decoration: underline; }
 
-/* Navbar */
 .navbar {
   background: #fff;
   border-bottom: 1px solid #ddd;
@@ -69,7 +68,6 @@ a:hover { color: #005f8f; text-decoration: underline; }
   .nav-menu li { margin: 18px 0; text-align: center; }
 }
 
-/* Layout */
 .container {
   max-width: 900px;
   margin: 50px auto;
@@ -123,7 +121,6 @@ footer {
   border-top: 1px solid #ddd;
 }
 
-/* Simulation Styles */
 #simulation-container {
   margin: 30px auto;
   text-align: center;
@@ -207,7 +204,7 @@ input[type=range] { width: 120px; }
 
   <p>The following interactive simulation demonstrates the phenomenon of <strong>bus bunching</strong>. The oval represents a closed-loop route where multiple buses circulate in a clockwise direction. Each moving dot is a bus, and the outward dandelion-like dots indicate passengers waiting at designated stops. As time progresses, passengers accumulate at stops (larger dots mean more waiting passengers). When a bus reaches a stop with many passengers, it experiences a longer dwell time. Meanwhile, the bus behind it encounters fewer passengers, allowing it to move faster and eventually catch up. This process repeats until two or more buses pair up and travel as a single unit, a visual representation of the <em>bus bunching effect</em>. Overtaking is not permitted, as each bus follows the one ahead within the looped route.</p>
 
-  <!-- Embedded interactive simulation -->
+  <!-- Simulation -->
   <div id="simulation-container">
     <canvas id="busCanvas" width="600" height="400"></canvas>
     <div class="controls">
@@ -222,7 +219,7 @@ input[type=range] { width: 120px; }
 <footer>© 2025 Lester Jay Ollero</footer>
 
 <script>
-// Mobile Nav
+// --- Navigation ---
 const menu = document.querySelector('#mobile-menu');
 const navMenu = document.querySelector('.nav-menu');
 menu.addEventListener('click', () => navMenu.classList.toggle('active'));
@@ -240,11 +237,11 @@ function initSimulation() {
   stops = [];
   for (let i = 0; i < stopCount; i++) {
     const angle = (2 * Math.PI * i) / stopCount;
-    stops.push({ angle, passengers: Math.random() * 3 });
+    stops.push({ angle, passengers: Math.random() * 3, rate: 0.005 + Math.random() * 0.015 });
   }
   for (let i = 0; i < busCount; i++) {
     const angle = (2 * Math.PI * i) / busCount;
-    buses.push({ angle, speed: 0.005, dwell: 0, color: "#0077b6" });
+    buses.push({ angle, speed: 0.0045 + Math.random() * 0.001, dwell: 0, color: "#0077b6" });
   }
 }
 
@@ -258,8 +255,8 @@ function drawOval() {
 
 function updatePassengers() {
   for (let stop of stops) {
-    stop.passengers += 0.01 * simSpeed;
-    if (stop.passengers > 10) stop.passengers = 10;
+    stop.passengers += stop.rate * simSpeed;
+    if (stop.passengers > 15) stop.passengers = 15;
   }
 }
 
@@ -270,36 +267,32 @@ function updateBuses() {
 
     const nextBus = buses[(i + 1) % buses.length];
     const gap = (nextBus.angle - bus.angle + 2 * Math.PI) % (2 * Math.PI);
-    const minGap = (2 * Math.PI) / busCount * 0.2;
-
-    // prevent overtaking
+    const minGap = (2 * Math.PI) / busCount * 0.05; // allow closeness but no overtaking
     if (gap < minGap) continue;
 
     bus.angle = (bus.angle + bus.speed * simSpeed) % (2 * Math.PI);
 
     for (let stop of stops) {
       const diff = Math.abs(bus.angle - stop.angle);
-      if (diff < 0.05 && stop.passengers > 0) {
-        bus.dwell = stop.passengers * 0.02;
+      if (diff < 0.04 && stop.passengers > 0) {
+        bus.dwell = Math.pow(stop.passengers, 1.2) * 0.015; // nonlinear dwell time
         stop.passengers = 0;
         break;
       }
     }
   }
 
-  // update colors based on proximity
   for (let i = 0; i < buses.length; i++) {
     const bus = buses[i];
     const nextBus = buses[(i + 1) % buses.length];
     const gap = (nextBus.angle - bus.angle + 2 * Math.PI) % (2 * Math.PI);
     const nominalGap = (2 * Math.PI) / busCount;
     if (gap < nominalGap * 0.3) {
-      bus.color = "#ff0000"; // red = bunched
-      nextBus.color = "#ff0000";
+      bus.color = nextBus.color = "#ff0000"; // bunched
     } else if (gap < nominalGap * 0.6) {
-      bus.color = "#ff8800"; // orange = approaching bunch
+      bus.color = "#ff8800"; // approaching
     } else {
-      bus.color = "#0077b6"; // blue = normal
+      bus.color = "#0077b6";
     }
   }
 }
