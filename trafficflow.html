@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <style>
-    /* --- Reset --- */
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
@@ -57,7 +56,7 @@
       text-decoration: underline;
     }
 
-    /* --- Navbar --- */
+    /* Navbar */
     .navbar {
       background: var(--nav-bg);
       border-bottom: 1px solid var(--border);
@@ -103,7 +102,7 @@
       color: var(--accent);
     }
 
-    /* --- Theme toggle button --- */
+    /* Theme toggle */
     #theme-toggle {
       background: none;
       border: 1px solid var(--border);
@@ -120,7 +119,7 @@
       border-color: var(--accent);
     }
 
-    /* --- Mobile Nav --- */
+    /* Mobile Nav */
     .menu-toggle {
       display: none;
       flex-direction: column;
@@ -164,22 +163,71 @@
       z-index: 99;
     }
 
-    /* --- Iframe --- */
-    iframe {
-      width: 100%;
-      height: calc(100vh - 60px);
-      border: none;
-      transition: background 0.4s;
+    /* Collapsible Menu */
+    .notes-container {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 0 20px;
     }
 
-    /* --- Footer --- */
+    .collapsible {
+      background: var(--card-bg);
+      color: var(--text);
+      cursor: pointer;
+      padding: 15px 20px;
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      text-align: left;
+      font-size: 1.1em;
+      font-weight: 600;
+      transition: background 0.3s;
+      margin-bottom: 10px;
+    }
+
+    .collapsible:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 15px;
+      padding: 0 20px;
+    }
+
+    .content a {
+      display: block;
+      padding: 10px 0;
+      color: var(--accent);
+    }
+
+    .content.open {
+      padding: 15px 20px;
+    }
+
+    iframe {
+      width: 100%;
+      height: 70vh;
+      border: none;
+      margin-top: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px var(--shadow);
+    }
+
+    /* Footer */
     footer {
       text-align: center;
       padding: 25px 10px;
       background: var(--footer-bg);
       color: var(--footer-text);
       font-size: 0.9em;
-      margin-top: 0;
+      margin-top: 40px;
       border-top: 1px solid var(--border);
       transition: background 0.4s, color 0.4s;
     }
@@ -187,7 +235,6 @@
 </head>
 
 <body>
-  <!-- Navbar -->
   <nav class="navbar">
     <div class="nav-container">
       <a href="index.html#home" class="nav-logo">Lester Jay Ollero</a>
@@ -208,13 +255,34 @@
     </div>
   </nav>
 
-  <!-- Course Notes Content -->
-  <iframe src="https://lesterjayollero.github.io/TrafficFlowTheory.github.io/"></iframe>
+  <div class="notes-container">
+    <button class="collapsible">Traffic Flow Fundamentals</button>
+    <div class="content">
+      <a href="https://lesterjayollero.github.io/TrafficFlowTheory.github.io/fundamentals.html" target="notesFrame">Overview</a>
+      <a href="https://lesterjayollero.github.io/TrafficFlowTheory.github.io/variables.html" target="notesFrame">Flow, Speed, Density</a>
+    </div>
 
-  <!-- Footer -->
-  <footer>
-    © 2025 Lester Jay Ollero
-  </footer>
+    <button class="collapsible">Capacity and Level of Service (LOS)</button>
+    <div class="content">
+      <a href="https://lesterjayollero.github.io/TrafficFlowTheory.github.io/capacity.html" target="notesFrame">Capacity Concepts</a>
+      <a href="https://lesterjayollero.github.io/TrafficFlowTheory.github.io/los.html" target="notesFrame">LOS Determination</a>
+    </div>
+
+    <button class="collapsible">Speed–Flow Relationships</button>
+    <div class="content">
+      <a href="https://lesterjayollero.github.io/TrafficFlowTheory.github.io/speedflow.html" target="notesFrame">Speed–Flow Curve</a>
+    </div>
+
+    <button class="collapsible">Shockwaves and Applications</button>
+    <div class="content">
+      <a href="https://lesterjayollero.github.io/TrafficFlowTheory.github.io/shockwaves.html" target="notesFrame">Shockwave Theory</a>
+    </div>
+
+    <!-- Iframe to display notes -->
+    <iframe name="notesFrame" src="https://lesterjayollero.github.io/TrafficFlowTheory.github.io/"></iframe>
+  </div>
+
+  <footer>© 2025 Lester Jay Ollero</footer>
 
   <script>
     const menu = document.querySelector('#mobile-menu');
@@ -228,7 +296,6 @@
       navMenu.classList.toggle('active');
       body.classList.toggle('menu-open');
     });
-
     document.querySelectorAll('.nav-menu a').forEach(link => {
       link.addEventListener('click', () => {
         navMenu.classList.remove('active');
@@ -249,6 +316,23 @@
       icon.classList.toggle('fa-moon', !isDark);
       icon.classList.toggle('fa-sun', isDark);
       localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+
+    // Collapsibles
+    const collapsibles = document.querySelectorAll('.collapsible');
+    collapsibles.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const content = btn.nextElementSibling;
+        const isOpen = content.classList.contains('open');
+        document.querySelectorAll('.content').forEach(c => {
+          c.style.maxHeight = null;
+          c.classList.remove('open');
+        });
+        if (!isOpen) {
+          content.classList.add('open');
+          content.style.maxHeight = content.scrollHeight + "px";
+        }
+      });
     });
   </script>
 </body>
