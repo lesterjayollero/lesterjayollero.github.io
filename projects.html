@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <style>
-    /* --- Reset --- */
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
@@ -51,17 +50,9 @@
       transition: background 0.4s, color 0.4s;
     }
 
-    a {
-      color: var(--accent);
-      text-decoration: none;
-      transition: color 0.2s ease;
-    }
-    a:hover {
-      color: var(--accent-hover);
-      text-decoration: underline;
-    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { color: var(--accent-hover); text-decoration: underline; }
 
-    /* --- Navbar --- */
     .navbar {
       background: var(--nav-bg);
       border-bottom: 1px solid var(--border);
@@ -81,31 +72,11 @@
       margin: 0 auto;
     }
 
-    .nav-logo {
-      font-size: 1.4em;
-      font-weight: 600;
-      color: var(--text);
-    }
-
-    .nav-menu {
-      display: flex;
-      list-style: none;
-      align-items: center;
-    }
-
-    .nav-menu li {
-      margin: 0 12px;
-    }
-
-    .nav-menu a {
-      color: var(--text);
-      font-weight: 500;
-      transition: color 0.3s;
-    }
-
-    .nav-menu a:hover {
-      color: var(--accent);
-    }
+    .nav-logo { font-size: 1.4em; font-weight: 600; color: var(--text); }
+    .nav-menu { display: flex; list-style: none; align-items: center; }
+    .nav-menu li { margin: 0 12px; }
+    .nav-menu a { color: var(--text); font-weight: 500; }
+    .nav-menu a:hover { color: var(--accent); }
 
     #theme-toggle {
       background: none;
@@ -123,7 +94,6 @@
       border-color: var(--accent);
     }
 
-    /* --- Mobile Nav --- */
     .menu-toggle { display: none; flex-direction: column; cursor: pointer; }
     .menu-toggle .bar {
       height: 3px; width: 25px; background-color: var(--text);
@@ -141,39 +111,21 @@
         border-left: 1px solid var(--border);
         padding-top: 70px;
         transition: right 0.3s ease-in-out;
-        z-index: 200;
       }
       .nav-menu.active { right: 0; }
       .nav-menu li { margin: 18px 0; text-align: center; }
     }
 
-    body.menu-open::after {
-      content: "";
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.4);
-      z-index: 99;
-    }
-
-    /* --- Header --- */
     header {
       text-align: center;
       padding: 60px 20px 30px;
       background: linear-gradient(to bottom, var(--header-grad1), var(--header-grad2));
       border-bottom: 2px solid var(--accent);
-      transition: background 0.4s;
     }
 
-    header h1 {
-      font-size: 2.2em;
-      color: var(--text);
-      margin-bottom: 10px;
-    }
-
+    header h1 { font-size: 2.2em; color: var(--text); margin-bottom: 10px; }
     header p { color: var(--muted); font-size: 1.05em; }
 
-    /* --- Section Styling --- */
     section {
       max-width: 900px;
       margin: 40px auto;
@@ -182,11 +134,10 @@
 
     section h2 {
       font-size: 1.9em;
-      color: var(--text);
       border-bottom: 3px solid var(--accent);
       display: inline-block;
-      padding-bottom: 6px;
       margin-bottom: 20px;
+      padding-bottom: 6px;
     }
 
     section h3 {
@@ -197,7 +148,6 @@
       border-left: 4px solid var(--accent);
       padding-left: 10px;
       cursor: pointer;
-      position: relative;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -207,20 +157,21 @@
       transition: transform 0.3s ease;
       margin-left: 10px;
       color: var(--accent);
+      transform: rotate(-90deg);
     }
 
-    section h3.collapsed i {
-      transform: rotate(-90deg);
+    section h3.active i {
+      transform: rotate(0deg);
     }
 
     .collapsible-content {
       overflow: hidden;
-      max-height: 2000px;
+      max-height: 0;
       transition: max-height 0.4s ease;
     }
 
-    .collapsed + .collapsible-content {
-      max-height: 0;
+    .collapsible-content.open {
+      max-height: 2000px;
     }
 
     section ul, section ol {
@@ -236,14 +187,12 @@
       border-radius: 10px;
       border: 1px solid var(--border);
       box-shadow: 0 2px 4px var(--shadow);
-      transition: background 0.4s, border 0.4s, color 0.4s;
     }
 
     section li strong { color: var(--text); }
     section em { color: var(--muted); display: block; margin-top: 5px; }
     section p { margin-bottom: 10px; color: var(--text); }
 
-    /* --- Footer --- */
     footer {
       text-align: center;
       padding: 25px 10px;
@@ -252,25 +201,16 @@
       font-size: 0.9em;
       margin-top: 60px;
       border-top: 1px solid var(--border);
-      transition: background 0.4s, color 0.4s;
-    }
-
-    @media (max-width: 600px) {
-      header h1 { font-size: 1.9em; }
-      section { margin: 25px auto; }
     }
   </style>
 </head>
 
 <body>
-  <!-- Navbar -->
   <nav class="navbar">
     <div class="nav-container">
       <a href="index.html#home" class="nav-logo">Lester Jay Ollero</a>
       <div class="menu-toggle" id="mobile-menu">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
+        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
       </div>
       <ul class="nav-menu">
         <li><a href="index.html#home">Home</a></li>
@@ -279,56 +219,36 @@
         <li><a href="awards.html">Awards</a></li>
         <li><a href="projects.html" style="color:var(--accent);">Projects</a></li>
         <li><a href="trafficflow.html">Course Notes</a></li>
-        <li><button id="theme-toggle" title="Toggle dark/light mode"><i class="fa-solid fa-moon"></i></button></li>
+        <li><button id="theme-toggle"><i class="fa-solid fa-moon"></i></button></li>
       </ul>
     </div>
   </nav>
 
-  <!-- Header -->
   <header>
     <h1>Project Involvements</h1>
     <p>Selected professional and research projects in transport and traffic engineering.</p>
   </header>
 
-  <!-- Projects Section -->
   <section id="projects">
     <h2>Projects</h2>
 
     <h3>Project Involvements <i class="fa-solid fa-chevron-down"></i></h3>
     <div class="collapsible-content">
       <ul>
-        <li>
-          <strong>Philippine Active Transport Strategic Master Plan (ATSMP)</strong>
-          <em>Led the training of field enumerators for the nationwide household interview survey on active transport mode choice across all NCR cities and pilot sites : Puerto Princesa, Iloilo, Zamboanga, Mati, and Surigao.</em><br>
-          <em>Conducted participatory infrastructure audits.</em>
-        </li>
-        <li>
-          <strong>Local Public Transport Route Plan (LPTRP)</strong>
-          <em>Ongoing</em>
-        </li>
-        <li>
-          <strong>Research Health Institute Transportation Master Plan</strong>
-          <em>Ongoing</em>
-        </li>
-        <li>
-          <strong>Taguig Traffic Study</strong>
-          <em>Led field traffic surveys and prepared traffic analysis reports, evaluating traffic flow characteristics, congestion patterns, and operational performance of key road sections.</em>
-        </li>
-        <li>
-          <strong>Smart City Traffic Study</strong>
-          <em>Evaluated the development's traffic generation and its impacts on both the internal and external road networks.</em>
-        </li>
-        <li>
-          <strong>Clark Global City Transportation Master Plan</strong>
-          <em>Led field surveys and analyzed road connectivity to support master planning of Clark Global City. Conducted gateway and link road capacity analysis and forecasted long-term traffic conditions under various development scenarios.</em>
-        </li>
+        <li><strong>Philippine Active Transport Strategic Master Plan (ATSMP)</strong>
+          <em>Led the training of field enumerators for the nationwide household interview survey on active transport mode choice across all NCR cities and pilot sites : Puerto Princesa, Iloilo, Zamboanga, Mati, and Surigao.</em>
+          <em>Conducted participatory infrastructure audits.</em></li>
+        <li><strong>Local Public Transport Route Plan (LPTRP)</strong><em>Ongoing</em></li>
+        <li><strong>Research Health Institute Transportation Master Plan</strong><em>Ongoing</em></li>
+        <li><strong>Taguig Traffic Study</strong><em>Led field traffic surveys and prepared traffic analysis reports, evaluating traffic flow characteristics, congestion patterns, and operational performance of key road sections.</em></li>
+        <li><strong>Smart City Traffic Study</strong><em>Evaluated the development's traffic generation and its impacts on both the internal and external road networks.</em></li>
+        <li><strong>Clark Global City Transportation Master Plan</strong><em>Led field surveys and analyzed road connectivity to support master planning of Clark Global City. Conducted gateway and link road capacity analysis and forecasted long-term traffic conditions under various development scenarios.</em></li>
       </ul>
     </div>
 
     <h3>Traffic Impact Assessment Reports <i class="fa-solid fa-chevron-down"></i></h3>
     <div class="collapsible-content">
       <p><em>Involved in various Traffic Impact Assessment (TIA) projects nationwide, including mixed-use, residential, and transport developments.</em></p>
-
       <ul>
         <li>Proposed <b>transport terminal</b> in Cubao</li>
         <li>Proposed <b>residential development</b> in Makati (2)</li>
@@ -361,10 +281,7 @@
     </div>
   </section>
 
-  <!-- Footer -->
-  <footer>
-    © 2025 Lester Jay Ollero.
-  </footer>
+  <footer>© 2025 Lester Jay Ollero.</footer>
 
   <script>
     const menu = document.querySelector('#mobile-menu');
@@ -373,17 +290,8 @@
     const toggleBtn = document.getElementById('theme-toggle');
     const icon = toggleBtn.querySelector('i');
 
-    // Mobile nav
     menu.addEventListener('click', () => {
       navMenu.classList.toggle('active');
-      body.classList.toggle('menu-open');
-    });
-
-    document.querySelectorAll('.nav-menu a').forEach(link => {
-      link.addEventListener('click', () => {
-        navMenu.classList.remove('active');
-        body.classList.remove('menu-open');
-      });
     });
 
     // Theme toggle
@@ -401,10 +309,12 @@
       localStorage.setItem('theme', isDark ? 'dark' : 'light');
     });
 
-    // Collapsible headings
-    document.querySelectorAll('section h3').forEach(h3 => {
+    // Collapsible logic (collapsed by default)
+    document.querySelectorAll('section h3').forEach((h3) => {
+      const content = h3.nextElementSibling;
       h3.addEventListener('click', () => {
-        h3.classList.toggle('collapsed');
+        const isOpen = h3.classList.toggle('active');
+        content.classList.toggle('open', isOpen);
       });
     });
   </script>
