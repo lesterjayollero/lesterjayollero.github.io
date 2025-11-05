@@ -107,7 +107,6 @@
       color: var(--accent);
     }
 
-    /* --- Theme toggle button --- */
     #theme-toggle {
       background: none;
       border: 1px solid var(--border);
@@ -125,31 +124,20 @@
     }
 
     /* --- Mobile Nav --- */
-    .menu-toggle {
-      display: none;
-      flex-direction: column;
-      cursor: pointer;
-    }
-
+    .menu-toggle { display: none; flex-direction: column; cursor: pointer; }
     .menu-toggle .bar {
-      height: 3px;
-      width: 25px;
-      background-color: var(--text);
-      margin: 4px 0;
-      border-radius: 3px;
-      transition: background 0.3s;
+      height: 3px; width: 25px; background-color: var(--text);
+      margin: 4px 0; border-radius: 3px; transition: background 0.3s;
     }
 
     @media (max-width: 768px) {
       .menu-toggle { display: flex; }
       .nav-menu {
         position: fixed;
-        right: -100%;
-        top: 0;
+        right: -100%; top: 0;
         flex-direction: column;
         background: var(--nav-bg);
-        width: 230px;
-        height: 100%;
+        width: 230px; height: 100%;
         border-left: 1px solid var(--border);
         padding-top: 70px;
         transition: right 0.3s ease-in-out;
@@ -208,6 +196,31 @@
       font-size: 1.3em;
       border-left: 4px solid var(--accent);
       padding-left: 10px;
+      cursor: pointer;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    section h3 i {
+      transition: transform 0.3s ease;
+      margin-left: 10px;
+      color: var(--accent);
+    }
+
+    section h3.collapsed i {
+      transform: rotate(-90deg);
+    }
+
+    .collapsible-content {
+      overflow: hidden;
+      max-height: 1000px;
+      transition: max-height 0.4s ease;
+    }
+
+    .collapsed + .collapsible-content {
+      max-height: 0;
     }
 
     section ul, section ol {
@@ -281,71 +294,40 @@
   <section id="projects">
     <h2>Projects</h2>
 
-    <h3>Project Involvements</h3>
-    <ul>
-      <li>
-        <strong>Philippine Active Transport Strategic Master Plan (ATSMP)</strong>
-        <em>Led the training of field enumerators for the nationwide household interview survey on active transport mode choice across all NCR cities and pilot sites : Puerto Princesa, Iloilo, Zamboanga, Mati, and Surigao.</em><br>
-        <em>Conducted participatory infrastructure audits.</em>
-      </li>
-      <li>
-        <strong>Local Public Transport Route Plan (LPTRP)</strong>
-        <em>Ongoing</em>
-      </li>
-      <li>
-        <strong>Research Health Institute Transportation Master Plan</strong>
-        <em>Ongoing</em>
-      </li>
-      <li>
-        <strong>Taguig Traffic Study</strong>
-        <em>Led field traffic surveys and prepared traffic analysis reports, evaluating traffic flow characteristics, congestion patterns, and operational performance of key road sections.</em>
-      </li>
-      <li>
-        <strong>Smart City Traffic Study</strong>
-        <em>Evaluated the development's traffic generation and its impacts on both the internal and external road networks.</em>
-      </li>
-      <li>
-        <strong>Clark Global City Transportation Master Plan</strong>
-        <em>Led field surveys and analyzed road connectivity to support master planning of Clark Global City. Conducted gateway and link road capacity analysis and forecasted long-term traffic conditions under various development scenarios.</em>
-      </li>
-    </ul>
+    <h3>Project Involvements <i class="fa-solid fa-chevron-down"></i></h3>
+    <div class="collapsible-content">
+      <ul>
+        <li><strong>Philippine Active Transport Strategic Master Plan (ATSMP)</strong><em>Led the training...</em></li>
+        <li><strong>Local Public Transport Route Plan (LPTRP)</strong><em>Ongoing</em></li>
+        <li><strong>Research Health Institute Transportation Master Plan</strong><em>Ongoing</em></li>
+        <li><strong>Taguig Traffic Study</strong><em>Led field traffic surveys...</em></li>
+        <li><strong>Smart City Traffic Study</strong><em>Evaluated development impacts...</em></li>
+        <li><strong>Clark Global City Transportation Master Plan</strong><em>Led field surveys...</em></li>
+      </ul>
+    </div>
 
-    <h3>Traffic Impact Assessment Reports</h3>
-    <p><em>Involved in various Traffic Impact Assessment (TIA) projects nationwide, including mixed-use, residential, and transport developments.</em></p>
+    <h3>Traffic Impact Assessment Reports <i class="fa-solid fa-chevron-down"></i></h3>
+    <div class="collapsible-content">
+      <p><em>Involved in various Traffic Impact Assessment (TIA) projects nationwide...</em></p>
+      <ul>
+        <li>Proposed <b>transport terminal</b> in Cubao</li>
+        <li>Proposed <b>residential development</b> in Makati (2)</li>
+        <li>Proposed <b>mixed-use development</b> within Makati CBD</li>
+        <li>Proposed <b>SM Seaside Mixed-Use Development</b> in Cebu</li>
+      </ul>
+    </div>
 
-    <ul>
-      <li>Proposed <b>transport terminal</b> in Cubao</li>
-      <li>Proposed <b>residential development</b> in Makati (2)</li>
-      <li>Proposed <b>residential development</b> in Taguig</li>
-      <li>Proposed <b>two-tower residential development</b> in Katipunan, Quezon City</li>
-      <li>Proposed <b>mixed-use development</b> within Makati Central Business District</li>
-      <li>Proposed <b>warehouse developments</b> in Tutuban Center, Manila and Sta. Rosa, Laguna</li>
-      <li>Proposed <b>international convention center</b> in Tacloban City</li>
-      <li>Proposed <b>gas station with retail spaces</b> in Bonifacio Global City, Taguig</li>
-      <li>Proposed <b>residential condominium</b> in Granada Street, Quezon City</li>
-      <li>Proposed <b>retail stopover station</b> in Laguna</li>
-      <li>Proposed <b>commercial development</b> in Angeles City, Pampanga</li>
-      <li>Proposed <b>cement manufacturing plant</b> in Angeles City, Pampanga</li>
-      <li>Proposed <b>SM Expansion Projects (2)</b> and <b>SM Seaside Mixed-Use Development</b> in Cebu</li>
-    </ul>
-
-    <h3>McDonald’s Projects</h3>
-    <p><em>Conducted transportation and traffic surveys and prepared TIA reports for the following proposed branches:</em></p>
-    <ul>
-      <li>Antipolo (2)</li>
-      <li>Tarlac (2)</li>
-      <li>Calamba</li>
-      <li>Alaminos, Laguna</li>
-      <li>Villaruel, Pasay</li>
-      <li>Putatan, Muntinlupa</li>
-      <li>Lemery, Batangas</li>
-    </ul>
+    <h3>McDonald’s Projects <i class="fa-solid fa-chevron-down"></i></h3>
+    <div class="collapsible-content">
+      <p><em>Conducted transportation and traffic surveys...</em></p>
+      <ul>
+        <li>Antipolo (2)</li><li>Tarlac (2)</li><li>Calamba</li><li>Alaminos</li><li>Villaruel, Pasay</li>
+      </ul>
+    </div>
   </section>
 
   <!-- Footer -->
-  <footer>
-    © 2025 Lester Jay Ollero.
-  </footer>
+  <footer>© 2025 Lester Jay Ollero.</footer>
 
   <script>
     const menu = document.querySelector('#mobile-menu');
@@ -380,6 +362,13 @@
       icon.classList.toggle('fa-moon', !isDark);
       icon.classList.toggle('fa-sun', isDark);
       localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+
+    // Collapsible sections
+    document.querySelectorAll('section h3').forEach(h3 => {
+      h3.addEventListener('click', () => {
+        h3.classList.toggle('collapsed');
+      });
     });
   </script>
 </body>
