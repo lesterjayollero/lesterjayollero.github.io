@@ -45,7 +45,6 @@
       --header-grad2: #0d1117;
     }
 
-    /* --- Base --- */
     body {
       font-family: "Segoe UI", Roboto, sans-serif;
       color: var(--text);
@@ -111,7 +110,6 @@
       color: var(--accent);
     }
 
-    /* --- Theme toggle button --- */
     #theme-toggle {
       background: none;
       border: 1px solid var(--border);
@@ -134,6 +132,7 @@
       display: none;
       flex-direction: column;
       cursor: pointer;
+      z-index: 300; /* ensure above overlay */
     }
 
     .menu-toggle .bar {
@@ -161,7 +160,7 @@
         border-left: 1px solid var(--border);
         padding-top: 70px;
         transition: right 0.3s ease-in-out;
-        z-index: 200;
+        z-index: 400; /* FIX: increased to stay above overlay */
       }
 
       .nav-menu.active {
@@ -185,7 +184,6 @@
       z-index: 99;
     }
 
-    /* --- Header --- */
     header {
       padding: 60px 20px 40px;
       background: linear-gradient(to bottom, var(--header-grad1), var(--header-grad2));
@@ -230,7 +228,6 @@
       margin-top: 8px;
     }
 
-    /* --- Contact icons --- */
     .contact-links {
       margin-top: 18px;
       display: flex;
@@ -260,7 +257,6 @@
       transform: scale(1.15);
     }
 
-    /* --- Sections --- */
     section {
       max-width: 900px;
       margin: 40px auto;
@@ -310,7 +306,6 @@
       margin-top: 5px;
     }
 
-    /* --- Footer --- */
     footer {
       text-align: center;
       padding: 25px 10px;
@@ -334,7 +329,6 @@
 </head>
 
 <body>
-  <!-- Navbar -->
   <nav class="navbar">
     <div class="nav-container">
       <a href="#home" class="nav-logo">Lester Jay Ollero</a>
@@ -355,7 +349,6 @@
     </div>
   </nav>
 
-  <!-- Header -->
   <header id="home">
     <div class="header-container">
       <div class="profile-pic">
@@ -378,7 +371,6 @@
     </div>
   </header>
 
-  <!-- Background -->
   <section id="background">
     <h2>Background</h2>
     <h3>Education</h3>
@@ -431,7 +423,6 @@
     const toggleBtn = document.getElementById('theme-toggle');
     const icon = toggleBtn.querySelector('i');
 
-    // Menu toggle
     menu.addEventListener('click', () => {
       navMenu.classList.toggle('active');
       body.classList.toggle('menu-open');
@@ -444,7 +435,6 @@
       });
     });
 
-    // Theme toggle
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'dark') {
       body.classList.add('dark-mode');
@@ -458,6 +448,7 @@
       icon.classList.toggle('fa-sun', isDark);
       localStorage.setItem('theme', isDark ? 'dark' : 'light');
     });
+  </script>
 
 <script type="application/ld+json">
 {
@@ -484,7 +475,4 @@
   ],
   "knowsAbout": ["Transport Planning", "Traffic Simulation", "BRT", "Active Transport", "Sustainable Mobility"]
 }
-
-  </script>
-</body>
-</html>
+ </script>
