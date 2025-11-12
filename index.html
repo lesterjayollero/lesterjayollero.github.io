@@ -65,67 +65,50 @@
       text-decoration: underline;
     }
 
-    /* --- Navbar --- */
-    .navbar {
-      background: var(--nav-bg);
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      width: 100%;
-      transition: background 0.4s, color 0.4s;
-    }
+/* --- Navbar --- */
+.navbar {
+  background: #0077b6; /* blue background */
+  border-bottom: 3px solid #005f8f; /* darker blue border */
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  transition: background 0.4s, color 0.4s;
+}
 
-    .nav-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 24px;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
+.nav-logo {
+  font-size: 1.4em;
+  font-weight: 600;
+  color: #ffffff; /* white text */
+}
 
-    .nav-logo {
-      font-size: 1.4em;
-      font-weight: 600;
-      color: var(--text);
-    }
+.nav-menu a {
+  color: #ffffff; /* white links */
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
 
-    .nav-menu {
-      display: flex;
-      list-style: none;
-      align-items: center;
-    }
+.nav-menu a:hover {
+  color: #cce7ff; /* lighter blue on hover */
+}
 
-    .nav-menu li {
-      margin: 0 12px;
-    }
+#theme-toggle {
+  background: transparent;
+  border: 1px solid #ffffff;
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+  color: #ffffff;
+  font-size: 1em;
+  transition: all 0.3s ease;
+}
 
-    .nav-menu a {
-      color: var(--text);
-      font-weight: 500;
-    }
+#theme-toggle:hover {
+  background: #ffffff;
+  color: #0077b6;
+  border-color: #ffffff;
+}
 
-    .nav-menu a:hover {
-      color: var(--accent);
-    }
-
-    #theme-toggle {
-      background: none;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 6px 10px;
-      cursor: pointer;
-      color: var(--text);
-      font-size: 1em;
-      transition: all 0.3s ease;
-    }
-
-    #theme-toggle:hover {
-      background: var(--accent);
-      color: #fff;
-      border-color: var(--accent);
-    }
 
     /* --- Mobile Nav --- */
     .menu-toggle {
