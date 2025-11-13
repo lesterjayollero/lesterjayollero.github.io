@@ -265,17 +265,25 @@
 
     ol { margin-left: 25px; }
 
-    /* --- Footer --- */
-    footer {
-      text-align: center;
-      padding: 25px 10px;
-      background: var(--footer-bg);
-      color: var(--footer-text);
-      font-size: 0.9em;
-      margin-top: 60px;
-      border-top: 1px solid var(--border);
-      transition: background 0.4s, color 0.4s;
-    }
+ footer {
+  text-align: center;
+  padding: 25px 10px;
+  background: #0077b6; /* main blue tone */
+  color: #ffffff; /* white text for contrast */
+  font-size: 0.9em;
+  margin-top: 60px;
+  border-top: 3px solid #005f8f; /* subtle darker blue border */
+  transition: background 0.4s, color 0.4s;
+}
+
+footer a {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+footer a:hover {
+  color: #cce7ff;
+}
 
     @media (max-width: 600px) {
       header h1 { font-size: 1.9em; }
