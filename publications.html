@@ -152,7 +152,17 @@
       background: rgba(0,0,0,0.45);
       pointer-events: auto; /* now overlay blocks clicks */
     }
+    .navbar {
+  z-index: 500 !important;
+}
 
+.nav-menu {
+  z-index: 600 !important;
+}
+
+body.menu-open::after {
+  z-index: 400 !important;
+}
     /* --- Header --- */
     header {
       text-align: center;
@@ -250,9 +260,9 @@
   <section id="conferences">
     <h2>Conferences</h2>
     <ul>
-      <li><b>16th International Conference of EASTS</b><br><em>Surakarta, Indonesia</em> — Sep 1–4, 2025</li>
-      <li><b>30th Annual Conference of TSSP</b><br><em>Iloilo City, Philippines</em> — Sep 12–13, 2024</li>
-      <li><b>29th Annual Conference of TSSP</b><br><em>Quezon City, Philippines</em> — Dec 7, 2023</li>
+      <li><b>16th International Conference of Eastern Asia Society for Transportation Studies(EASTS)</b><br><em>Surakarta, Indonesia</em> — Sep 1–4, 2025</li>
+      <li><b>30th Annual Conference of Transportation Science Society of the Philippines (TSSP)</b><br><em>Iloilo City, Philippines</em> — Sep 12–13, 2024</li>
+      <li><b>29th Annual Conference of Transportation Science Society of the Philippines (TSSP)</b><br><em>Quezon City, Philippines</em> — Dec 7, 2023</li>
     </ul>
   </section>
 
