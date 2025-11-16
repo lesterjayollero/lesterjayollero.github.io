@@ -208,14 +208,25 @@
   }
 }
 
-/* --- Dark overlay for background when open --- */
+/* --- Dark overlay for background when open (FIXED) --- */
 body.menu-open::after {
   content: "";
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.45);
   z-index: 200;
+  pointer-events: auto; /* overlay blocks clicks ONLY when open */
 }
+
+/* When menu is closed, overlay exists but does NOT block clicks */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: transparent;
+  pointer-events: none;
+}
+
 
 
     /* --- Header --- */
@@ -364,10 +375,13 @@ footer a:hover {
     const icon = toggleBtn.querySelector('i');
 
     // Mobile nav
-    menu.addEventListener('click', () => {
-      navMenu.classList.toggle('active');
-      body.classList.toggle('menu-open');
-    });
+ menu.addEventListener('click', () => {
+  const isOpening = !navMenu.classList.contains('active');
+
+  navMenu.classList.toggle('active');
+  body.classList.toggle('menu-open', isOpening);
+});
+
 
     document.querySelectorAll('.nav-menu a').forEach(link => {
       link.addEventListener('click', () => {
