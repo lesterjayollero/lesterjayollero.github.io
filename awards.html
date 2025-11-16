@@ -194,6 +194,19 @@
       }
     }
 
+    .navbar {
+  z-index: 500 !important;
+}
+
+.nav-menu {
+  z-index: 600 !important;
+}
+
+body.menu-open::after {
+  z-index: 400 !important;
+}
+
+
     /* --- Overlay FIX --- */
     body.menu-open::after {
       content: "";
