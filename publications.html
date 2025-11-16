@@ -51,25 +51,17 @@
       transition: background 0.4s, color 0.4s;
     }
 
-    a {
-      color: var(--accent);
-      text-decoration: none;
-      transition: color 0.2s ease;
-    }
-    a:hover {
-      color: var(--accent-hover);
-      text-decoration: underline;
-    }
+    a { color: var(--accent); text-decoration: none; transition: 0.2s; }
+    a:hover { color: var(--accent-hover); text-decoration: underline; }
 
     /* --- Navbar --- */
     .navbar {
-      background: var(--nav-bg);
-      border-bottom: 1px solid var(--border);
+      background: #0077b6 !important;
+      border-bottom: 3px solid #005f8f;
       position: sticky;
       top: 0;
-      z-index: 100;
+      z-index: 1000;
       width: 100%;
-      transition: background 0.4s, color 0.4s;
     }
 
     .nav-container {
@@ -81,11 +73,7 @@
       margin: 0 auto;
     }
 
-    .nav-logo {
-      font-size: 1.4em;
-      font-weight: 600;
-      color: var(--text);
-    }
+    .nav-logo { font-size: 1.4em; font-weight: 600; color: #fff !important; }
 
     .nav-menu {
       display: flex;
@@ -93,129 +81,77 @@
       align-items: center;
     }
 
-    .nav-menu li {
-      margin: 0 12px;
-    }
+    .nav-menu li { margin: 0 12px; }
+    .nav-menu a { color: #fff !important; font-weight: 500; }
+    .nav-menu a:hover { color: #cce7ff !important; }
 
-    .nav-menu a {
-      color: var(--text);
-      font-weight: 500;
-      transition: color 0.3s;
-    }
-
-    .nav-menu a:hover {
-      color: var(--accent);
-    }
-
-    /* --- Theme toggle button --- */
+    /* Theme toggle */
     #theme-toggle {
       background: none;
-      border: 1px solid var(--border);
+      border: 1px solid #fff !important;
       border-radius: 6px;
       padding: 6px 10px;
       cursor: pointer;
-      color: var(--text);
+      color: #fff !important;
       font-size: 1em;
-      transition: all 0.3s ease;
     }
     #theme-toggle:hover {
-      background: var(--accent);
-      color: #fff;
-      border-color: var(--accent);
+      background: #005f8f !important;
+      border-color: #005f8f !important;
     }
- /* --- Navbar Blue Theme --- */
-.navbar {
-  background: #0077b6 !important; /* same as footer color */
-  border-bottom: 3px solid #005f8f; /* same darker blue border tone */
-}
 
-.nav-menu a {
-  color: #ffffff !important; /* white text for readability */
-}
+    /* --- Mobile Nav --- */
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      z-index: 1200;
+    }
+    .menu-toggle .bar {
+      height: 3px;
+      width: 25px;
+      background-color: #ffffff;
+      margin: 4px 0;
+      border-radius: 3px;
+    }
 
-.nav-menu a:hover {
-  color: #cce7ff !important; /* lighter blue hover effect */
-}
+    @media (max-width: 768px) {
+      .menu-toggle { display: flex; }
 
-.nav-logo {
-  color: #ffffff !important;
-}
+      .nav-menu {
+        position: fixed;
+        right: -260px;
+        top: 0;
+        flex-direction: column;
+        background: #0077b6;
+        width: 250px;
+        height: 100vh;
+        border-left: 3px solid #005f8f;
+        padding-top: 90px;
+        transition: right 0.3s ease;
+        z-index: 1100;
+      }
+      .nav-menu.active { right: 0; }
 
-.menu-toggle .bar {
-  background-color: #ffffff !important;
-}
+      .nav-menu li { margin: 20px 0; text-align: center; }
+      .nav-menu a { font-size: 1.1em; }
+    }
 
-#theme-toggle {
-  border: 1px solid #ffffff !important;
-  color: #ffffff !important;
-}
+    /* --- Overlay (FIXED) --- */
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: transparent;
+      pointer-events: none;
+      z-index: 1050;
+      transition: background 0.3s ease;
+    }
 
-#theme-toggle:hover {
-  background: #005f8f !important;
-  color: #ffffff !important;
-  border-color: #005f8f !important;
-}
-
-   /* --- Mobile Nav (FIXED) --- */
-.menu-toggle {
-  display: none;
-  flex-direction: column;
-  cursor: pointer;
-  z-index: 300; /* ensures button stays above overlay */
-}
-
-.menu-toggle .bar {
-  height: 3px;
-  width: 25px;
-  background-color: #ffffff; /* forced white for blue navbar */
-  margin: 4px 0;
-  border-radius: 3px;
-  transition: background 0.3s;
-}
-
-@media (max-width: 768px) {
-  .menu-toggle {
-    display: flex;
-  }
-
-  .nav-menu {
-    position: fixed;
-    right: -100%;
-    top: 0;
-    flex-direction: column;
-    background: #0077b6; /* make drawer match navbar color */
-    width: 250px;
-    height: 100vh;
-    border-left: 3px solid #005f8f;
-    padding-top: 90px;
-    transition: right 0.3s ease-in-out;
-    z-index: 400; /* above overlay */
-  }
-
-  .nav-menu.active {
-    right: 0;
-  }
-
-  .nav-menu li {
-    margin: 20px 0;
-    text-align: center;
-  }
-
-  .nav-menu a {
-    color: #ffffff !important; /* keep white links */
-    font-size: 1.1em;
-  }
-}
-
-/* --- Dark overlay for background when open --- */
-body.menu-open::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.45);
-  z-index: 200;
-}
-
+    body.menu-open::after {
+      background: rgba(0,0,0,0.45);
+      pointer-events: auto; /* now overlay blocks clicks */
+    }
 
     /* --- Header --- */
     header {
@@ -223,48 +159,22 @@ body.menu-open::after {
       padding: 60px 20px 30px;
       background: linear-gradient(to bottom, var(--header-grad1), var(--header-grad2));
       border-bottom: 2px solid var(--accent);
-      transition: background 0.4s;
     }
+    header h1 { font-size: 2.2em; }
 
-    header h1 {
-      font-size: 2.2em;
-      color: var(--text);
-      margin-bottom: 10px;
-    }
-
-    header p { color: var(--muted); font-size: 1.05em; }
-
-    /* --- Section Styling --- */
+    /* --- Sections --- */
     section {
       max-width: 900px;
       margin: 40px auto;
       padding: 0 20px;
     }
-
     section h2 {
       font-size: 1.9em;
-      color: var(--text);
       border-bottom: 3px solid var(--accent);
       display: inline-block;
       padding-bottom: 6px;
       margin-bottom: 20px;
     }
-
-    section h3 {
-      color: var(--text);
-      margin-top: 30px;
-      margin-bottom: 10px;
-      font-size: 1.3em;
-      border-left: 4px solid var(--accent);
-      padding-left: 10px;
-    }
-
-    section ul, section ol {
-      list-style: none;
-      padding-left: 0;
-      margin-top: 10px;
-    }
-
     section li {
       background: var(--card-bg);
       padding: 12px 15px;
@@ -272,50 +182,33 @@ body.menu-open::after {
       border-radius: 10px;
       border: 1px solid var(--border);
       box-shadow: 0 2px 4px var(--shadow);
-      transition: background 0.4s, border 0.4s, color 0.4s;
     }
 
-    section li strong { color: var(--text); }
-    section em { color: var(--muted); display: block; margin-top: 5px; }
-    section p { margin-bottom: 10px; color: var(--text); }
-
- footer {
-  text-align: center;
-  padding: 25px 10px;
-  background: #0077b6; /* main blue tone */
-  color: #ffffff; /* white text for contrast */
-  font-size: 0.9em;
-  margin-top: 60px;
-  border-top: 3px solid #005f8f; /* subtle darker blue border */
-  transition: background 0.4s, color 0.4s;
-}
-
-footer a {
-  color: #ffffff;
-  text-decoration: underline;
-}
-
-footer a:hover {
-  color: #cce7ff;
-}
-
-    @media (max-width: 600px) {
-      header h1 { font-size: 1.9em; }
-      section { margin: 25px auto; }
+    /* --- Footer --- */
+    footer {
+      text-align: center;
+      padding: 25px 10px;
+      background: #0077b6;
+      color: #ffffff;
+      border-top: 3px solid #005f8f;
+      margin-top: 60px;
     }
   </style>
 </head>
 
 <body>
+
   <!-- Navbar -->
   <nav class="navbar">
     <div class="nav-container">
       <a href="index.html#home" class="nav-logo">Lester Jay Ollero</a>
+
       <div class="menu-toggle" id="mobile-menu">
         <span class="bar"></span>
         <span class="bar"></span>
         <span class="bar"></span>
       </div>
+
       <ul class="nav-menu">
         <li><a href="index.html#home">Home</a></li>
         <li><a href="research.html">Research</a></li>
@@ -323,7 +216,7 @@ footer a:hover {
         <li><a href="awards.html">Awards</a></li>
         <li><a href="projects.html">Projects</a></li>
         <li><a href="trafficflow.html">Course Notes</a></li>
-        <li><button id="theme-toggle" title="Toggle dark/light mode"><i class="fa-solid fa-moon"></i></button></li>
+        <li><button id="theme-toggle"><i class="fa-solid fa-moon"></i></button></li>
       </ul>
     </div>
   </nav>
@@ -341,13 +234,14 @@ footer a:hover {
         <a href="https://ncts.upd.edu.ph/tssp/wp-content/uploads/2025/07/TSSP2024-Vol7-No2_01-Ollero-Vergel-and-Tiglao.pdf" target="_blank">
           <i>A Microsimulation Model of An Exclusive Bus Lane: The Case of EDSA Busway</i>.
         </a>
-        Philippine Transportation Journal, Vol. 7 No. 2, 2024.
+        Philippine Transportation Journal.
       </li>
+
       <li>Sanciangco, E., Tiglao, N.C., Tolentino, N.J., Hidalgo, G.K., Leanda, M.J., and <b>Ollero, L.J.</b> (2024).
         <a href="https://ncts.upd.edu.ph/tssp/wp-content/uploads/2025/07/TSSP2023-Vol7-No1_01-Sanciangco-and-Others.pdf" target="_blank">
-          <i>Evaluating the Fuel Efficiency and Eco-Driving Potential of the EDSA Carousel using On-Board Diagnostics (OBD) and Mobile Crowdsourcing</i>.
+          <i>Evaluating the Fuel Efficiency and Eco-Driving Potential of the EDSA Carousel</i>.
         </a>
-        Philippine Transportation Journal, Vol. 7 No. 1, 2024.
+        Philippine Transportation Journal.
       </li>
     </ol>
   </section>
@@ -356,58 +250,54 @@ footer a:hover {
   <section id="conferences">
     <h2>Conferences</h2>
     <ul>
-      <li><b>16th International Conference of the Eastern Asia Society for Transportation Studies (EASTS)</b><br>
-        <em>Surakarta, Indonesia</em>Sep 1–4, 2025
-      </li>
-      <li><b>30th Annual Conference of the Transportation Science Society of the Philippines (TSSP)</b><br>
-        <em>Iloilo City, Philippines</em>Sep 12–13, 2024
-      </li>
-      <li><b>29th Annual Conference of the Transportation Science Society of the Philippines (TSSP)</b><br>
-        <em>Quezon City, Philippines</em>Dec 7, 2023
-      </li>
+      <li><b>16th International Conference of EASTS</b><br><em>Surakarta, Indonesia</em> — Sep 1–4, 2025</li>
+      <li><b>30th Annual Conference of TSSP</b><br><em>Iloilo City, Philippines</em> — Sep 12–13, 2024</li>
+      <li><b>29th Annual Conference of TSSP</b><br><em>Quezon City, Philippines</em> — Dec 7, 2023</li>
     </ul>
   </section>
 
-
-  <!-- Footer -->
   <footer>
     © 2025 Lester Jay Ollero.
   </footer>
 
+  <!-- JS -->
   <script>
-    const menu = document.querySelector('#mobile-menu');
-    const navMenu = document.querySelector('.nav-menu');
+    const menu = document.querySelector("#mobile-menu");
+    const navMenu = document.querySelector(".nav-menu");
     const body = document.body;
-    const toggleBtn = document.getElementById('theme-toggle');
-    const icon = toggleBtn.querySelector('i');
 
-    // Mobile nav
-    menu.addEventListener('click', () => {
-      navMenu.classList.toggle('active');
-      body.classList.toggle('menu-open');
+    menu.addEventListener("click", () => {
+      const opening = !navMenu.classList.contains("active");
+
+      navMenu.classList.toggle("active");
+      body.classList.toggle("menu-open", opening);
     });
 
-    document.querySelectorAll('.nav-menu a').forEach(link => {
-      link.addEventListener('click', () => {
-        navMenu.classList.remove('active');
-        body.classList.remove('menu-open');
+    document.querySelectorAll(".nav-menu a").forEach(link => {
+      link.addEventListener("click", () => {
+        navMenu.classList.remove("active");
+        body.classList.remove("menu-open");
       });
     });
 
-    // Theme toggle
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-      body.classList.add('dark-mode');
-      icon.classList.replace('fa-moon', 'fa-sun');
+    /* Theme toggle */
+    const toggleBtn = document.getElementById("theme-toggle");
+    const icon = toggleBtn.querySelector("i");
+    const savedTheme = localStorage.getItem("theme");
+
+    if (savedTheme === "dark") {
+      body.classList.add("dark-mode");
+      icon.classList.replace("fa-moon", "fa-sun");
     }
 
-    toggleBtn.addEventListener('click', () => {
-      body.classList.toggle('dark-mode');
-      const isDark = body.classList.contains('dark-mode');
-      icon.classList.toggle('fa-moon', !isDark);
-      icon.classList.toggle('fa-sun', isDark);
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    toggleBtn.addEventListener("click", () => {
+      body.classList.toggle("dark-mode");
+      const dark = body.classList.contains("dark-mode");
+      icon.classList.toggle("fa-sun", dark);
+      icon.classList.toggle("fa-moon", !dark);
+      localStorage.setItem("theme", dark ? "dark" : "light");
     });
   </script>
+
 </body>
 </html>
