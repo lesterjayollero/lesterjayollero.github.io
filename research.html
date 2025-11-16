@@ -173,7 +173,8 @@
 }
 
 body.menu-open::after {
-  z-index: 400 !important;
+  z-index: 300 !important;  /* LOWER than navbar + nav-menu */
+  pointer-events: none;   
 }
 
   /* --- Layout --- */
