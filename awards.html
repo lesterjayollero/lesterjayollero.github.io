@@ -124,110 +124,86 @@
       border-color: var(--accent);
     }
 
-    /* --- Navbar Blue Theme --- */
-.navbar {
-  background: #0077b6 !important; /* same as footer color */
-  border-bottom: 3px solid #005f8f; /* same darker blue border tone */
-}
+    /* --- Blue Navbar Override --- */
+    .navbar {
+      background: #0077b6 !important;
+      border-bottom: 3px solid #005f8f;
+    }
 
-.nav-menu a {
-  color: #ffffff !important; /* white text for readability */
-}
+    .nav-menu a { color: #fff !important; }
+    .nav-menu a:hover { color: #cce7ff !important; }
+    .nav-logo { color: #fff !important; }
+    .menu-toggle .bar { background-color: #fff !important; }
 
-.nav-menu a:hover {
-  color: #cce7ff !important; /* lighter blue hover effect */
-}
+    #theme-toggle {
+      border: 1px solid #fff !important;
+      color: #fff !important;
+    }
+    #theme-toggle:hover {
+      background: #005f8f !important;
+      border-color: #005f8f !important;
+      color: #fff !important;
+    }
 
-.nav-logo {
-  color: #ffffff !important;
-}
+    /* --- Mobile Nav FIX --- */
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      z-index: 9999; /* ensure hamburger always clickable */
+    }
 
-.menu-toggle .bar {
-  background-color: #ffffff !important;
-}
+    .menu-toggle .bar {
+      height: 3px;
+      width: 25px;
+      background-color: #ffffff;
+      margin: 4px 0;
+      border-radius: 3px;
+      transition: background 0.3s;
+    }
 
-#theme-toggle {
-  border: 1px solid #ffffff !important;
-  color: #ffffff !important;
-}
+    @media (max-width: 768px) {
+      .menu-toggle { display: flex; }
 
-#theme-toggle:hover {
-  background: #005f8f !important;
-  color: #ffffff !important;
-  border-color: #005f8f !important;
-}
+      .nav-menu {
+        position: fixed;
+        right: -100%;
+        top: 0;
+        flex-direction: column;
+        background: #0077b6;
+        width: 250px;
+        height: 100vh;
+        border-left: 3px solid #005f8f;
+        padding-top: 90px;
+        transition: right 0.3s ease-in-out;
+        z-index: 9998;
+      }
 
- /* --- Mobile Nav (FIXED) --- */
-.menu-toggle {
-  display: none;
-  flex-direction: column;
-  cursor: pointer;
-  z-index: 300; /* ensures button stays above overlay */
-}
+      .nav-menu.active {
+        right: 0;
+      }
 
-.menu-toggle .bar {
-  height: 3px;
-  width: 25px;
-  background-color: #ffffff; /* forced white for blue navbar */
-  margin: 4px 0;
-  border-radius: 3px;
-  transition: background 0.3s;
-}
+      .nav-menu li {
+        margin: 20px 0;
+        text-align: center;
+      }
 
-@media (max-width: 768px) {
-  .menu-toggle {
-    display: flex;
-  }
+      .nav-menu a {
+        color: #ffffff !important;
+        font-size: 1.1em;
+      }
+    }
 
-  .nav-menu {
-    position: fixed;
-    right: -100%;
-    top: 0;
-    flex-direction: column;
-    background: #0077b6; /* make drawer match navbar color */
-    width: 250px;
-    height: 100vh;
-    border-left: 3px solid #005f8f;
-    padding-top: 90px;
-    transition: right 0.3s ease-in-out;
-    z-index: 400; /* above overlay */
-  }
+    /* --- Overlay FIX --- */
+    body.menu-open::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: 9990;
+    }
 
-  .nav-menu.active {
-    right: 0;
-  }
-
-  .nav-menu li {
-    margin: 20px 0;
-    text-align: center;
-  }
-
-  .nav-menu a {
-    color: #ffffff !important; /* keep white links */
-    font-size: 1.1em;
-  }
-}
-
-/* --- Dark overlay for background when open (FIXED) --- */
-body.menu-open::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.45);
-  z-index: 200;
-  pointer-events: auto; /* overlay blocks clicks ONLY when open */
-}
-
-/* When menu is closed, overlay exists but does NOT block clicks */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: transparent;
-  pointer-events: none;
-}
-
-
+    /* Removed body::after (THIS WAS BLOCKING MOBILE MENU CLICKS) */
 
     /* --- Header --- */
     header {
@@ -235,7 +211,6 @@ body::after {
       padding: 60px 20px 30px;
       background: linear-gradient(to bottom, var(--header-grad1), var(--header-grad2));
       border-bottom: 2px solid var(--accent);
-      transition: background 0.4s;
     }
 
     header h1 {
@@ -246,7 +221,7 @@ body::after {
 
     header p { color: var(--muted); font-size: 1.05em; }
 
-    /* --- Section Styling --- */
+    /* --- Section --- */
     section {
       max-width: 900px;
       margin: 40px auto;
@@ -262,18 +237,8 @@ body::after {
       margin-bottom: 20px;
     }
 
-    section h3 {
-      color: var(--text);
-      margin-top: 30px;
-      margin-bottom: 10px;
-      font-size: 1.3em;
-      border-left: 4px solid var(--accent);
-      padding-left: 10px;
-    }
-
     section ul {
       list-style: none;
-      padding-left: 0;
       margin-top: 10px;
     }
 
@@ -284,52 +249,32 @@ body::after {
       border-radius: 10px;
       border: 1px solid var(--border);
       box-shadow: 0 2px 4px var(--shadow);
-      transition: background 0.4s, border 0.4s, color 0.4s;
     }
 
-    section li strong { color: var(--text); }
     section em { color: var(--muted); display: block; margin-top: 5px; }
-    section p { margin-bottom: 10px; color: var(--text); }
 
-    ol { margin-left: 25px; }
-
- footer {
-  text-align: center;
-  padding: 25px 10px;
-  background: #0077b6; /* main blue tone */
-  color: #ffffff; /* white text for contrast */
-  font-size: 0.9em;
-  margin-top: 60px;
-  border-top: 3px solid #005f8f; /* subtle darker blue border */
-  transition: background 0.4s, color 0.4s;
-}
-
-footer a {
-  color: #ffffff;
-  text-decoration: underline;
-}
-
-footer a:hover {
-  color: #cce7ff;
-}
-
-    @media (max-width: 600px) {
-      header h1 { font-size: 1.9em; }
-      section { margin: 25px auto; }
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 25px 10px;
+      background: #0077b6;
+      color: #ffffff;
+      margin-top: 60px;
+      border-top: 3px solid #005f8f;
     }
   </style>
 </head>
 
 <body>
-  <!-- Navbar -->
+
   <nav class="navbar">
     <div class="nav-container">
       <a href="index.html#home" class="nav-logo">Lester Jay Ollero</a>
+
       <div class="menu-toggle" id="mobile-menu">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
+        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
       </div>
+
       <ul class="nav-menu">
         <li><a href="index.html#home">Home</a></li>
         <li><a href="research.html">Research</a></li>
@@ -337,61 +282,55 @@ footer a:hover {
         <li><a href="awards.html" style="color:var(--accent);">Awards</a></li>
         <li><a href="projects.html">Projects</a></li>
         <li><a href="trafficflow.html">Course Notes</a></li>
-        <li><button id="theme-toggle" title="Toggle dark/light mode"><i class="fa-solid fa-moon"></i></button></li>
+        <li><button id="theme-toggle"><i class="fa-solid fa-moon"></i></button></li>
       </ul>
     </div>
   </nav>
 
-  <!-- Header -->
   <header>
     <h1>Awards and Grants</h1>
   </header>
 
-  <!-- Awards Section -->
   <section id="awards">
     <h2>Awards and Grants</h2>
     <ul>
       <li>
-        <strong>2024 | Best Paper Award</strong><br>
+        <strong>2024 | Best Paper Award</strong>
         <em>Proceedings of the 30th Annual Conference of the Transportation Science Society of the Philippines</em>
       </li>
       <li>
-        <strong>2021–2023 | Engineering Research and Development for Technology (ERDT) Research Grant</strong><br>
+        <strong>2021–2023 | Engineering Research and Development for Technology (ERDT) Research Grant</strong>
         <em>Institute of Civil Engineering, University of the Philippines, Diliman</em>
       </li>
     </ul>
   </section>
 
-  <!-- Footer -->
-  <footer>
-    © 2025 Lester Jay Ollero.
-  </footer>
+  <footer>© 2025 Lester Jay Ollero.</footer>
 
   <script>
     const menu = document.querySelector('#mobile-menu');
     const navMenu = document.querySelector('.nav-menu');
     const body = document.body;
-    const toggleBtn = document.getElementById('theme-toggle');
-    const icon = toggleBtn.querySelector('i');
 
-    // Mobile nav
- menu.addEventListener('click', () => {
-  const isOpening = !navMenu.classList.contains('active');
+    /* Mobile Menu Toggle */
+    menu.addEventListener('click', () => {
+      const opening = !navMenu.classList.contains("active");
+      navMenu.classList.toggle("active");
+      body.classList.toggle("menu-open", opening);
+    });
 
-  navMenu.classList.toggle('active');
-  body.classList.toggle('menu-open', isOpening);
-});
-
-
-    document.querySelectorAll('.nav-menu a').forEach(link => {
-      link.addEventListener('click', () => {
-        navMenu.classList.remove('active');
-        body.classList.remove('menu-open');
+    document.querySelectorAll(".nav-menu a").forEach(link => {
+      link.addEventListener("click", () => {
+        navMenu.classList.remove("active");
+        body.classList.remove("menu-open");
       });
     });
 
-    // Theme toggle
+    /* Theme Toggle */
+    const toggleBtn = document.getElementById('theme-toggle');
+    const icon = toggleBtn.querySelector('i');
     const savedTheme = localStorage.getItem('theme');
+
     if (savedTheme === 'dark') {
       body.classList.add('dark-mode');
       icon.classList.replace('fa-moon', 'fa-sun');
