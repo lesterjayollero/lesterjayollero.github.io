@@ -51,17 +51,24 @@
       transition: background 0.4s, color 0.4s;
     }
 
-    a { color: var(--accent); text-decoration: none; transition: 0.2s; }
-    a:hover { color: var(--accent-hover); text-decoration: underline; }
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    a:hover {
+      color: var(--accent-hover);
+      text-decoration: underline;
+    }
 
-    /* --- Navbar --- */
+    /* --- Navbar Blue Theme --- */
     .navbar {
       background: #0077b6 !important;
       border-bottom: 3px solid #005f8f;
+      width: 100%;
       position: sticky;
       top: 0;
-      z-index: 1000;
-      width: 100%;
+      z-index: 500 !important; /* FIXED */
     }
 
     .nav-container {
@@ -73,7 +80,11 @@
       margin: 0 auto;
     }
 
-    .nav-logo { font-size: 1.4em; font-weight: 600; color: #fff !important; }
+    .nav-logo {
+      font-size: 1.4em;
+      font-weight: 600;
+      color: #ffffff !important;
+    }
 
     .nav-menu {
       display: flex;
@@ -81,36 +92,46 @@
       align-items: center;
     }
 
-    .nav-menu li { margin: 0 12px; }
-    .nav-menu a { color: #fff !important; font-weight: 500; }
-    .nav-menu a:hover { color: #cce7ff !important; }
+    .nav-menu li {
+      margin: 0 12px;
+    }
 
-    /* Theme toggle */
+    .nav-menu a {
+      color: #ffffff !important;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    .nav-menu a:hover {
+      color: #cce7ff !important;
+    }
+
     #theme-toggle {
+      border: 1px solid #ffffff !important;
       background: none;
-      border: 1px solid #fff !important;
       border-radius: 6px;
       padding: 6px 10px;
       cursor: pointer;
-      color: #fff !important;
-      font-size: 1em;
-    }
-    #theme-toggle:hover {
-      background: #005f8f !important;
-      border-color: #005f8f !important;
+      color: #ffffff !important;
     }
 
-    /* --- Mobile Nav --- */
+    #theme-toggle:hover {
+      background: #005f8f !important;
+      color: #ffffff !important;
+    }
+
+    /* --- Mobile Nav (fixed) --- */
     .menu-toggle {
       display: none;
       flex-direction: column;
       cursor: pointer;
-      z-index: 1200;
+      z-index: 900; /* stays above everything */
     }
+
     .menu-toggle .bar {
       height: 3px;
       width: 25px;
-      background-color: #ffffff;
+      background-color: #ffffff !important;
       margin: 4px 0;
       border-radius: 3px;
     }
@@ -120,7 +141,7 @@
 
       .nav-menu {
         position: fixed;
-        right: -260px;
+        right: -100%;
         top: 0;
         flex-direction: column;
         background: #0077b6;
@@ -128,29 +149,28 @@
         height: 100vh;
         border-left: 3px solid #005f8f;
         padding-top: 90px;
-        transition: right 0.3s ease;
-        z-index: 1100;
+        transition: right 0.3s ease-in-out;
+        z-index: 600 !important; /* FIXED */
       }
-      .nav-menu.active { right: 0; }
 
-      .nav-menu li { margin: 20px 0; text-align: center; }
-      .nav-menu a { font-size: 1.1em; }
+      .nav-menu.active {
+        right: 0;
+      }
+
+      .nav-menu li {
+        margin: 20px 0;
+        text-align: center;
+      }
     }
 
-    /* --- Overlay (FIXED) --- */
-    body::after {
+    /* Overlay (VISUAL ONLY — no blocking) */
+    body.menu-open::after {
       content: "";
       position: fixed;
       inset: 0;
-      background: transparent;
-      pointer-events: none;
-      z-index: 1050;
-      transition: background 0.3s ease;
-    }
-
-    body.menu-open::after {
       background: rgba(0,0,0,0.45);
-      pointer-events: auto; /* now overlay blocks clicks */
+      z-index: 400 !important; /* FIXED — below menu drawer */
+      pointer-events: none; /* FIXED — no blocking clicks */
     }
 
     /* --- Header --- */
@@ -159,22 +179,28 @@
       padding: 60px 20px 30px;
       background: linear-gradient(to bottom, var(--header-grad1), var(--header-grad2));
       border-bottom: 2px solid var(--accent);
+      transition: 0.4s;
     }
-    header h1 { font-size: 2.2em; }
 
-    /* --- Sections --- */
+    header h1 {
+      font-size: 2.2em;
+      margin-bottom: 10px;
+    }
+
+    /* --- Section --- */
     section {
       max-width: 900px;
       margin: 40px auto;
       padding: 0 20px;
     }
+
     section h2 {
       font-size: 1.9em;
       border-bottom: 3px solid var(--accent);
       display: inline-block;
-      padding-bottom: 6px;
       margin-bottom: 20px;
     }
+
     section li {
       background: var(--card-bg);
       padding: 12px 15px;
@@ -189,7 +215,7 @@
       text-align: center;
       padding: 25px 10px;
       background: #0077b6;
-      color: #ffffff;
+      color: white;
       border-top: 3px solid #005f8f;
       margin-top: 60px;
     }
@@ -212,7 +238,7 @@
       <ul class="nav-menu">
         <li><a href="index.html#home">Home</a></li>
         <li><a href="research.html">Research</a></li>
-        <li><a href="publications.html" style="color:var(--accent);">Publications</a></li>
+        <li><a href="publications.html" style="color:#cce7ff;">Publications</a></li>
         <li><a href="awards.html">Awards</a></li>
         <li><a href="projects.html">Projects</a></li>
         <li><a href="trafficflow.html">Course Notes</a></li>
@@ -231,17 +257,10 @@
     <h2>Publications</h2>
     <ol>
       <li><b>Ollero, L.J.</b>, Vergel, K., & Tiglao, N.C. (2024).
-        <a href="https://ncts.upd.edu.ph/tssp/wp-content/uploads/2025/07/TSSP2024-Vol7-No2_01-Ollero-Vergel-and-Tiglao.pdf" target="_blank">
-          <i>A Microsimulation Model of An Exclusive Bus Lane: The Case of EDSA Busway</i>.
-        </a>
-        Philippine Transportation Journal.
+        <a href="#" target="_blank"><i>A Microsimulation Model of An Exclusive Bus Lane: The Case of EDSA Busway</i></a>.
       </li>
-
-      <li>Sanciangco, E., Tiglao, N.C., Tolentino, N.J., Hidalgo, G.K., Leanda, M.J., and <b>Ollero, L.J.</b> (2024).
-        <a href="https://ncts.upd.edu.ph/tssp/wp-content/uploads/2025/07/TSSP2023-Vol7-No1_01-Sanciangco-and-Others.pdf" target="_blank">
-          <i>Evaluating the Fuel Efficiency and Eco-Driving Potential of the EDSA Carousel</i>.
-        </a>
-        Philippine Transportation Journal.
+      <li>Sanciangco, E., et al. (2024).
+        <a href="#" target="_blank"><i>Evaluating the Fuel Efficiency and Eco-Driving Potential...</i></a>
       </li>
     </ol>
   </section>
@@ -250,27 +269,28 @@
   <section id="conferences">
     <h2>Conferences</h2>
     <ul>
-      <li><b>16th International Conference of EASTS</b><br><em>Surakarta, Indonesia</em> — Sep 1–4, 2025</li>
-      <li><b>30th Annual Conference of TSSP</b><br><em>Iloilo City, Philippines</em> — Sep 12–13, 2024</li>
-      <li><b>29th Annual Conference of TSSP</b><br><em>Quezon City, Philippines</em> — Dec 7, 2023</li>
+      <li><b>16th EASTS Conference</b><br><em>Surakarta, Indonesia</em> — Sep 2025</li>
+      <li><b>30th TSSP Conference</b><br><em>Iloilo City</em> — Sep 2024</li>
+      <li><b>29th TSSP Conference</b><br><em>Quezon City</em> — Dec 2023</li>
     </ul>
   </section>
 
+  <!-- Footer -->
   <footer>
     © 2025 Lester Jay Ollero.
   </footer>
 
-  <!-- JS -->
   <script>
-    const menu = document.querySelector("#mobile-menu");
+    const menu = document.getElementById("mobile-menu");
     const navMenu = document.querySelector(".nav-menu");
     const body = document.body;
+    const toggleBtn = document.getElementById("theme-toggle");
+    const icon = toggleBtn.querySelector("i");
 
+    // Mobile Nav
     menu.addEventListener("click", () => {
-      const opening = !navMenu.classList.contains("active");
-
       navMenu.classList.toggle("active");
-      body.classList.toggle("menu-open", opening);
+      body.classList.toggle("menu-open");
     });
 
     document.querySelectorAll(".nav-menu a").forEach(link => {
@@ -280,11 +300,8 @@
       });
     });
 
-    /* Theme toggle */
-    const toggleBtn = document.getElementById("theme-toggle");
-    const icon = toggleBtn.querySelector("i");
+    // Theme toggle
     const savedTheme = localStorage.getItem("theme");
-
     if (savedTheme === "dark") {
       body.classList.add("dark-mode");
       icon.classList.replace("fa-moon", "fa-sun");
@@ -292,10 +309,10 @@
 
     toggleBtn.addEventListener("click", () => {
       body.classList.toggle("dark-mode");
-      const dark = body.classList.contains("dark-mode");
-      icon.classList.toggle("fa-sun", dark);
-      icon.classList.toggle("fa-moon", !dark);
-      localStorage.setItem("theme", dark ? "dark" : "light");
+      const isDark = body.classList.contains("dark-mode");
+      icon.classList.toggle("fa-sun", isDark);
+      icon.classList.toggle("fa-moon", !isDark);
+      localStorage.setItem("theme", isDark ? "dark" : "light");
     });
   </script>
 
