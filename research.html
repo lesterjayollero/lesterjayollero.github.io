@@ -164,6 +164,17 @@
     z-index: 99;
   }
 
+   .navbar {
+  z-index: 500 !important;
+}
+
+.nav-menu {
+  z-index: 600 !important;
+}
+
+body.menu-open::after {
+  z-index: 400 !important;
+
   /* --- Layout --- */
   .container { max-width:900px; margin:50px auto; padding:0 20px; }
   h1 { color: var(--text); font-size:2em; border-bottom:3px solid var(--accent); display:inline-block; padding-bottom:6px; margin-bottom:20px; }
