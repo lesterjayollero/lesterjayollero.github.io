@@ -385,7 +385,58 @@ footer a:hover {
       section {
         margin: 25px auto;
       }
-    }
+    
+    /* Teaching Accordion */
+.accordion {
+  margin-top: 10px;
+}
+
+.accordion-btn {
+  width: 100%;
+  background: var(--card-bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  box-shadow: 0 2px 4px var(--shadow);
+  transition: all 0.3s ease;
+}
+
+.accordion-btn:hover {
+  border-color: var(--accent);
+}
+
+.accordion-btn.active {
+  border-color: var(--accent);
+}
+
+.accordion-btn span {
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.accordion-btn.active span {
+  transform: rotate(45deg);
+}
+
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+}
+
+.accordion-content ul {
+  margin-bottom: 12px;
+}
   </style>
 </head>
 
@@ -474,8 +525,26 @@ footer a:hover {
     </ul>
 
       <h3>Teaching</h3>
+    <div class="accordion">
+    <button class="accordion-btn">
+        AY 2026–2027 | 1st Semester
+        <span>+</span>
+        </button>
+
+  <div class="accordion-content">
     <ul>
-      <li><strong>Principles of Transportation Engineering</strong></li>
+     <li><strong>Pending Teaching Load</strong></li>
+    </ul>
+  </div>  
+      
+      <button class="accordion-btn">
+        AY 2025–2026 | 2nd Semester
+        <span>+</span>
+        </button>
+
+  <div class="accordion-content">
+    <ul>
+     <li><strong>Principles of Transportation Engineering</strong></li>
       <li><strong>Theory of Structures</strong></li><br>
       
       <li><strong>Highway and Railroad Engineering</strong></li>
@@ -485,6 +554,8 @@ footer a:hover {
       <li>Transportation Master Planning (TMP) and Traffic Impact Assessment (TIA) Studies</li>
       <li><strong>Transportation and Traffic Surveys</strong></li>
     </ul>
+  </div>
+  </div>  
   </section>
 
   <footer>© 2025 Lester Jay Ollero</footer>
@@ -521,6 +592,21 @@ footer a:hover {
       icon.classList.toggle('fa-sun', isDark);
       localStorage.setItem('theme', isDark ? 'dark' : 'light');
     });
+    // Teaching Accordion
+document.querySelectorAll('.accordion-btn').forEach(button => {
+  button.addEventListener('click', () => {
+
+    button.classList.toggle('active');
+
+    const content = button.nextElementSibling;
+
+    if (content.style.maxHeight) {
+      content.style.maxHeight = null;
+    } else {
+      content.style.maxHeight = content.scrollHeight + 'px';
+    }
+  });
+});
   </script>
 
 <script type="application/ld+json">
@@ -531,7 +617,7 @@ footer a:hover {
   "jobTitle": "Transport and Traffic Engineer",
   "affiliation": {
     "@type": "Organization",
-    "name": "SafeTravelPH Mobility Innovations Organization, Inc."
+    "name": "National University, Philippines"
   },
   "alumniOf": [
     {
