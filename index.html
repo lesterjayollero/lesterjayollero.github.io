@@ -565,10 +565,10 @@ footer a:hover {
     });
     
     /* --- COLLAPSIBLES --- */
-document.querySelectorAll('section h3').forEach((h3) => {
-  const content = h3.nextElementSibling;
-  h3.addEventListener('click', () => {
-    const open = h3.classList.toggle('active');
+document.querySelectorAll('section h4').forEach((h4) => {
+  const content = h4.nextElementSibling;
+  h4.addEventListener('click', () => {
+    const open = h4.classList.toggle('active');
     content.classList.toggle('open', open);
   });
 });
