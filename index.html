@@ -414,6 +414,106 @@ footer a:hover {
       section {
         margin: 25px auto;
       }
+
+      /* =========================
+   TIMELINE CARDS
+========================= */
+
+.timeline-card{
+    display:flex;
+    gap:24px;
+    align-items:flex-start;
+    background:var(--card-bg);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:24px;
+    margin-bottom:20px;
+    box-shadow:0 4px 12px var(--shadow);
+    transition:.25s ease;
+}
+
+.timeline-card:hover{
+    transform:translateY(-2px);
+}
+
+.timeline-date{
+    min-width:100px;
+    text-align:center;
+    background:rgba(0,119,182,0.08);
+    border-radius:12px;
+    padding:15px 10px;
+    border:1px solid var(--border);
+}
+
+body.dark-mode .timeline-date{
+    background:rgba(88,166,255,0.12);
+}
+
+.timeline-year{
+    display:block;
+    font-size:1.8rem;
+    font-weight:800;
+    color:var(--accent);
+    line-height:1.2;
+}
+
+.timeline-period{
+    display:block;
+    font-size:0.85rem;
+    color:var(--muted);
+    margin-top:5px;
+}
+
+.timeline-content{
+    flex:1;
+}
+
+.timeline-meta{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    flex-wrap:wrap;
+    margin-bottom:8px;
+}
+
+.timeline-type{
+    background:var(--accent);
+    color:#fff;
+    font-size:.75rem;
+    font-weight:700;
+    padding:5px 12px;
+    border-radius:20px;
+    letter-spacing:.4px;
+}
+
+.timeline-content h3{
+    margin:0 0 8px 0;
+    font-size:1.3rem;
+    border:none;
+    padding:0;
+}
+
+.timeline-org{
+    font-weight:600;
+    margin-bottom:10px;
+}
+
+.timeline-desc{
+    color:var(--muted);
+}
+
+@media(max-width:768px){
+
+.timeline-card{
+    flex-direction:column;
+}
+
+.timeline-date{
+    width:100%;
+    max-width:110px;
+}
+
+}
   </style>
 </head>
 
@@ -447,7 +547,7 @@ footer a:hover {
         <h1>Lester Jay Ollero</h1>
         <p>Transport & Traffic Engineer | Researcher</p>
         <p>University of the Philippines, Diliman</p>
-        <em>Research Interests: Transport Planning, Travel Behavior, BRT, Paratransit Systems, Active Transport</em>
+        <em>Research Interests: Transport Planning, Travel Behavior, BRT, Paratransit Systems, Informal Transport and Shared Mobility, Active Transport</em>
 
         <div class="contact-links">
           <a href="mailto:ollerolesterjay@gmail.com" title="Email"><i class="fa-solid fa-envelope"></i></a>
@@ -486,20 +586,120 @@ footer a:hover {
       </li>
     </ul>
     
-    <h3>Work Experience</h3>
-    <ul>
-      <li><strong>Senior Transport Planner</strong> | Feb 2025 - Present<br>
-      </li>
-      <li><strong>Transport/Traffic Engineer 1</strong> | Aug 2023 - Jan 2025<br>
-        <em><a href="https://www.wsp.com/en-ph/services/transport-planning" target="_blank">WSP Philippines, Inc.</a></em>
-      </li>
-      <li><strong>Sustainable Transport Research Intern</strong> | Oct 2020 - Jan 2021<br>
-        <em><a href="https://cleanairasia.org/" target="_blank">Clean Air Asia</a></em>
-      </li>
-      <li><strong>Traffic Intern</strong> | June - July 2019<br>
-        <em><a href="https://ncts.upd.edu.ph/" target="_blank">UP National Center for Transportation Studies</a></em>
-      </li>
-    </ul>
+<h3>Work Experience</h3>
+
+<div class="timeline-card">
+
+    <div class="timeline-date">
+        <span class="timeline-year">2025</span>
+        <span class="timeline-period">Present</span>
+    </div>
+
+    <div class="timeline-content">
+
+        <div class="timeline-meta">
+            <span class="timeline-type">CURRENT</span>
+        </div>
+
+        <h3>Senior Transport Planner</h3>
+
+        <div class="timeline-org">
+            WSP Philippines, Inc.
+        </div>
+
+        <div class="timeline-desc">
+            Leading transportation planning, traffic impact assessment,
+            public transport planning, and sustainable mobility projects.
+        </div>
+
+    </div>
+
+</div>
+
+<div class="timeline-card">
+
+    <div class="timeline-date">
+        <span class="timeline-year">2023</span>
+        <span class="timeline-period">Aug 2023 – Jan 2025</span>
+    </div>
+
+    <div class="timeline-content">
+
+        <div class="timeline-meta">
+            <span class="timeline-type">PROFESSIONAL</span>
+        </div>
+
+        <h3>Transport / Traffic Engineer I</h3>
+
+        <div class="timeline-org">
+            WSP Philippines, Inc.
+        </div>
+
+        <div class="timeline-desc">
+            Conducted transport planning studies, traffic impact
+            assessments, active transport planning, LPTRP studies,
+            travel demand forecasting, and microsimulation analyses.
+        </div>
+
+    </div>
+
+</div>
+
+<div class="timeline-card">
+
+    <div class="timeline-date">
+        <span class="timeline-year">2020</span>
+        <span class="timeline-period">Oct 2020 – Jan 2021</span>
+    </div>
+
+    <div class="timeline-content">
+
+        <div class="timeline-meta">
+            <span class="timeline-type">RESEARCH</span>
+        </div>
+
+        <h3>Sustainable Transport Research Intern</h3>
+
+        <div class="timeline-org">
+            Clean Air Asia
+        </div>
+
+        <div class="timeline-desc">
+            Assisted research activities related to sustainable
+            transport policies, active mobility, and urban transport.
+        </div>
+
+    </div>
+
+</div>
+
+<div class="timeline-card">
+
+    <div class="timeline-date">
+        <span class="timeline-year">2019</span>
+        <span class="timeline-period">Jun – Jul 2019</span>
+    </div>
+
+    <div class="timeline-content">
+
+        <div class="timeline-meta">
+            <span class="timeline-type">INTERNSHIP</span>
+        </div>
+
+        <h3>Traffic Intern</h3>
+
+        <div class="timeline-org">
+            UP National Center for Transportation Studies
+        </div>
+
+        <div class="timeline-desc">
+            Assisted in transportation surveys, traffic data
+            collection, traffic analysis, and research activities.
+        </div>
+
+    </div>
+
+</div>
      </section>
   
  <section id="background">
