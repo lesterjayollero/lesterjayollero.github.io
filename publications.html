@@ -137,7 +137,7 @@
       .nav-menu a { font-size: 1.1em; }
     }
 
-    /* --- Overlay (FIXED) --- */
+    /* --- Overlay----- */
     body::after {
       content: "";
       position: fixed;
@@ -203,6 +203,125 @@ body.menu-open::after {
       border-top: 3px solid #005f8f;
       margin-top: 60px;
     }
+
+    /* =========================
+   PUBLICATION CARDS
+========================= */
+
+.publication-card{
+    display:flex;
+    gap:25px;
+    background:var(--card-bg);
+    border:1px solid var(--border);
+    border-radius:16px;
+    overflow:hidden;
+    margin-bottom:35px;
+    box-shadow:0 4px 12px var(--shadow);
+}
+
+.pub-image{
+    flex:0 0 240px;
+    background:#f5f5f5;
+}
+
+.pub-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+
+.pub-content{
+    flex:1;
+    padding:24px;
+}
+
+.pub-meta{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:12px;
+}
+
+.pub-type{
+    background:var(--accent);
+    color:white;
+    font-size:.75rem;
+    font-weight:700;
+    padding:5px 12px;
+    border-radius:20px;
+    letter-spacing:.5px;
+}
+
+.pub-year{
+    font-weight:700;
+    color:var(--muted);
+}
+
+.pub-content h3{
+    font-size:1.45rem;
+    line-height:1.3;
+    margin-bottom:10px;
+}
+
+.pub-journal{
+    color:var(--muted);
+    margin-bottom:15px;
+}
+
+.pub-summary{
+    background:rgba(0,119,182,.08);
+    border-left:5px solid var(--accent);
+    padding:15px;
+    border-radius:8px;
+    margin-bottom:20px;
+}
+
+body.dark-mode .pub-summary{
+    background:rgba(88,166,255,.10);
+}
+
+.pub-citation{
+    margin-bottom:20px;
+    color:var(--muted);
+    font-size:.95rem;
+}
+
+.paper-btn{
+    display:inline-block;
+    background:var(--accent);
+    color:white !important;
+    padding:10px 18px;
+    border-radius:30px;
+    font-weight:600;
+    text-decoration:none;
+}
+
+.paper-btn:hover{
+    background:var(--accent-hover);
+    text-decoration:none;
+}
+
+@media(max-width:768px){
+
+    .publication-card{
+        flex-direction:column;
+    }
+
+    .pub-image{
+        flex:none;
+        width:100%;
+        height:220px;
+    }
+
+    .pub-content{
+        padding:20px;
+    }
+
+    .pub-content h3{
+        font-size:1.2rem;
+    }
+}
   </style>
 </head>
 
@@ -240,28 +359,123 @@ body.menu-open::after {
   <section id="publications">
     
     <h2>Publications</h2>
-    <ol>
-       <li><b>Ollero, L.J.</b>, Vergel, K., & Tiglao, N.C. (2025).
-        <a href="https://www.jstage.jst.go.jp/article/easts/16/0/16_PP4232/_article" target="_blank">
-          <i>Assessing the Network Efficiency and Environmental Impact of the EDSA Busway under Transport and Traffic Measures: A Microsimulation and Mobile Crowdsourcing Approach</i>.
-        </a>
-        Journal of the Eastern Asia Society for Transportation Studies.
-      </li>
-      
-      <li><b>Ollero, L.J.</b>, Vergel, K., & Tiglao, N.C. (2024).
-        <a href="https://ncts.upd.edu.ph/tssp/wp-content/uploads/2025/07/TSSP2024-Vol7-No2_01-Ollero-Vergel-and-Tiglao.pdf" target="_blank">
-          <i>A Microsimulation Model of An Exclusive Bus Lane: The Case of EDSA Busway</i>.
-        </a>
-        Philippine Transportation Journal.
-      </li>
+  
+    <!-- Publication 1 -->
+    <div class="publication-card">
+    <div class="pub-image">
+      <img src="images/easts2025.jpg" alt="EASTS 2025 Paper">
+    </div>
 
-      <li>Sanciangco, E., Tiglao, N.C., Tolentino, N.J., Hidalgo, G.K., Leanda, M.J., and <b>Ollero, L.J.</b> (2024).
-        <a href="https://ncts.upd.edu.ph/tssp/wp-content/uploads/2025/07/TSSP2023-Vol7-No1_01-Sanciangco-and-Others.pdf" target="_blank">
-          <i>Evaluating the Fuel Efficiency and Eco-Driving Potential of the EDSA Carousel</i>.
-        </a>
-        Philippine Transportation Journal.
-      </li>
-    </ol>
+    <div class="pub-meta">
+        <span class="pub-type">JOURNAL ARTICLE</span>
+        <span class="pub-year">2025</span>
+      </div>
+ <h3>
+        Assessing the Network Efficiency and Environmental Impact of the EDSA Busway under Transport and Traffic Measures: A Microsimulation and Mobile Crowdsourcing Approach
+      </h3>
+
+      <p class="pub-journal">
+        Published in <em>Journal of the Eastern Asia Society for Transportation Studies</em>
+      </p>
+
+      <div class="pub-summary">
+        This study evaluates the operational efficiency and environmental impacts of the EDSA Busway using microsimulation and mobile crowdsourcing approaches under various transport and traffic management measures.
+      </div>
+
+      <div class="pub-citation">
+        <strong>Recommended Citation</strong><br>
+        OLLERO, L. J., VERGEL, K., & TIGLAO, N. C. (2025). Assessing the Network Efficiency and Environmental Impact of the EDSA Busway under Transport and Traffic Measures: A Microsimulation and Mobile Crowdsourcing Approach. Journal of the Eastern Asia Society for Transportation Studies, 16, PP4232.
+      </div>
+
+      <a class="paper-btn"
+         href="https://www.jstage.jst.go.jp/article/easts/16/0/16_PP4232/_article"
+         target="_blank">
+         Paper / DOI
+      </a>
+
+    </div>
+  </div>
+ <!-- Publication 2 -->
+  <div class="publication-card">
+
+    <div class="pub-image">
+      <img src="images/busway2024.jpg" alt="EDSA Busway">
+    </div>
+
+    <div class="pub-content">
+
+      <div class="pub-meta">
+        <span class="pub-type">JOURNAL ARTICLE</span>
+        <span class="pub-year">2024</span>
+      </div>
+
+      <h3>
+        A Microsimulation Model of An Exclusive Bus Lane: The Case of EDSA Busway
+      </h3>
+
+      <p class="pub-journal">
+        Published in <em>Philippine Transportation Journal</em>
+      </p>
+
+      <div class="pub-summary">
+        This paper developed and validated a microsimulation model of the EDSA Busway to assess operational performance and traffic impacts under exclusive bus lane conditions.
+      </div>
+
+      <div class="pub-citation">
+        <strong>Recommended Citation</strong><br>
+        Ollero, L.J., Vergel, K., & Tiglao, N.C. (2024). A Microsimulation Model of An Exclusive Bus Lane: The Case of EDSA Busway.
+      </div>
+
+      <a class="paper-btn"
+         href="https://ncts.upd.edu.ph/tssp/wp-content/uploads/2025/07/TSSP2024-Vol7-No2_01-Ollero-Vergel-and-Tiglao.pdf"
+         target="_blank">
+         Paper / DOI
+      </a>
+
+    </div>
+  </div>
+
+
+  <!-- Publication 3 -->
+  <div class="publication-card">
+
+    <div class="pub-image">
+      <img src="images/carousel2024.jpg" alt="EDSA Carousel">
+    </div>
+
+    <div class="pub-content">
+
+      <div class="pub-meta">
+        <span class="pub-type">JOURNAL ARTICLE</span>
+        <span class="pub-year">2024</span>
+      </div>
+
+      <h3>
+        Evaluating the Fuel Efficiency and Eco-Driving Potential of the EDSA Carousel
+      </h3>
+
+      <p class="pub-journal">
+        Published in <em>Philippine Transportation Journal</em>
+      </p>
+
+      <div class="pub-summary">
+        The study examined fuel efficiency and eco-driving opportunities along the EDSA Carousel using OBD data and mobile crowdsourcing techniques.
+      </div>
+
+      <div class="pub-citation">
+        <strong>Recommended Citation</strong><br>
+        Sanciangco, E., Tiglao, N.C., Tolentino, N.J., Hidalgo, G.K., Leanda, M.J., and Ollero, L.J. (2024).
+      </div>
+
+      <a class="paper-btn"
+         href="https://ncts.upd.edu.ph/tssp/wp-content/uploads/2025/07/TSSP2023-Vol7-No1_01-Sanciangco-and-Others.pdf"
+         target="_blank">
+         Paper / DOI
+      </a>
+
+    </div>
+  </div>
+     
   </section>
 
   <!-- Conferences -->
