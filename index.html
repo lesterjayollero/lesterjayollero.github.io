@@ -449,7 +449,7 @@ footer a:hover {
 .research-tags{
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
+    gap: 8px;
 }
 
 .research-tag{
@@ -457,9 +457,9 @@ footer a:hover {
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 10px 18px;
+    padding: 5px 10px;
     border-radius: 999px;
-    font-size: 0.95rem;
+    font-size: 0.65rem;
     font-weight: 500;
 }
 
@@ -521,6 +521,27 @@ body.dark-mode .research-tag.green{
     box-shadow:0 4px 12px var(--shadow);
     text-align:center;
 }
+
+  /*--- FIXED RESEARCH TAGS --- */
+.container { max-width:900px; margin:50px auto; padding:0 20px; }
+  h1 { color: var(--text); font-size:2em; border-bottom:3px solid var(--accent); display:inline-block; padding-bottom:6px; margin-bottom:20px; }
+  h2 { color: var(--text); font-size:1.5em; margin-top:40px; }
+  p, ol { text-align: justify; text-justify: inter-word; color: var(--text); }
+
+  .tag {
+    display:inline-block;
+    background:#e3f2fd;
+    color:#005f8f;
+    padding:5px 12px;
+    border-radius:20px;
+    font-size:0.9em;
+    margin-right:6px;
+    margin-bottom:6px;
+    transition: all .2s;
+  }
+  body.dark-mode .tag { background:#203544; color: #bfe6ff; }
+  .tag:hover { background: var(--accent); color:#fff; cursor:default; }
+    
   </style>
 </head>
 
@@ -561,53 +582,14 @@ body.dark-mode .research-tag.green{
           <a href="https://github.com/lesterjayollero" target="_blank" title="GitHub"><i class="fa-brands fa-github"></i></a>
           <a href="https://www.researchgate.net/profile/Lester_Jay_Ollero" target="_blank" title="ResearchGate"><i class="fa-brands fa-researchgate"></i></a>
         </div>
-        <section id="research-interests">
-
-    <div class="research-card">
-
-        <div class="research-title">
-            Research Interests
-        </div>
-
-        <div class="research-tags">
-
-            <span class="research-tag blue">
-                Transport Planning
-            </span>
-
-            <span class="research-tag green">
-                Travel Behavior
-            </span>
-
-            <span class="research-tag blue">
-                BRT Systems
-            </span>
-
-            <span class="research-tag green">
-                Active Transport
-            </span>
-
-            <span class="research-tag blue">
-                Shared Mobility
-            </span>
-
-            <span class="research-tag blue">
-                Informal Transport
-            </span>
-
-            <span class="research-tag green">
-                Traffic Simulation
-            </span>
-
-            <span class="research-tag blue">
-                Sustainable Mobility
-            </span>
-
-        </div>
-
-    </div>
-
-</section>
+        <div class="tags">
+    <span class="tag">Transport Planning</span>
+    <span class="tag">Travel Behavior</span>
+    <span class="tag">Microsimulation</span>
+    <span class="tag">Informal and Shared Mobility</span>
+    <span class="tag">Bus Rapid Transit (BRT) Systems</span>
+    <span class="tag">Active Transport</span>
+  </div>
       </div>
     </div>
   </header>
