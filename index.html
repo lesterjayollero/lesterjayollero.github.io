@@ -314,33 +314,47 @@
       padding: 0 20px;
     }
 
-    section h2 {
-      font-size: 1.9em;
-      color: var(--text);
-      border-bottom: 3px solid var(--accent);
-      display: inline-block;
-      padding-bottom: 6px;
-      margin-bottom: 20px;
-    }
+   /* =========================
+   SECTION LAYOUT
+========================= */
 
-    section h3 {
-      color: var(--text);
-      margin-top: 30px;
-      margin-bottom: 10px;
-      font-size: 1.3em;
-      border-left: 4px solid var(--accent);
-      padding-left: 10px;
-    }
+section{
+    max-width:900px;
+    margin:60px auto;
+    padding:0 20px;
+}
 
-    section h4 {
-  font-size: 1.3em;
-  border-left: 4px solid var(--accent);
-  padding-left: 10px;
-  margin-top: 30px;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+section h2{
+    font-size:1.9rem;
+    border-bottom:3px solid var(--accent);
+    display:inline-block;
+    padding-bottom:6px;
+    margin-bottom:30px;
+}
+
+section h3{
+    font-size:1.35rem;
+    margin:40px 0 20px;
+    border-left:4px solid var(--accent);
+    padding-left:12px;
+}
+
+    section h4{
+    margin-top:25px;
+    background:var(--card-bg);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:18px 20px;
+    box-shadow:0 4px 12px var(--shadow);
+    cursor:pointer;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    transition:0.25s ease;
+}
+
+section h4:hover{
+    transform:translateY(-2px);
 }
 
 section h4 i {
@@ -366,15 +380,19 @@ section h4.active i { transform: rotate(0deg); }
       padding-left: 0;
     }
 
-    section li {
-      background: var(--card-bg);
-      padding: 12px 15px;
-      margin-bottom: 12px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      box-shadow: 0 2px 4px var(--shadow);
-      transition: background 0.4s, border 0.4s, color 0.4s;
-    }
+    section li{
+    background:var(--card-bg);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:24px;
+    margin-bottom:24px;
+    box-shadow:0 4px 12px var(--shadow);
+    transition:0.25s ease;
+}
+
+section li:hover{
+    transform:translateY(-2px);
+}
 
     section li strong {
       color: var(--text);
@@ -414,89 +432,6 @@ footer a:hover {
       section {
         margin: 25px auto;
       }
-      /* =========================
-   PUBLICATION CARDS
-========================= */
-
-.publication-card{
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 24px;
-    margin-bottom: 30px;
-    box-shadow: 0 4px 12px var(--shadow);
-    transition: 0.25s ease;
-}
-
-.publication-card:hover{
-    transform: translateY(-2px);
-}
-
-.pub-meta{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    margin-bottom:15px;
-}
-
-.pub-type{
-    background: var(--accent);
-    color:#fff;
-    font-size:.75rem;
-    font-weight:700;
-    padding:5px 12px;
-    border-radius:20px;
-    letter-spacing:.5px;
-}
-
-.pub-year{
-    font-weight:700;
-    color:var(--muted);
-}
-
-.pub-content h10{
-    font-size:1.4rem;
-    line-height:1.4;
-    margin-bottom:12px;
-}
-
-.pub-journal{
-    color:var(--muted);
-    margin-bottom:18px;
-}
-
-.pub-summary{
-    background: rgba(0,119,182,0.08);
-    border-left:4px solid var(--accent);
-    padding:15px;
-    border-radius:8px;
-    margin-bottom:20px;
-}
-
-body.dark-mode .pub-summary{
-    background: rgba(88,166,255,0.12);
-}
-
-.pub-citation{
-    margin-bottom:20px;
-    font-size:.95rem;
-    color:var(--muted);
-}
-
-.paper-btn{
-    display:inline-block;
-    padding:10px 18px;
-    border-radius:30px;
-    background:var(--accent);
-    color:#fff !important;
-    font-weight:600;
-    text-decoration:none;
-}
-
-.paper-btn:hover{
-    background:var(--accent-hover);
-    text-decoration:none;
-}
   </style>
 </head>
 
@@ -618,38 +553,6 @@ body.dark-mode .pub-summary{
     </ul> 
     </div>
   </section>
-
-  <!-- Educational Background -->
-  <section id="education">
-    
-    <h2>Education</h2>
-  
-    <!-- Education 1 -->
-    <div class="publication-card">
-    <div class="pub-content">
-    <div class="pub-meta">
-        <span class="pub-type">UNIVERSITY OF THE PHILIPPINES, DILIMAN</span>
-        <span class="pub-year">2024</span>
-    </div>
-       
-      <h10>
-        Master of Science in Civil Engineering (Transportation Engineering)
-      </h10>
-
-      <p class="pub-journal">
-        Institute of Civil Engineering</em>
-      </p>
-
-      <div class="pub-summary">
-        A Microsimulation Model of An Exlcusive Bus Lane: The Case of EDSA Busway
-      </div>
-
-      <div class="pub-citation">
-        <strong>Advisers:</strong><br>
-        Dr. Karl B.N. Vergel
-      </div>
-  </section>
-
   
   <footer>© 2025 Lester Jay Ollero</footer>
 
