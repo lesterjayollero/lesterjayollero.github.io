@@ -424,7 +424,64 @@ footer a:hover {
   color: #cce7ff;
 }
 
+/* =========================
+   RESEARCH INTERESTS
+========================= */
 
+.research-card{
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 4px 12px var(--shadow);
+}
+
+.research-title{
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+}
+
+.research-tags{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+}
+
+.research-tag{
+    display:inline-block;
+    padding:8px 18px;
+    border-radius:999px;
+    font-size:0.95rem;
+    font-weight:500;
+}
+
+.research-tag.blue{
+    background:#eef4ff;
+    border:1px solid #bfd2ff;
+    color:#2563eb;
+}
+
+.research-tag.green{
+    background:#eef8f4;
+    border:1px solid #b7dfd2;
+    color:#0f766e;
+}
+
+body.dark-mode .research-tag.blue{
+    background:rgba(88,166,255,.15);
+    border:1px solid rgba(88,166,255,.30);
+    color:#8ab4ff;
+}
+
+body.dark-mode .research-tag.green{
+    background:rgba(34,197,94,.15);
+    border:1px solid rgba(34,197,94,.30);
+    color:#7ee787;
+}
     @media (max-width: 600px) {
       header h1 {
         font-size: 1.9em;
@@ -432,104 +489,6 @@ footer a:hover {
       section {
         margin: 25px auto;
       }
-      /* =========================
-   RESEARCH INTERESTS
-========================= */
-
-.research-card{
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 24px;
-    box-shadow: 0 4px 12px var(--shadow);
-    margin-top: 15px;
-}
-
-.research-title{
-    font-size: 0.95rem;
-    font-weight: 600;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 18px;
-}
-
-.research-tags{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-}
-
-.research-tag{
-    display: inline-flex;
-    align-items: center;
-    padding: 8px 18px;
-    border-radius: 999px;
-    font-size: 0.95rem;
-    font-weight: 500;
-    text-decoration: none;
-    transition: all 0.25s ease;
-    white-space: nowrap;
-}
-
-/* Blue tags */
-
-.research-tag.blue{
-    background: rgba(0,119,182,0.08);
-    border: 1px solid rgba(0,119,182,0.20);
-    color: #1d4ed8;
-}
-
-.research-tag.blue:hover{
-    background: rgba(0,119,182,0.15);
-    transform: translateY(-2px);
-    text-decoration: none;
-}
-
-/* Green tags */
-
-.research-tag.green{
-    background: rgba(34,197,94,0.08);
-    border: 1px solid rgba(34,197,94,0.20);
-    color: #0f766e;
-}
-
-.research-tag.green:hover{
-    background: rgba(34,197,94,0.15);
-    transform: translateY(-2px);
-    text-decoration: none;
-}
-
-/* Dark Mode */
-
-body.dark-mode .research-tag.blue{
-    background: rgba(88,166,255,0.10);
-    border: 1px solid rgba(88,166,255,0.25);
-    color: #8ab4ff;
-}
-
-body.dark-mode .research-tag.green{
-    background: rgba(74,222,128,0.10);
-    border: 1px solid rgba(74,222,128,0.25);
-    color: #7ee787;
-}
-
-@media(max-width:768px){
-
-    .research-card{
-        padding:20px;
-    }
-
-    .research-tags{
-        gap:10px;
-    }
-
-    .research-tag{
-        font-size:0.9rem;
-        padding:7px 15px;
-    }
-
-}
   </style>
 </head>
 
