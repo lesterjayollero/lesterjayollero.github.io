@@ -236,7 +236,7 @@
     }
 
     header {
-      padding: 40px 10px 20px;
+      padding: 20px 10px 10px;
       background: linear-gradient(to bottom, var(--header-grad1), var(--header-grad2));
       border-bottom: 2px solid var(--accent);
       transition: background 0.4s;
@@ -244,12 +244,12 @@
 
     .header-container {
       display: flex;
-      flex-wrap: wrap;
+      flex-wrap: column;
       align-items: center;
       justify-content: center;
       max-width: 500px;
       margin: 0 auto;
-      gap: 20px;
+      gap: 10px;
       text-align: center;
     }
 
@@ -265,7 +265,7 @@
     .header-text h1 {
       font-size: 2.2em;
       color: var(--text);
-      margin-bottom: 5px;
+      margin-bottom: 2px;
     }
 
     .header-text p {
@@ -276,7 +276,7 @@
     .header-text em {
       color: var(--muted);
       display: block;
-      margin-top: 5px;
+      margin-top: 3px;
     }
 
     .contact-links {
@@ -541,7 +541,10 @@ body.dark-mode .research-tag.green{
   }
   body.dark-mode .tag { background:#203544; color: #bfe6ff; }
   .tag:hover { background: var(--accent); color:#fff; cursor:default; }
-    
+  
+    .tags{
+    margin-top:10px;
+}
   </style>
 </head>
 
