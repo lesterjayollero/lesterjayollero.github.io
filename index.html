@@ -200,7 +200,7 @@
         top: 0;
         flex-direction: column;
         background: var(--nav-bg);
-        width: 230px;
+        width: 350px;
         height: 100%;
         border-left: 1px solid var(--border);
         padding-top: 70px;
@@ -543,6 +543,37 @@ body.dark-mode .research-tag.green{
   
     .tags{
     margin-top:10px;
+}
+    @media (max-width: 768px){
+
+    .header-container{
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+
+    .contact-links{
+        justify-content: center;
+    }
+
+    .header-text{
+        width: 100%;
+    }
+}
+    @media (max-width:768px){
+    .research-tag{
+        font-size:0.8rem;
+        padding:8px 12px;
+    }
+}
+    @media (max-width:768px){
+    .header-text h1{
+        font-size:1.8rem;
+    }
+
+    .header-text p{
+        font-size:0.95rem;
+    }
 }
   </style>
 </head>
