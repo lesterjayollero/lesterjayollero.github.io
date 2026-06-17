@@ -200,7 +200,7 @@
         top: 0;
         flex-direction: column;
         background: var(--nav-bg);
-        width: 350px;
+        width: min(80vw,280px);
         height: 100%;
         border-left: 1px solid var(--border);
         padding-top: 70px;
@@ -573,6 +573,11 @@ body.dark-mode .research-tag.green{
 
     .header-text p{
         font-size:0.95rem;
+    }
+}
+    @media (max-width:768px){
+    section{
+        padding:0 15px;
     }
 }
   </style>
