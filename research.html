@@ -137,7 +137,13 @@
 }
 
   @media (max-width:768px){
-    .menu-toggle { display:flex; }
+    .menu-toggle { 
+      display:none;
+      flex-direction: column;
+      cursor:pointer;
+      z-index: 700;
+      position:relative;
+    }
     .nav-menu {
       position: fixed;
       right: -100%;
@@ -165,7 +171,7 @@
   }
 
    .navbar {
-  z-index: 500 !important;
+  z-index: 800 !important;
 }
 
 .nav-menu {
@@ -386,6 +392,19 @@ footer a:hover {
       menu.setAttribute('aria-expanded', 'false');
     });
   });
+
+  // Toggle, exit menu, tap options
+
+  document.addEventListener('click', (e) => {
+  const isClickInsideMenu = navMenu.contains(e.target);
+  const isToggle = menu.contains(e.target);
+
+  if (!isClickInsideMenu && !isToggle && navMenu.classList.contains('active')) {
+    navMenu.classList.remove('active');
+    document.body.classList.remove('menu-open');
+    menu.setAttribute('aria-expanded', 'false');
+  }
+});
 
   // Theme toggle (persistent, icon swap)
   const toggleBtn = document.getElementById('theme-toggle');
