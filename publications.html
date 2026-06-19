@@ -221,25 +221,26 @@ body.menu-open::after {
     box-shadow: 0 4px 10px var(--shadow);
     transition: 0.25s ease;
     display:flex;
-    gap:20px;
+    gap:24px;
     align-items:flex-start;
 }
    .pub-image{
-    flex-shrink:0;
-    width:160px;
+    width:180px;
+    min-width:180px;
 }
 
 .pub-image img{
     width:100%;
-    border-radius:10px;
+    height:auto;
+    border-radius:8px;
     border:1px solid var(--border);
     display:block;
-    aspect-ratio: 4/3;
-    object-fit: cover;
+    object-fit:contain;
 }
 
 .pub-content{
     flex:1;
+    min-width:0;
 }
     
 /* Mobile */
@@ -282,8 +283,8 @@ body.menu-open::after {
 }
 
 .pub-content h3{
-    font-size:1.1rem;
-    line-height:1.45;
+    font-size:1.7rem;
+    line-height:1.35;
     margin-bottom:8px;
 }
 
