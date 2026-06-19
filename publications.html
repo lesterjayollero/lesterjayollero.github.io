@@ -220,7 +220,40 @@ body.menu-open::after {
     margin-bottom: 16px;
     box-shadow: 0 4px 10px var(--shadow);
     transition: 0.25s ease;
+    display:flex;
+    gap:20px;
+    align-items:flex-start;
 }
+   .pub-image{
+    flex-shrink:0;
+    width:160px;
+}
+
+.pub-image img{
+    width:100%;
+    border-radius:10px;
+    border:1px solid var(--border);
+    display:block;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+}
+
+.pub-content{
+    flex:1;
+}
+    
+/* Mobile */
+@media(max-width:768px){
+    .publication-card{
+        flex-direction:column;
+    }
+
+    .pub-image{
+        width:100%;
+        max-width:220px;
+        margin:0 auto;
+    }
+}    
 
 .publication-card:hover{
     transform: translateY(-2px);
@@ -470,6 +503,11 @@ body.dark-mode .conference-date{
   
     <!-- Publication 1 -->
     <div class="publication-card">
+    <div class="pub-image">
+        <img src="images/edsa-busway-paper.jpg"
+             alt="EDSA Busway Paper">
+    </div>
+      
     <div class="pub-content">
     <div class="pub-meta">
         <span class="pub-type">JOURNAL ARTICLE</span>
