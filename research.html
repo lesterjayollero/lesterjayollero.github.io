@@ -207,9 +207,29 @@
   input[type=range] { width:120px; }
   #clock { margin-top:10px; font-family:monospace; font-weight:bold; color:var(--text); }
 
-  .legend { margin-top:15px; text-align:center; font-size:0.9em; color:var(--text); }
-  .legend span { display:inline-block; margin:0 10px; padding-left:20px; position:relative; }
-  .legend span::before { content:""; width:12px; height:12px; border-radius:50%; position:absolute; left:0; top:50%; transform:translateY(-50%); }
+ .legend{
+  margin-top:15px;
+  text-align:center;
+  font-size:0.9em;
+  color:var(--text);
+}
+
+.legend span{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  margin:0 12px;
+}
+
+.legend span::before{
+  content:"";
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  display:inline-block;
+  position:static;
+  transform:none;
+}
   .legend .normal::before { background:#0077b6; }
   .legend .approaching::before { background:#a020f0; }
   .legend .bunched::before { background:#ff0000; }
