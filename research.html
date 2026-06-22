@@ -481,7 +481,19 @@ document.querySelectorAll(".nav-menu a").forEach(link => {
   });
 
   // --- Bus Bunching Simulation ---
- let radiusX, radiusY, centerX, centerY;
+/* --- Simulation Variables --- */
+const canvas = document.getElementById("busCanvas");
+const ctx = canvas.getContext("2d");
+
+let buses = [];
+let stops = [];
+
+let busCount = 4;
+let stopCount = 6;
+let simSpeed = 1;
+let time = 0;
+
+let radiusX, radiusY, centerX, centerY;
 
 function resizeCanvas() {
 
