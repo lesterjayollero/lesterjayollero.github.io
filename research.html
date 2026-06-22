@@ -138,7 +138,7 @@
 
   @media (max-width:768px){
     .menu-toggle { 
-      display:none;
+      display:flex;
       flex-direction: column;
       cursor:pointer;
       z-index: 700;
@@ -149,7 +149,7 @@
       right: -100%;
       top: 0;
       flex-direction: column;
-      background: var(--nav-bg);
+      background:#0077b6;
       width: 230px;
       height: 100%;
       border-left: 1px solid var(--border);
@@ -170,12 +170,9 @@
     z-index: 99;
   }
 
-   .navbar {
-  z-index: 800 !important;
-}
-
 .nav-menu {
-  z-index: 600 !important;
+  position: fixed;
+  z-index: 1000;
 }
 
 body.menu-open::after {
@@ -395,11 +392,13 @@ footer a:hover {
 
   // Toggle, exit menu, tap options
 
-  document.addEventListener('click', (e) => {
-  const isClickInsideMenu = navMenu.contains(e.target);
-  const isToggle = menu.contains(e.target);
+document.addEventListener('click', (e) => {
+  if (!navMenu.classList.contains('active')) return;
 
-  if (!isClickInsideMenu && !isToggle && navMenu.classList.contains('active')) {
+  if (
+    !navMenu.contains(e.target) &&
+    !menu.contains(e.target)
+  ) {
     navMenu.classList.remove('active');
     document.body.classList.remove('menu-open');
     menu.setAttribute('aria-expanded', 'false');
