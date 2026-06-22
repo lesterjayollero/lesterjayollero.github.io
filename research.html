@@ -207,7 +207,15 @@ body.menu-open::after {
 
   /* --- Simulation --- */
   #simulation-container { margin:30px auto; text-align:center; }
-  #busCanvas { background: var(--card-bg); border:1px solid var(--border); border-radius:8px; transition: background .3s, border-color .3s; }
+  #busCanvas {
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  background: var(--card-bg);
+  border:1px solid var(--border);
+  border-radius:8px;
+  transition: background .3s, border-color .3s;
+  }
   .controls { margin-top:15px; display:flex; justify-content:center; flex-wrap:wrap; gap:20px; }
   label { font-weight:500; color: var(--text); }
   input[type=range] { width:120px; }
@@ -239,7 +247,40 @@ footer a {
 footer a:hover {
   color: #cce7ff;
 }
+  html, body{
+  overflow-x:hidden;
+  max-width:100%;
+}
   @media (max-width:600px){ h1{ font-size:1.6em;} .container{ margin:30px auto;} }
+  @media (max-width: 768px){
+
+  #simulation-container{
+    width:100%;
+    overflow:hidden;
+  }
+
+  #busCanvas{
+    width:100%;
+    max-width:100%;
+    height:auto;
+  }
+
+  .controls{
+    flex-direction:column;
+    align-items:center;
+    gap:15px;
+  }
+
+  input[type="range"]{
+    width:220px;
+  }
+
+  .legend{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+}
 </style>
 </head>
 
@@ -425,11 +466,29 @@ document.addEventListener('click', (e) => {
   });
 
   // --- Bus Bunching Simulation ---
-  const canvas = document.getElementById("busCanvas");
-  const ctx = canvas.getContext("2d");
-  let busCount = 4, stopCount = 6, simSpeed = 1;
-  let buses = [], stops = [], time = 0;
-  const radiusX = 220, radiusY = 140, centerX = canvas.width/2, centerY = canvas.height/2;
+ let radiusX, radiusY, centerX, centerY;
+
+function resizeCanvas() {
+
+  const mobile = window.innerWidth < 768;
+
+  if (mobile) {
+    canvas.width = Math.min(window.innerWidth - 40, 500);
+    canvas.height = canvas.width * 0.65;
+  } else {
+    canvas.width = 600;
+    canvas.height = 400;
+  }
+
+  centerX = canvas.width / 2;
+  centerY = canvas.height / 2;
+
+  radiusX = canvas.width * 0.37;
+  radiusY = canvas.height * 0.35;
+}
+
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();
 
   function initSimulation() {
     buses = [];
