@@ -135,49 +135,35 @@
   color: #ffffff !important;
   border-color: #005f8f !important;
 }
+@media (max-width: 768px) {
 
-  @media (max-width:768px){
-    .menu-toggle { 
-      display:flex;
-      flex-direction: column;
-      cursor:pointer;
-      z-index: 700;
-      position:relative;
-    }
-    .nav-menu {
-      position: fixed;
-      right: -100%;
-      top: 0;
-      flex-direction: column;
-      background:#0077b6;
-      width: 230px;
-      height: 100%;
-      border-left: 1px solid var(--border);
-      padding-top: 70px;
-      transition: right 0.3s ease-in-out;
-      z-index: 200;
-    }
-    .nav-menu.active { right: 0; }
-    .nav-menu li { margin: 18px 0; text-align: center; }
+  .menu-toggle {
+    display: flex;
+    z-index: 700 !important;
   }
 
-  body.menu-open::after {
-    content: "";
-    position: fixed;
-    top:0; left:0;
-    width:100%; height:100%;
-    background: rgba(0,0,0,0.4);
-    z-index: 99;
+  .nav-menu {
+    position: fixed !important;
+    right: -100%;
+    top: 0;
+    height: 100%;
+    width: 230px;
+    background: #0077b6;
+    flex-direction: column;
+    padding-top: 80px;
+    border-left: 3px solid #005f8f;
+    transition: right 0.3s ease-in-out;
+    z-index: 600 !important;
   }
 
-.nav-menu {
-  position: fixed;
-  z-index: 1000;
-}
+  .nav-menu.active {
+    right: 0;
+  }
 
-body.menu-open::after {
-  z-index: 300 !important;  /* LOWER than navbar + nav-menu */
-  pointer-events: none;   
+  .nav-menu li {
+    margin: 20px 0;
+    text-align: center;
+  }
 }
 
   /* --- Layout --- */
@@ -257,13 +243,37 @@ footer a:hover {
   #simulation-container{
     width:100%;
     overflow:hidden;
+    padding:0 5px;
   }
 
   #busCanvas{
     width:100%;
-    max-width:100%;
+    max-width:340px;
     height:auto;
+    display:block;
+    margin:auto;
+
+    touch-action: pan-y;
+    -webkit-user-select:none;
+    user-select:none;
   }
+
+  .controls{
+    flex-direction:column;
+    align-items:center;
+    gap:15px;
+  }
+
+  input[type="range"]{
+    width:180px;
+  }
+
+  .legend{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+}
 
   .controls{
     flex-direction:column;
@@ -280,6 +290,17 @@ footer a:hover {
     flex-direction:column;
     gap:8px;
   }
+}
+  @media (hover:none){
+
+  .tag:hover,
+  a:hover,
+  #theme-toggle:hover{
+    background: inherit;
+    color: inherit;
+    transform:none;
+  }
+
 }
 </style>
 </head>
@@ -415,37 +436,31 @@ footer a:hover {
 <footer>© 2025 Lester Jay Ollero</footer>
 
 <script>
-  // Mobile Nav
-  const menu = document.querySelector('#mobile-menu');
-  const navMenu = document.querySelector('.nav-menu');
-  menu.addEventListener('click', () => {
-    const open = navMenu.classList.toggle('active');
-    document.body.classList.toggle('menu-open', open);
-    menu.setAttribute('aria-expanded', String(open));
-  });
-  document.querySelectorAll('.nav-menu a').forEach(link => {
-    link.addEventListener('click', () => {
-      navMenu.classList.remove('active');
-      document.body.classList.remove('menu-open');
-      menu.setAttribute('aria-expanded', 'false');
-    });
-  });
+ /* --- MOBILE MENU --- */
+const menu = document.querySelector('#mobile-menu');
+const navMenu = document.querySelector('.nav-menu');
 
-  // Toggle, exit menu, tap options
+menu.addEventListener('click', () => {
+  navMenu.classList.toggle('active');
+});
 
-document.addEventListener('click', (e) => {
-  if (!navMenu.classList.contains('active')) return;
-
+/* --- CLOSE MENU WHEN CLICKING OUTSIDE --- */
+document.addEventListener("click", (e) => {
   if (
-    !navMenu.contains(e.target) &&
-    !menu.contains(e.target)
+    navMenu.classList.contains("active") &&
+    !e.target.closest(".nav-menu") &&
+    !e.target.closest("#mobile-menu")
   ) {
-    navMenu.classList.remove('active');
-    document.body.classList.remove('menu-open');
-    menu.setAttribute('aria-expanded', 'false');
+    navMenu.classList.remove("active");
   }
 });
 
+/* --- CLOSE AFTER SELECTING ITEM --- */
+document.querySelectorAll(".nav-menu a").forEach(link => {
+  link.addEventListener("click", () => {
+    navMenu.classList.remove("active");
+  });
+});
   // Theme toggle (persistent, icon swap)
   const toggleBtn = document.getElementById('theme-toggle');
   const icon = toggleBtn.querySelector('i');
@@ -473,7 +488,7 @@ function resizeCanvas() {
   const mobile = window.innerWidth < 768;
 
   if (mobile) {
-    canvas.width = Math.min(window.innerWidth - 40, 500);
+    canvas.width = Math.min(window.innerWidth - 30, 340);
     canvas.height = canvas.width * 0.65;
   } else {
     canvas.width = 600;
