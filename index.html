@@ -514,15 +514,17 @@ body.dark-mode .research-tag.green{
     /* Education Logos */
 .education-entry{
     display:flex;
-    align-items:flex-start;
-    gap:15px;
+    align-items:center;
+    gap:20px;
+    min-height:90px;
 }
 
 .education-entry img{
-    width:60px;
-    height:60px;
+    width:70px;
+    height:70px;
     object-fit:contain;
     flex-shrink:0;
+    align-self:center;
 }
 
 .education-details{
@@ -665,7 +667,8 @@ body.dark-mode .research-tag.green{
   <section id="background">
     <h2>Background</h2>
     <h3>Education</h3>
-   <li>
+  <ul>
+    <li>
     <div class="education-entry">
       
       <img src="images/upd logo.png" alt="UP Diliman Logo">
@@ -678,7 +681,9 @@ body.dark-mode .research-tag.green{
       </div>
     </div>
    </li>
-    
+  </ul>
+
+    <ul>
     <li>
         <div class="education-entry">
       
@@ -692,6 +697,7 @@ body.dark-mode .research-tag.green{
       </div>
       </div>
     </li>
+    </ul>
     
     <h3>Professional Affiliations</h3>
     <ul>
