@@ -858,54 +858,54 @@ document.querySelectorAll('section h4').forEach((h4) => {
   });
 });
 /* -BG Dots--*/
-tsParticles.load("particles-js", {
-  background: {
-    color: "transparent"
-  },
-
-  particles: {
-    number: {
-      value: 80
-    },
-
-    color: {
-      value: "#58a6ff"
-    },
-
-    links: {
-      enable: true,
-      color: "#58a6ff",
-      distance: 150,
-      opacity: 0.25
-    },
-
-    move: {
-      enable: true,
-      speed: 1
-    },
-
-    opacity: {
-      value: 0.5
-    },
-
-    size: {
-      value: { min: 1, max: 4 }
-    }
-  },
-
-  interactivity: {
-    events: {
-      onHover: {
-        enable: true,
-        mode: "grab"
+tsParticles.load({
+  id: "particles-js",
+  options: {
+    background: {
+      color: {
+        value: "transparent"
       }
     },
-
-    modes: {
-      grab: {
+    particles: {
+      number: {
+        value: 80
+      },
+      color: {
+        value: "#58a6ff"
+      },
+      links: {
+        enable: true,
+        color: "#58a6ff",
         distance: 150,
-        links: {
-          opacity: 0.7
+        opacity: 0.25
+      },
+      move: {
+        enable: true,
+        speed: 1
+      },
+      opacity: {
+        value: 0.5
+      },
+      size: {
+        value: {
+          min: 1,
+          max: 4
+        }
+      }
+    },
+    interactivity: {
+      events: {
+        onHover: {
+          enable: true,
+          mode: "grab"
+        }
+      },
+      modes: {
+        grab: {
+          distance: 150,
+          links: {
+            opacity: 0.7
+          }
         }
       }
     }
