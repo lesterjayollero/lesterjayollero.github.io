@@ -240,8 +240,17 @@
       background: linear-gradient(to bottom, var(--header-grad1), var(--header-grad2));
       border-bottom: 2px solid var(--accent);
       transition: background 0.4s;
+      position: relative;
+      oveflow:hidden;
+      min-height: 420px;
     }
-
+    
+#particles-js {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+    
  .header-container{
     display:flex;
     align-items:center;
@@ -251,6 +260,8 @@
     margin:auto;
     text-align:left;
     padding:30px 20px;
+   position: relative;
+   z-index:1;
 }
 
     .profile-pic img {
@@ -636,6 +647,7 @@ body.dark-mode .research-tag.green{
   </nav>
 
   <header id="home">
+    <div id="particles-js"></div>
     <div class="header-container">
       <div class="profile-pic">
         <img src="images/ollero_github.jpeg" alt="Lester Jay Ollero Profile Photo">
@@ -799,6 +811,8 @@ body.dark-mode .research-tag.green{
          border="0">
   </a>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/tsparticles@3/tsparticles.bundle.min.js"></script>
+</body> 
   
   <footer>© 2025 Lester Jay Ollero</footer>
 
@@ -843,6 +857,61 @@ document.querySelectorAll('section h4').forEach((h4) => {
     content.classList.toggle('open', open);
   });
 });
+/* -BG Dots--*/
+tsParticles.load("particles-js", {
+  background: {
+    color: "transparent"
+  },
+
+  particles: {
+    number: {
+      value: 80
+    },
+
+    color: {
+      value: "#58a6ff"
+    },
+
+    links: {
+      enable: true,
+      color: "#58a6ff",
+      distance: 150,
+      opacity: 0.25
+    },
+
+    move: {
+      enable: true,
+      speed: 1
+    },
+
+    opacity: {
+      value: 0.5
+    },
+
+    size: {
+      value: { min: 1, max: 4 }
+    }
+  },
+
+  interactivity: {
+    events: {
+      onHover: {
+        enable: true,
+        mode: "grab"
+      }
+    },
+
+    modes: {
+      grab: {
+        distance: 150,
+        links: {
+          opacity: 0.7
+        }
+      }
+    }
+  }
+});
+</script>
   </script>
 
 <script type="application/ld+json">
@@ -868,6 +937,6 @@ document.querySelectorAll('section h4').forEach((h4) => {
     "https://www.researchgate.net/profile/Lester_Jay_Ollero",
     "https://github.com/lesterjayollero"
   ],
-  "knowsAbout": ["Transport Planning", "Traffic Simulation", "BRT", "Active Transport", "Sustainable Mobility"]
+  "knowsAbout": ["Transport Planning", "Traffic Simulation", "BRT", "Active Transport", "Sustainable Mobility", "Urban Planning", "Traffic Impact Assessment"]
 }
  </script>
