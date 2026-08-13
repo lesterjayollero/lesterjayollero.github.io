@@ -19,12 +19,12 @@ GitHub Pages — website hosting
 
 Because the website uses standard HTML, CSS, and JavaScript, it can be run locally without a backend server.
 
-Clone the repository
+<strong>Clone the repository</strong>
 git clone https://github.com/lesterjayollero/lesterjayollero.github.io.git
 Enter the project directory
 cd lesterjayollero.github.io
 
-Open the website
+<strong>Open the website</strong>
 
 Open:
 
@@ -34,7 +34,7 @@ in a web browser.
 
 Alternatively, use a local development server such as VS Code Live Server for a more representative development environment.
 
-Deployment
+<strong>Deployment</strong>
 
 This repository follows the standard GitHub Pages structure for a personal site:
 
@@ -46,7 +46,7 @@ https://lesterjayollero.github.io
 
 GitHub's documentation confirms that repositories named username.github.io can be used as personal GitHub Pages websites.
 
-Updating the Website
+<strong>Updating the Website</strong>
 
 To update the website:
 
