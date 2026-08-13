@@ -15,7 +15,7 @@ Canvas API — interactive traffic-flow visualizations
 MathJax — mathematical notation and transportation engineering equations
 GitHub Pages — website hosting
 
-Running Locally
+<strong>Running Locally</strong>
 
 Because the website uses standard HTML, CSS, and JavaScript, it can be run locally without a backend server.
 
